@@ -24,7 +24,7 @@ public class MySQLConnection {
     }
     
     /*
-     * Crea una conexion a la BD para posteriormente ser usada por alguna otra clse en el proyecto
+     * Crea una conexion a la BD para posteriormente ser usada por alguna otra clase en el proyecto
      */
     private Connection createConnection() {
     	 

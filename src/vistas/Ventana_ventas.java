@@ -28,10 +28,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.CardLayout;
 import javax.swing.JSplitPane;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
+
 import java.awt.Insets;
 import java.awt.SystemColor;
 
