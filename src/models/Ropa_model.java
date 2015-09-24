@@ -4,6 +4,11 @@ import instancias.*;
 import java.sql.*;
 import database.*;
 
+/**
+ * 
+ * @author Tatzuya Rinzaku
+ *
+ */
 public class Ropa_model {
 	
 	private ArrayList<Ropa> ropaLista;
@@ -11,6 +16,9 @@ public class Ropa_model {
 	private Connection connection;
 	private Statement statement; 
 	
+	/**
+	 * 
+	 */
 	public Ropa_model(){
 		ropaLista  = new ArrayList<Ropa>();
 		rs = null;
@@ -18,6 +26,39 @@ public class Ropa_model {
 		statement = null;
 	}
 	
+	/**
+	 * 
+	 * @param ropa
+	 * @return
+	 */
+	public int insert_ropa(Ropa ropa){
+		int id_ropa=-1;
+		String query = "INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('"+ropa.getPrenda()+"','"+ropa.getDescricion()+"',"+ropa.getExistencias()+")";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			id_ropa=rs.getRow();
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return id_ropa;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public  ArrayList<Ropa> get_ropa(){
 		Ropa ropa = null;
 		String query = "SELECT * FROM ropa";
@@ -86,6 +127,12 @@ public class Ropa_model {
 		return ropa;
 	}
 	
+	/**
+	 * 
+	 * @param id_ropa
+	 * @param existencias
+	 * @return
+	 */
 	public boolean update_ropa(int id_ropa, int existencias){
 		String query = "UPDATE ropa SET existencias="+existencias+" WHERE id_ropa="+id_ropa;
 		try {
@@ -110,7 +157,7 @@ public class Ropa_model {
 	}
 	
 	public boolean delete_ropa(int id_ropa){
-		String query = "UPDATE ropa SET existencias="+" WHERE id_ropa="+id_ropa;
+		String query = "DELETE FROM ropa WHERE id_ropa="+id_ropa;
 		try {
 			
 			connection = MySQLConnection.getConnection();

@@ -46,7 +46,7 @@ public class Login extends JFrame {
 	public Login() {
 		setResizable(false);
 		setBounds(100, 100, 578, 180);
-		contentPane = new JPanel();
+		contentPane =  new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
