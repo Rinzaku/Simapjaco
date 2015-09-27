@@ -28,7 +28,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.CardLayout;
 import javax.swing.JSplitPane;
-
 import java.awt.Insets;
 import java.awt.SystemColor;
 

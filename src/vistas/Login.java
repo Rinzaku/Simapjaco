@@ -46,31 +46,30 @@ public class Login extends JFrame {
 	public Login() {
 		setResizable(false);
 		setBounds(100, 100, 578, 180);
-		contentPane =  new JPanel();
+		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[79px][10px][255px,grow][136px]", "[50px][4px][20px][11px][37px]"));
-		contentPane.setLayout(new MigLayout("", "[68px][6px][83px][1px][6px][73px]", "[23px][][]"));
 		
 		JLabel lblNombre = new JLabel("Nombre :");
 		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblNombre, "cell 0 0,grow");
+		contentPane.add(lblNombre, "cell 0 0,growx,aligny bottom");
 		
 		textFieldNombre = new JTextField();
-		contentPane.add(textFieldNombre, "cell 2 0,grow");
+		contentPane.add(textFieldNombre, "cell 2 0,growx,aligny bottom");
 		textFieldNombre.setColumns(10);
-		
-		JLabel label = new JLabel("");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setIcon(new ImageIcon(Login.class.getResource("/imagenes/Users96.png")));
-		contentPane.add(label, "cell 3 0,alignx left,aligny top");
 		
 		JLabel lblContasea = new JLabel("Contase\u00F1a:");
 		lblContasea.setForeground(Color.WHITE);
 		lblContasea.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblContasea, "cell 0 1,grow");
+		contentPane.add(lblContasea, "cell 0 2,growx,aligny center");
+		
+		JLabel label = new JLabel("");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setIcon(new ImageIcon(Login.class.getResource("/imagenes/Users96.png")));
+		contentPane.add(label, "cell 3 0 1 5,grow");
 		
 		JButton btnNewButton = new JButton("Ingresar");
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/imagenes/ok32.png")));
@@ -81,8 +80,8 @@ public class Login extends JFrame {
 		});
 		
 		passwordFieldContrasena = new JPasswordField();
-		contentPane.add(passwordFieldContrasena, "cell 2 1,grow");
-		contentPane.add(btnNewButton, "cell 0 2,grow");
+		contentPane.add(passwordFieldContrasena, "cell 2 2,growx");
+		contentPane.add(btnNewButton, "cell 0 4 3 1,grow");
 	}
 
 }
