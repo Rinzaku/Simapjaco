@@ -40,6 +40,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Administrador extends JFrame {
 
@@ -47,7 +49,7 @@ public class Administrador extends JFrame {
 	private JTextField textFieldModelo;
 	private JTextField textFieldColor;
 	private JTextField textFieldTalla;
-	private JTable table;
+	private JTable tableAdministrador;
 	private String [][] datos={{"","","","","",""},
 							   {"","","","","",""},
 							   {"","","","","",""},
@@ -84,6 +86,13 @@ public class Administrador extends JFrame {
 		menuBar.add(mnMenu);
 		
 		JMenuItem mntmInventario = new JMenuItem("Inventario");
+		mntmInventario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteDia reporteDia=new ReporteDia();
+				reporteDia.setVisible(true);
+			}
+		});
+		
 		mnMenu.add(mntmInventario);
 		
 		JMenuItem mntmReporteDelDia = new JMenuItem("Reporte del dia");
@@ -196,17 +205,12 @@ public class Administrador extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
-		table = new JTable(datos,cabecera);
-		table.setBackground(new Color(199, 21, 133));
-		table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
+		tableAdministrador = new JTable(datos,cabecera);
+		tableAdministrador.setBackground(new Color(255, 182, 193));
+		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
 		
-		JScrollPane js_1=new JScrollPane (table);
+		JScrollPane js_1=new JScrollPane (tableAdministrador);
 		contentPane.add(js_1, "cell 0 1 1 7,grow");
 		js_1.setPreferredSize(new Dimension(400,150));
-		
-		JPanel panelBoton = new JPanel();
-		panelBoton.setBackground(Color.BLACK);
-		contentPane.add(panelBoton, "cell 0 7 1 2,growx,aligny bottom");
-		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
 }

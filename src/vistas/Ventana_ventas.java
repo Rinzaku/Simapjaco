@@ -12,22 +12,30 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.CardLayout;
+
 import javax.swing.JSplitPane;
+
 import java.awt.Insets;
 import java.awt.SystemColor;
 
@@ -37,6 +45,11 @@ import javax.swing.SpringLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
+import com.itextpdf.text.log.SysoCounter;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Ventana_ventas extends JFrame {
 
@@ -179,7 +192,24 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
 		table = new JTable(datos,cabecera);
-		table.setBackground(new Color(199, 21, 133));
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			//evento para controlar  los clicks de la tabla ^.^/
+			public void mousePressed(MouseEvent click) {
+			
+				if (click.getClickCount()==2) {
+					//si son 2 clicks se elimina un producto de la tabla
+					System.out.println("Haz dado dos click´s");
+					ReporteDia dia=new ReporteDia();
+					dia.setVisible(true);
+					
+				}
+				else{
+					System.out.println("No presionaste el double click");
+				}
+			}
+		});
+		table.setBackground(new Color(255, 182, 193));
 		table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
 		
 		JScrollPane js_1=new JScrollPane (table);
@@ -202,16 +232,22 @@ public class Ventana_ventas extends JFrame {
 		btnBotonAdmin.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Users48.png")));
 		panelBoton.add(btnBotonAdmin);
 		
-		JButton btnBoton_1 = new JButton("");
-		btnBoton_1.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error48.png")));
-		panelBoton.add(btnBoton_1);
+		JButton btnCancelar = new JButton("");
+		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error48.png")));
+		panelBoton.add(btnCancelar);
 		
-		JButton btnBoton_2 = new JButton("");
-		btnBoton_2.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok48.png")));
-		panelBoton.add(btnBoton_2);
+		JButton btnFinalizar = new JButton("");
+		btnFinalizar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok48.png")));
+		panelBoton.add(btnFinalizar);
 		
-		JButton btnBoton_3 = new JButton("");
-		btnBoton_3.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Checklist48.png")));
-		panelBoton.add(btnBoton_3);
+		JButton btnApartado = new JButton("");
+		btnApartado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ApartarProducto apartado =new  ApartarProducto();
+				apartado.setVisible(true);
+			}
+		});
+		btnApartado.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Checklist48.png")));
+		panelBoton.add(btnApartado);
 	}
 }
