@@ -43,7 +43,7 @@ public class ApartarProducto extends JFrame {
 		
 		setTitle("APARTADO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 487, 202);
+		setBounds(100, 100, 440, 202);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -83,12 +83,12 @@ public class ApartarProducto extends JFrame {
 		
 		JLabel lblArticulo = new JLabel("Articulo:");
 		lblArticulo.setForeground(Color.WHITE);
-		lblArticulo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblArticulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblArticulo, "cell 0 1,alignx left,aligny top");
 		
 		JLabel lblClave = new JLabel("Clave:");
 		lblClave.setForeground(Color.WHITE);
-		lblClave.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblClave.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblClave, "cell 0 0,alignx left,aligny center");
 		
 		txtArticulo = new JTextField();
@@ -98,7 +98,7 @@ public class ApartarProducto extends JFrame {
 		txtArticulo.setColumns(10);
 		
 		JLabel lblColor = new JLabel("Color:");
-		lblColor.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblColor.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblColor.setForeground(Color.WHITE);
 		contentPane.add(lblColor, "cell 0 2,alignx left,aligny top");
 		
@@ -113,7 +113,7 @@ public class ApartarProducto extends JFrame {
 		
 		JLabel lblTalla = new JLabel("Talla:");
 		lblTalla.setForeground(Color.WHITE);
-		lblTalla.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTalla.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblTalla, "cell 0 3,alignx left,aligny top");
 		
 		txtTalla = new JTextField();
@@ -123,7 +123,7 @@ public class ApartarProducto extends JFrame {
 		txtTalla.setColumns(10);
 		
 		JLabel lblPrecio = new JLabel("Precio:");
-		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPrecio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblPrecio.setForeground(Color.WHITE);
 		contentPane.add(lblPrecio, "cell 0 4,alignx left,aligny center");
 		

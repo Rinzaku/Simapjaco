@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
@@ -50,6 +51,17 @@ import com.itextpdf.text.log.SysoCounter;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import javax.swing.JMenuItem;
+import javax.swing.event.MenuKeyListener;
+import javax.swing.event.MenuKeyEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
 
 public class Ventana_ventas extends JFrame {
 
@@ -58,12 +70,17 @@ public class Ventana_ventas extends JFrame {
 	private JTextField textFieldColor;
 	private JTextField textFieldTalla;
 	private JTable table;
-	private String [][] datos={{"","","","","",""},
+	JMenuItem mntmQuitar;
+	JMenuItem mntmApartar;
+
+	private String [][] datos={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
 							   {"","","","","",""},
 							   {"","","","","",""},
 							   {"","","","","",""},};
 	private String [] cabecera={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
-
+	
+	
+	  
 	/**
 	 * Launch the application.
 	 */
@@ -191,7 +208,19 @@ public class Ventana_ventas extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
-		table = new JTable(datos,cabecera);
+		DefaultTableModel model = new DefaultTableModel(datos,cabecera);
+		table = new JTable(model);
+
+		table.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent key) {
+				if (key.getKeyCode()==KeyEvent.VK_ENTER || key.getKeyCode() == KeyEvent.VK_TAB) {
+					model.addRow(new String[]{"","","","","",""});
+					table.setModel(model);
+				}
+			}
+		});
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			//evento para controlar  los clicks de la tabla ^.^/
@@ -199,13 +228,18 @@ public class Ventana_ventas extends JFrame {
 			
 				if (click.getClickCount()==2) {
 					//si son 2 clicks se elimina un producto de la tabla
-					System.out.println("Haz dado dos click´s");
+					for (int i = 0; i < cabecera.length; i++) {
+						System.out.println(table.getValueAt(table.getSelectedRow(), i));
+
+					}
 					ReporteDia dia=new ReporteDia();
 					dia.setVisible(true);
 					
 				}
 				else{
 					System.out.println("No presionaste el double click");
+					//para obtener el numero de filas es getRowCount
+					System.out.println("Filas:"+ table.getRowCount());
 				}
 			}
 		});
@@ -213,6 +247,29 @@ public class Ventana_ventas extends JFrame {
 		table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
 		
 		JScrollPane js_1=new JScrollPane (table);
+		
+		JPopupMenu menuTabla = new JPopupMenu();
+		
+		
+		menuTabla.setBackground(SystemColor.inactiveCaptionBorder);
+		menuTabla.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		menuTabla.setForeground(Color.BLACK);
+		addPopup(table, menuTabla);
+		
+		mntmQuitar = new JMenuItem("Quitar");
+		mntmQuitar.addMenuKeyListener(new MenuKeyListener() {
+			public void menuKeyPressed(MenuKeyEvent arg0) {
+				System.out.println(arg0.getComponent());
+			}
+			public void menuKeyReleased(MenuKeyEvent arg0) {
+			}
+			public void menuKeyTyped(MenuKeyEvent arg0) {
+			}
+		});
+		menuTabla.add(mntmQuitar);
+		
+		mntmApartar= new JMenuItem("Apartar");
+		menuTabla.add(mntmApartar);
 		contentPane.add(js_1, "cell 0 1 1 7,grow");
 		js_1.setPreferredSize(new Dimension(400,150));
 		
@@ -223,12 +280,12 @@ public class Ventana_ventas extends JFrame {
 		
 		JButton btnBotonAdmin = new JButton("");
 		btnBotonAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Login frame = new Login();
-				frame.setVisible(true);
-				
+			public void actionPerformed(ActionEvent arg0) {
+				Login login=new Login();
+				login.setVisible(true);
 			}
 		});
+			
 		btnBotonAdmin.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Users48.png")));
 		panelBoton.add(btnBotonAdmin);
 		
@@ -249,5 +306,22 @@ public class Ventana_ventas extends JFrame {
 		});
 		btnApartado.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Checklist48.png")));
 		panelBoton.add(btnApartado);
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }
