@@ -62,6 +62,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 
 public class Ventana_ventas extends JFrame {
 
@@ -72,6 +74,7 @@ public class Ventana_ventas extends JFrame {
 	private JTable table;
 	JMenuItem mntmQuitar;
 	JMenuItem mntmApartar;
+	DefaultTableModel model;
 
 	private String [][] datos={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
 							   {"","","","","",""},
@@ -208,7 +211,7 @@ public class Ventana_ventas extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
-		DefaultTableModel model = new DefaultTableModel(datos,cabecera);
+		model = new DefaultTableModel(datos,cabecera);
 		table = new JTable(model);
 
 		table.addKeyListener(new KeyAdapter() {
@@ -245,8 +248,9 @@ public class Ventana_ventas extends JFrame {
 		});
 		table.setBackground(new Color(255, 182, 193));
 		table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
-		
+		table.setAutoResizeMode(MAXIMIZED_BOTH);
 		JScrollPane js_1=new JScrollPane (table);
+		
 		
 		JPopupMenu menuTabla = new JPopupMenu();
 		
@@ -257,21 +261,28 @@ public class Ventana_ventas extends JFrame {
 		addPopup(table, menuTabla);
 		
 		mntmQuitar = new JMenuItem("Quitar");
-		mntmQuitar.addMenuKeyListener(new MenuKeyListener() {
-			public void menuKeyPressed(MenuKeyEvent arg0) {
-				System.out.println(arg0.getComponent());
-			}
-			public void menuKeyReleased(MenuKeyEvent arg0) {
-			}
-			public void menuKeyTyped(MenuKeyEvent arg0) {
+		mntmQuitar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("quitar"+" "+e.getClickCount());
+				model.removeRow(table.getSelectedRow());
 			}
 		});
+		
 		menuTabla.add(mntmQuitar);
 		
 		mntmApartar= new JMenuItem("Apartar");
+		mntmApartar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				//System.out.println("Apartar:"+" "+e.getClickCount());
+				ApartarProducto apart=new ApartarProducto();
+				apart.setVisible(true);
+			}
+		});
 		menuTabla.add(mntmApartar);
 		contentPane.add(js_1, "cell 0 1 1 7,grow");
-		js_1.setPreferredSize(new Dimension(400,150));
+		js_1.setPreferredSize(new Dimension(400, 450));
 		
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(Color.BLACK);

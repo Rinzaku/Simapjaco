@@ -8,26 +8,35 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.CardLayout;
+
 import javax.swing.JSplitPane;
+
 import java.awt.Insets;
 import java.awt.SystemColor;
 
@@ -40,8 +49,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Administrador extends JFrame {
 
@@ -50,6 +62,7 @@ public class Administrador extends JFrame {
 	private JTextField textFieldColor;
 	private JTextField textFieldTalla;
 	private JTable tableAdministrador;
+	DefaultTableModel model;
 	private String [][] datos={{"","","","","",""},
 							   {"","","","","",""},
 							   {"","","","","",""},
@@ -205,12 +218,23 @@ public class Administrador extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
-		tableAdministrador = new JTable(datos,cabecera);
+		model=new DefaultTableModel(datos,cabecera);
+		tableAdministrador = new JTable(model);
+		tableAdministrador.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent key) {
+				if ( key.getKeyCode() == KeyEvent.VK_TAB) {
+					model.addRow(new String[]{"","","","","",""});
+					tableAdministrador.setModel(model);
+				}
+
+			}
+		});
 		tableAdministrador.setBackground(new Color(255, 182, 193));
-		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
+		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		
 		JScrollPane js_1=new JScrollPane (tableAdministrador);
-		contentPane.add(js_1, "cell 0 1 1 7,grow");
-		js_1.setPreferredSize(new Dimension(400,150));
+		contentPane.add(js_1, "cell 0 1 1 3,grow");
+		js_1.setPreferredSize(new Dimension(400, 500));
 	}
 }
