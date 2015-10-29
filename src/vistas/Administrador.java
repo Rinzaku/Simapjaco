@@ -230,7 +230,7 @@ public class Administrador extends JFrame {
 
 			}
 		});
-		tableAdministrador.setBackground(new Color(255, 182, 193));
+		tableAdministrador.setBackground(new Color(255, 192, 203));
 		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		
 		JScrollPane js_1=new JScrollPane (tableAdministrador);

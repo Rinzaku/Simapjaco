@@ -3,11 +3,13 @@ package vistas;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -24,6 +26,10 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
 
+
+
+
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -33,33 +39,36 @@ import javax.swing.ImageIcon;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.CardLayout;
 
-import javax.swing.JSplitPane;
 
+
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
 
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.SpringLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import com.itextpdf.text.log.SysoCounter;
+
+
+
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JPopupMenu;
+
 import java.awt.Component;
+
 import javax.swing.JMenuItem;
 import javax.swing.event.MenuKeyListener;
 import javax.swing.event.MenuKeyEvent;
+
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+
 import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.ScrollPaneConstants;
@@ -67,21 +76,34 @@ import javax.swing.UIManager;
 
 public class Ventana_ventas extends JFrame {
 
+
 	private JPanel contentPane;
 	private JTextField textFieldModelo;
 	private JTextField textFieldColor;
 	private JTextField textFieldTalla;
-	private JTable table;
+	private JTable tableVentas;
+	private JTable tableBusqueda;
+	JScrollPane scrollBusqueda ;
 	JMenuItem mntmQuitar;
 	JMenuItem mntmApartar;
-	DefaultTableModel model;
-
-	private String [][] datos={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
-							   {"","","","","",""},
-							   {"","","","","",""},
-							   {"","","","","",""},};
-	private String [] cabecera={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
+	DefaultTableModel modelVentas;
+	DefaultTableModel modelBusqueda;
+	JScrollPane scrollVentas;
 	
+	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
+			{"","","","","",""},
+			{"","","","","",""},
+			{"","","","","",""},};
+	private String [] cabeceraVentas={"Modelo","Descripcion","Talla","Color","Cantidad","Precio"};
+	
+
+	private String [][] datosBusqueda={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
+			{"","","","","",""},
+			{"","","","","",""},
+			{"","","","","",""},};
+	private String [] cabeceraBusqueda={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
+	private JTextField txtTotal;
+
 	
 	  
 	/**
@@ -105,12 +127,12 @@ public class Ventana_ventas extends JFrame {
 	 */
 	public Ventana_ventas() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1027, 480);
+		setBounds(100, 100, 1265, 642);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[71px][191px][][][][][][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[71px][191px][][48.00][grow][36.00][grow][][grow]"));
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.BLACK);
@@ -200,6 +222,15 @@ public class Ventana_ventas extends JFrame {
 		panel.add(textFieldTalla, gbc_textFieldTalla);
 		
 		JLabel lblNewBuscar = new JLabel("");
+		lblNewBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount()==1) {
+					scrollBusqueda.setVisible(true);
+					
+				}
+			}
+		});
 		lblNewBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewBuscar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/search48.png")));
 		GridBagConstraints gbc_lblNewBuscar = new GridBagConstraints();
@@ -211,28 +242,32 @@ public class Ventana_ventas extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
-		model = new DefaultTableModel(datos,cabecera);
-		table = new JTable(model);
+		modelVentas = new DefaultTableModel(datosVentas,cabeceraVentas);
+		modelBusqueda=new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
+		
+		tableVentas = new JTable(modelVentas);
+		tableBusqueda=new JTable(modelBusqueda);
+		
 
-		table.addKeyListener(new KeyAdapter() {
+		tableVentas.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyPressed(KeyEvent key) {
 				if (key.getKeyCode()==KeyEvent.VK_ENTER || key.getKeyCode() == KeyEvent.VK_TAB) {
-					model.addRow(new String[]{"","","","","",""});
-					table.setModel(model);
+					modelVentas.addRow(new String[]{"","","","","",""});
+					tableVentas.setModel(modelVentas);
 				}
 			}
 		});
-		table.addMouseListener(new MouseAdapter() {
+		tableVentas.addMouseListener(new MouseAdapter() {
 			@Override
 			//evento para controlar  los clicks de la tabla ^.^/
 			public void mousePressed(MouseEvent click) {
 			
 				if (click.getClickCount()==2) {
 					//si son 2 clicks se elimina un producto de la tabla
-					for (int i = 0; i < cabecera.length; i++) {
-						System.out.println(table.getValueAt(table.getSelectedRow(), i));
+					for (int i = 0; i < cabeceraVentas.length; i++) {
+						System.out.println(tableVentas.getValueAt(tableVentas.getSelectedRow(), i));
 
 					}
 					ReporteDia dia=new ReporteDia();
@@ -242,30 +277,32 @@ public class Ventana_ventas extends JFrame {
 				else{
 					System.out.println("No presionaste el double click");
 					//para obtener el numero de filas es getRowCount
-					System.out.println("Filas:"+ table.getRowCount());
+					System.out.println("Filas:"+ tableVentas.getRowCount());
 				}
 			}
 		});
-		table.setBackground(new Color(255, 182, 193));
-		table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
-		table.setAutoResizeMode(MAXIMIZED_BOTH);
-		JScrollPane js_1=new JScrollPane (table);
 		
 		
+		scrollVentas=new JScrollPane (tableVentas);
+		
+		tableVentas.setBackground(new Color(255, 192, 203));
+		tableVentas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
+		tableVentas.setSelectionBackground(Color.MAGENTA);
+		tableVentas.setRowHeight(17);		
 		JPopupMenu menuTabla = new JPopupMenu();
 		
 		
 		menuTabla.setBackground(SystemColor.inactiveCaptionBorder);
 		menuTabla.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		menuTabla.setForeground(Color.BLACK);
-		addPopup(table, menuTabla);
+		addPopup(tableVentas, menuTabla);
 		
 		mntmQuitar = new JMenuItem("Quitar");
 		mntmQuitar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				System.out.println("quitar"+" "+e.getClickCount());
-				model.removeRow(table.getSelectedRow());
+				modelVentas.removeRow(tableVentas.getSelectedRow());
 			}
 		});
 		
@@ -281,9 +318,26 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 		menuTabla.add(mntmApartar);
-		contentPane.add(js_1, "cell 0 1 1 7,grow");
-		js_1.setPreferredSize(new Dimension(400, 450));
+		contentPane.add(scrollVentas, "cell 0 1,grow");
+		scrollVentas.setPreferredSize(new Dimension(400, 150));
 		
+		JLabel lblTotal = new JLabel("Total:  $");
+		lblTotal.setForeground(Color.WHITE);
+		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(lblTotal, "flowx,cell 0 2,alignx right");
+		
+		txtTotal = new JTextField();
+		txtTotal.setEditable(false);
+		contentPane.add(txtTotal, "cell 0 2,alignx right");
+		txtTotal.setColumns(10);
+		
+		
+		tableBusqueda.setBackground(new Color(176, 224, 230));
+		
+		scrollBusqueda= new JScrollPane(tableBusqueda);
+		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
+		contentPane.add(scrollBusqueda, "cell 0 4 1 2,grow");
+		scrollBusqueda.setVisible(false);
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(Color.BLACK);
 		contentPane.add(panelBoton, "cell 0 7 1 2,growx,aligny bottom");
@@ -315,7 +369,7 @@ public class Ventana_ventas extends JFrame {
 				apartado.setVisible(true);
 			}
 		});
-		btnApartado.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Checklist48.png")));
+		btnApartado.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/cambio64.png")));
 		panelBoton.add(btnApartado);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -335,4 +389,6 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 	}
+	
+	
 }
