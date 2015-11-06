@@ -29,7 +29,6 @@ public class VentanaSplash extends JFrame{
 				progressBar.addChangeListener(new ChangeListener() {
 					public void stateChanged(ChangeEvent arg0) {
 						if(progressBar.getValue()==100){
-							System.out.println("crea una windows nueva");
 							Ventana_ventas ventas=new Ventana_ventas();
 							ventas.setVisible(true);
 							vn.dispose();
