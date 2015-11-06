@@ -103,24 +103,26 @@ public class Ventana_ventas extends JFrame {
 			{"","","","","",""},};
 	private String [] cabeceraBusqueda={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
 	private JTextField txtTotal;
+	private JTextField txtFolio;
+	private JTextField textFieldFecha;
 
 	
 	  
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ventana_ventas frame = new Ventana_ventas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Ventana_ventas frame = new Ventana_ventas();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -132,11 +134,22 @@ public class Ventana_ventas extends JFrame {
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[71px][191px][][48.00][grow][36.00][grow][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][71px][191px][][48.00][grow][36.00][grow][][grow]"));
+		
+		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(lblFecha, "flowx,cell 0 0,alignx right");
+		
+		textFieldFecha = new JTextField();
+		textFieldFecha.setEditable(false);
+		textFieldFecha.setText("");
+		contentPane.add(textFieldFecha, "cell 0 0,alignx right");
+		textFieldFecha.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.BLACK);
-		contentPane.add(panel, "cell 0 0,alignx center,aligny bottom");
+		contentPane.add(panel, "cell 0 1,alignx center,aligny bottom");
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
@@ -144,9 +157,9 @@ public class Ventana_ventas extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblVentasSimapjaco = new JLabel("Ventas  Simapjaco.");
+		JLabel lblVentasSimapjaco = new JLabel("Ventas  Simapjaco");
 		lblVentasSimapjaco.setForeground(Color.WHITE);
-		lblVentasSimapjaco.setFont(new Font("Times New Roman", Font.ITALIC, 22));
+		lblVentasSimapjaco.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblVentasSimapjaco.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblVentasSimapjaco = new GridBagConstraints();
 		gbc_lblVentasSimapjaco.gridwidth = 22;
@@ -318,17 +331,27 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 		menuTabla.add(mntmApartar);
-		contentPane.add(scrollVentas, "cell 0 1,grow");
+		contentPane.add(scrollVentas, "cell 0 2,grow");
 		scrollVentas.setPreferredSize(new Dimension(400, 150));
+		
+		JLabel lblFolio = new JLabel("Folio:");
+		lblFolio.setForeground(Color.WHITE);
+		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(lblFolio, "flowx,cell 0 3,alignx right");
+		
+		txtFolio = new JTextField();
+		txtFolio.setEditable(false);
+		contentPane.add(txtFolio, "cell 0 3,alignx center,aligny center");
+		txtFolio.setColumns(10);
 		
 		JLabel lblTotal = new JLabel("Total:  $");
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblTotal, "flowx,cell 0 2,alignx right");
+		contentPane.add(lblTotal, "cell 0 3,alignx right");
 		
 		txtTotal = new JTextField();
 		txtTotal.setEditable(false);
-		contentPane.add(txtTotal, "cell 0 2,alignx right");
+		contentPane.add(txtTotal, "cell 0 3,alignx right");
 		txtTotal.setColumns(10);
 		
 		
@@ -336,11 +359,11 @@ public class Ventana_ventas extends JFrame {
 		
 		scrollBusqueda= new JScrollPane(tableBusqueda);
 		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
-		contentPane.add(scrollBusqueda, "cell 0 4 1 2,grow");
+		contentPane.add(scrollBusqueda, "cell 0 5 1 2,grow");
 		scrollBusqueda.setVisible(false);
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(Color.BLACK);
-		contentPane.add(panelBoton, "cell 0 7 1 2,growx,aligny bottom");
+		contentPane.add(panelBoton, "cell 0 8 1 2,growx,aligny bottom");
 		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnBotonAdmin = new JButton("");
@@ -351,16 +374,8 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 			
-		btnBotonAdmin.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/Users48.png")));
+		btnBotonAdmin.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/user32.png")));
 		panelBoton.add(btnBotonAdmin);
-		
-		JButton btnCancelar = new JButton("");
-		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error48.png")));
-		panelBoton.add(btnCancelar);
-		
-		JButton btnFinalizar = new JButton("");
-		btnFinalizar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok48.png")));
-		panelBoton.add(btnFinalizar);
 		
 		JButton btnApartado = new JButton("");
 		btnApartado.addActionListener(new ActionListener() {
@@ -369,8 +384,16 @@ public class Ventana_ventas extends JFrame {
 				apartado.setVisible(true);
 			}
 		});
-		btnApartado.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/cambio64.png")));
+		btnApartado.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/cambio32.png")));
 		panelBoton.add(btnApartado);
+		
+		JButton btnCancelar = new JButton("");
+		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error32.png")));
+		panelBoton.add(btnCancelar);
+		
+		JButton btnFinalizar = new JButton("");
+		btnFinalizar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok32.png")));
+		panelBoton.add(btnFinalizar);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
