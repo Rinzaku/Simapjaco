@@ -1,7 +1,9 @@
 package vistas;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
 
+import javax.print.attribute.AttributeSetUtilities;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
