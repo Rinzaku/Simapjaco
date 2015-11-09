@@ -133,7 +133,7 @@ public class Ventana_ventas extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1265, 642);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.windowBorder);
+		contentPane.setBackground(SystemColor.black);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][76.00px][27.00px][][29.00][29.00][29.00,grow,top][21.00][grow][][grow]"));
@@ -387,7 +387,7 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(scrollBusqueda, "cell 0 8,grow");
 		scrollBusqueda.setVisible(false);
 		JPanel panelBoton = new JPanel();
-		panelBoton.setBackground(SystemColor.windowBorder);
+		panelBoton.setBackground(SystemColor.black);
 		contentPane.add(panelBoton, "cell 0 9 1 2,growx,aligny bottom");
 		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		

@@ -1,65 +1,65 @@
-//package controllers;
-//
-//import java.io.*;
-//import java.sql.Connection;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.sql.Statement;
-//
-//import database.*;
-//
-//public class Main {
-//
-//	public static void main(String[] args) {
-//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//		System.out.println("Introduce el id de la ropa");
-//		
-//		int id_ropa;
-//		try {
-//			
-//			id_ropa = Integer.parseInt(br.readLine());
-//			Main demo = new Main();
-//			Ropa ropa = demo.getRopa(id_ropa);
-//			System.out.println(ropa);
-//			
-//		} catch (NumberFormatException e) {
-//			System.out.println("Por favor introduce un numero");
-//		} catch (IOException e) {
-//			System.out.println("A ocurrido un error x.x");
-//		}
-//
-//	}
-//
-//	private Ropa getRopa(int id_ropa) {
-//		ResultSet rs = null;
-//        Connection connection = null;
-//        Statement statement = null; 
-//        
-//        Ropa ropa = null;
-//        String query = "SELECT * FROM ropa WHERE id_ropa="+id_ropa;
-//        try {
-//        	connection = MySQLConnection.getConnection();
-//            statement = connection.createStatement();
-//            rs = statement.executeQuery(query);
-//            if (rs.next()) {
-//                ropa = new Ropa();
-//                ropa.setId_ropa(rs.getInt("id_ropa"));
-//                ropa.setPrenda(rs.getString("nombre_prenda"));
-//                ropa.setDescricion(rs.getString("descripcion"));
-//                ropa.setExistencias(rs.getInt("existencias"));
-//            }
-//		} catch (SQLException e) {
-//			System.out.println("A ocurrido un error al ejecutar sentencia SQL");
-//		}finally {
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//		return ropa;
-//	}
-//
-//}
+package controllers;
+
+import java.util.ArrayList;
+
+import models.*;
+import instancias.*;
+
+public class Main {
+	
+	static Ropa_model modelo;
+	
+	public static void main(String[] args){
+		
+		modelo = new Ropa_model();
+		
+		ArrayList<Ropa> lista = new ArrayList<Ropa>();
+		lista = modelo.get_ropa();
+		
+		System.out.println("Lista antes del insert\n");
+		for (Ropa ropa : lista) {
+			System.out.println("Ropa id: ->"+ropa.toString());
+		}
+		
+		Ropa r = new Ropa();
+		r.setDescricion("nueva ropa 4");
+		r.setExistencias(20);
+		r.setPrenda("algo");
+		
+		System.out.println("id del insert-> "+modelo.insert_ropa(r));
+		
+		lista = modelo.get_ropa();
+		
+		System.out.println("Lista despues del insert\n");
+		for (Ropa ropa : lista) {
+			System.out.println("Ropa id: ->"+ropa.toString());
+		}
+		
+		if (modelo.update_ropa(20, 532)) {
+			System.out.println("Lista despues del update");
+			
+			lista = modelo.get_ropa();
+			for (Ropa ropa : lista) {
+				System.out.println("Ropa id: ->"+ropa.toString());
+			}
+		}else{
+			System.out.println("No se pudo actualizar");
+		}
+		
+		Ropa r2 = modelo.find_ropa(8);
+		System.out.println("Ropa obtenida -> "+ r2);
+		
+		if (modelo.delete_ropa(30)) {
+			lista = modelo.get_ropa();
+			
+			System.out.println("Lista despues del delete");
+			for (Ropa ropa : lista) {
+				System.out.println("Ropa id: ->"+ropa.toString());
+			}
+		} else {
+			System.out.println("No se pudo borrar");
+		}
+		
+		
+	}
+}

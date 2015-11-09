@@ -5,8 +5,8 @@ import java.sql.*;
 import database.*;
 
 /**
- * 
- * @author Tatzuya Rinzaku
+ * Clase que se encarga de conectar con la tabla ropa en la base de datos
+ * @author Gilberto Aviles (@rinzaku04)
  *
  */
 public class Ropa_model {
@@ -17,19 +17,18 @@ public class Ropa_model {
 	private Statement statement; 
 	
 	/**
-	 * 
+	 * Constructor de la clase 
 	 */
 	public Ropa_model(){
-		ropaLista  = new ArrayList<Ropa>();
 		rs = null;
 		connection = null;
 		statement = null;
 	}
 	
 	/**
-	 * 
-	 * @param ropa
-	 * @return
+	 * Inserta un nuevo objeto ropa en la base de datos
+	 * @param ropa El objeto que se quiere agregar a la base de datos
+	 * @return El numero de la nueva fila insertada
 	 */
 	public int insert_ropa(Ropa ropa){
 		int id_ropa=-1;
@@ -38,11 +37,12 @@ public class Ropa_model {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
-			rs = statement.executeQuery(query);
-			id_ropa=rs.getRow();
+			statement.executeUpdate(query);
+			id_ropa = ultima_fila();
 			
 		} catch (SQLException sqle) {
 			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			System.out.println(sqle.toString());
 		} finally {
 			if (connection != null) {
 				try {
@@ -56,11 +56,12 @@ public class Ropa_model {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Obtiene todos los registros de la base de  datos
+	 * @return Una lista con los registros de la be¿ase de datos 
 	 */
 	public  ArrayList<Ropa> get_ropa(){
 		Ropa ropa = null;
+		ropaLista  = new ArrayList<Ropa>();
 		String query = "SELECT * FROM ropa";
 		
 		try {
@@ -92,9 +93,9 @@ public class Ropa_model {
 	}
 	
 	/**
-	 * 
-	 * @param id_ropa
-	 * @return
+	 * Obtiene un objeto ropa de la base de datos 
+	 * @param id_ropa El identificador del objeto que se desea obtener
+	 * @return El objeto ropa
 	 */
 	public Ropa find_ropa(int id_ropa){
 		Ropa ropa = null;
@@ -128,10 +129,10 @@ public class Ropa_model {
 	}
 	
 	/**
-	 * 
-	 * @param id_ropa
-	 * @param existencias
-	 * @return
+	 * Actualiza un registro en la base de datos
+	 * @param id_ropa El identificador del objeto que se desea actualizar
+	 * @param existencias El numero de existencias de ropa
+	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
 	public boolean update_ropa(int id_ropa, int existencias){
 		String query = "UPDATE ropa SET existencias="+existencias+" WHERE id_ropa="+id_ropa;
@@ -139,7 +140,36 @@ public class Ropa_model {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
-			rs = statement.executeQuery(query);
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * elimina un registro de la base de datos
+	 * @param id_ropa El identificador del objeto a eliminar
+	 * @return <b>true</b> si el registro se elimino exitosamente.<br><b>false</b> en cualquier otro caso
+	 */
+	public boolean delete_ropa(int id_ropa){
+		String query = "DELETE FROM ropa WHERE id_ropa="+id_ropa;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
 			return true;
 			
 		} catch (SQLException sqle) {
@@ -156,18 +186,25 @@ public class Ropa_model {
 		}
 	}
 	
-	public boolean delete_ropa(int id_ropa){
-		String query = "DELETE FROM ropa WHERE id_ropa="+id_ropa;
-		try {
-			
+	/*
+	 * Obtiene la ultima fila en la tabla ropa
+	 */
+	private int ultima_fila(){
+		
+		String query = "SELECT max(id_ropa) FROM ropa";
+		int max = 0;
+		try{
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
-			return true;
+			if (rs.next()) {
+				max = rs.getInt(1);
+			}
 			
-		} catch (SQLException sqle) {
+		}catch (SQLException sqle) {
 			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			return false;
+			System.out.println(sqle.getMessage());
+			System.out.println(sqle.toString());
 		} finally {
 			if (connection != null) {
 				try {
@@ -177,5 +214,6 @@ public class Ropa_model {
 				}
 			}
 		}
+		return max;
 	}
 }

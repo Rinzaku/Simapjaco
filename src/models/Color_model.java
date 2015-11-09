@@ -1,46 +1,51 @@
 package models;
 
-import java.sql.*;
-
 import instancias.*;
-import database.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import database.MySQLConnection;
 
 /**
- * Clase que permite conectar con la tabla detalle de venta
+ * Clase que e encarga de conectar con la tabla catalogo_color
  * @author Gilberto Aviles (@rinzaku04)
  *
  */
-public class Detalle_Venta_model {
+public class Color_model {
 	
-//	private ArrayList<Ropa> detalles_ventas;
+	private ArrayList<Color> lista_color;
 	private ResultSet rs;
 	private Connection connection;
-	private Statement statement; 
+	private Statement statement;
 	
 	/**
 	 * El constructor de la clase
 	 */
-	public Detalle_Venta_model(){
-//		detalles_ventas  = new ArrayList<Ropa>();
-		rs = null;
+	public Color_model(){
+		
+		rs= null;
 		connection = null;
 		statement = null;
 	}
-
+	
 	/**
-	 * Inserta un detalle de venta a la base de datos
-	 * @param dv El detalle de venta a guardar
-	 * @return El indice del registro agregado
+	 * Inserta un color en la base de datos
+	 * @param color El color a insertar en la base de datos
+	 * @return El indice del registro insertado
 	 */
-	public int insert_detalle_venta(Detalle_Venta dv){
-		int id_detalle=-1;
-		String query = "INSERT INTO ropa(int_venta,int_ropa,cantidad_articulo,precio_unitario) VALUES ("+dv.getId_detalle_venta()+","+dv.getId_ropa()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+")";
+	public int insert_color(Color color){
+		int id_color =-1;
+		String query = "INSERT INTO catalogo_color(color) VALUES('"+color.getColor()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			id_detalle=ultima_fila();
+			id_color=ultima_fila();
 			
 		} catch (SQLException sqle) {
 			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
@@ -53,31 +58,61 @@ public class Detalle_Venta_model {
 				}
 			}
 		}
-		return id_detalle;
+		return id_color;
 	}
 	
 	/**
-	 * Obtiene un detalle de venta en la base de datos
-	 * @param id_venta El identificador de la venta
-	 * @return La venta correspondiente
+	 * Obtiene una lista con los colores en la base de datos
+	 * @return Una lista de los colores en la base de datos
 	 */
-	public Detalle_Venta find_detalle_venta(int id_venta){
-		Detalle_Venta dv = null;
-		String query = "SELECT * FROM detalle_venta WHERE id_venta="+id_venta;
+	public ArrayList<Color> get_tallas(){
+		lista_color = new ArrayList<Color>();
+		Color color= null;
+		String query = "SELECT * FROM catalogo_color";
+
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while(rs.next()){
+				color = new Color();
+				color.setId_color(rs.getInt("id_color"));
+				color.setColor(rs.getString("color"));
+				lista_color.add(color);
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lista_color;
+	}
+	
+	/**
+	 * Obtiene un color en la base de datos
+	 * @param id_color El identificador del color a obtener
+	 * @return El color correspondiente
+	 */
+	public Color find_color(int id_color){
+		Color color=null;
+		String query = "SELECT * FROM catalogo_color WHERE id_color="+id_color;
 		try {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
 			if(rs.next()){
-				
-				dv = new Detalle_Venta();
-				dv.setId_detalle_venta(rs.getInt("id_detalle_venta"));
-				dv.setId_venta(rs.getInt("id_venta"));
-				dv.setId_ropa(rs.getInt("id_ropa"));
-				dv.setCantidad_articulos(rs.getInt("cantidad articulo"));
-				dv.setPrecio_unitario(rs.getInt("precio_unitario"));
-				
+				 color = new Color();
+				 color.setId_color(rs.getInt("id_talla"));
+				 color.setColor(rs.getString("talla"));;
 			}
 			
 		} catch (SQLException sqle) {
@@ -91,17 +126,17 @@ public class Detalle_Venta_model {
 				}
 			}
 		}
-		return dv;
+		return color;
 	}
 	
 	/**
-	 * Actualiza la cantidad de articulos en una venta
-	 * @param id_detalle_venta El identificador del registro a modificar
-	 * @param cantidad_articulos La nueva cantidad de articulos
+	 * Actualiza el color de un registro en la base de datos
+	 * @param id_color El identificador del registro a modifcar
+	 * @param color El nuevo color del registro
 	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean update_detalle_venta(int id_detalle_venta, int cantidad_articulos){
-		String query = "UPDATE detalle_venta SET cantidad_articulo="+cantidad_articulos+" WHERE id_detalle_venta="+id_detalle_venta;
+	public boolean update_color(int id_color, String color){
+		String query = "UPDATE catalogo_color SET color='"+color+"' WHERE id_color="+id_color;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -124,12 +159,12 @@ public class Detalle_Venta_model {
 	}
 	
 	/**
-	 * Elimina un registro en la base de datos
-	 * @param id_detalle_venta El identificador del registro a eliminar
+	 * Elimina un registro de la base de datos
+	 * @param id_color El identificador del registro a eliminar
 	 * @return <b>true</b> si el registro se elimino exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean delete_detalle_venta(int id_detalle_venta){
-		String query = "DELETE FROM detalle_venta WHERE id_detalle_venta="+id_detalle_venta;
+	public boolean delete_color(int id_color){
+		String query = "DELETE FROM catalogo_color WHERE id_color="+id_color;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -156,7 +191,7 @@ public class Detalle_Venta_model {
 	 */
 	private int ultima_fila(){
 		
-		String query = "SELECT max(id_detalle_venta) FROM detalle_venta";
+		String query = "SELECT max(id_color) FROM catalogo_color";
 		int max = 0;
 		try{
 			connection = MySQLConnection.getConnection();

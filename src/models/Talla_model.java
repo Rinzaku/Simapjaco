@@ -1,46 +1,50 @@
 package models;
 
-import java.sql.*;
-
 import instancias.*;
-import database.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import database.MySQLConnection;
 
 /**
- * Clase que permite conectar con la tabla detalle de venta
+ * Clase que se encarga de conectar con la tabla catalogo_talla en la base de datos
  * @author Gilberto Aviles (@rinzaku04)
  *
  */
-public class Detalle_Venta_model {
+public class Talla_model {
 	
-//	private ArrayList<Ropa> detalles_ventas;
+	private ArrayList<Talla> lista_tallas;
 	private ResultSet rs;
 	private Connection connection;
-	private Statement statement; 
+	private Statement statement;
 	
 	/**
-	 * El constructor de la clase
+	 * Constructor de la clase 
 	 */
-	public Detalle_Venta_model(){
-//		detalles_ventas  = new ArrayList<Ropa>();
-		rs = null;
+	public Talla_model(){
+		rs= null;
 		connection = null;
 		statement = null;
 	}
-
+	
 	/**
-	 * Inserta un detalle de venta a la base de datos
-	 * @param dv El detalle de venta a guardar
-	 * @return El indice del registro agregado
+	 * Inserta una nueva talla en la base de datos
+	 * @param talla La nueva talla a ingresar
+	 * @return El indice de la talla ingresada
 	 */
-	public int insert_detalle_venta(Detalle_Venta dv){
-		int id_detalle=-1;
-		String query = "INSERT INTO ropa(int_venta,int_ropa,cantidad_articulo,precio_unitario) VALUES ("+dv.getId_detalle_venta()+","+dv.getId_ropa()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+")";
+	public int insert_talla(Talla talla){
+		int id_talla =-1;
+		String query = "INSERT INTO catalogo_talla(talla) VALUES('"+talla.getTalla()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			id_detalle=ultima_fila();
+			id_talla=ultima_fila();
 			
 		} catch (SQLException sqle) {
 			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
@@ -53,31 +57,61 @@ public class Detalle_Venta_model {
 				}
 			}
 		}
-		return id_detalle;
+		return id_talla;
 	}
 	
 	/**
-	 * Obtiene un detalle de venta en la base de datos
-	 * @param id_venta El identificador de la venta
-	 * @return La venta correspondiente
+	 * Obtiene una lista con las tallas en la base de datos
+	 * @return Una lista con las tallas del catalogo
 	 */
-	public Detalle_Venta find_detalle_venta(int id_venta){
-		Detalle_Venta dv = null;
-		String query = "SELECT * FROM detalle_venta WHERE id_venta="+id_venta;
+	public ArrayList<Talla> get_tallas(){
+		lista_tallas = new ArrayList<Talla>();
+		Talla talla= null;
+		String query = "SELECT * FROM catalogo_talla";
+
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while(rs.next()){
+				talla = new Talla();
+				talla.setId_talla(rs.getInt("id_talla"));
+				talla.setTalla(rs.getString("talla"));
+				lista_tallas.add(talla);
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lista_tallas;
+	}
+	
+	/**
+	 * Obtiene una talla en el catalogo
+	 * @param id_talla El identificador de la talla a obtener
+	 * @return La talla correspondiente
+	 */
+	public Talla find_talla(int id_talla){
+		Talla talla=null;
+		String query = "SELECT * FROM catalogo_talla WHERE id_talla="+id_talla;
 		try {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
 			if(rs.next()){
-				
-				dv = new Detalle_Venta();
-				dv.setId_detalle_venta(rs.getInt("id_detalle_venta"));
-				dv.setId_venta(rs.getInt("id_venta"));
-				dv.setId_ropa(rs.getInt("id_ropa"));
-				dv.setCantidad_articulos(rs.getInt("cantidad articulo"));
-				dv.setPrecio_unitario(rs.getInt("precio_unitario"));
-				
+				 talla = new Talla();
+				 talla.setId_talla(rs.getInt("id_talla"));
+				 talla.setTalla(rs.getString("talla"));;
 			}
 			
 		} catch (SQLException sqle) {
@@ -91,17 +125,17 @@ public class Detalle_Venta_model {
 				}
 			}
 		}
-		return dv;
+		return talla;
 	}
 	
 	/**
-	 * Actualiza la cantidad de articulos en una venta
-	 * @param id_detalle_venta El identificador del registro a modificar
-	 * @param cantidad_articulos La nueva cantidad de articulos
+	 * Actualiza la talla de un registro en a base de datos
+	 * @param id_talla El identificador de la talla a modificar
+	 * @param talla El valor de la nueva talla
 	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean update_detalle_venta(int id_detalle_venta, int cantidad_articulos){
-		String query = "UPDATE detalle_venta SET cantidad_articulo="+cantidad_articulos+" WHERE id_detalle_venta="+id_detalle_venta;
+	public boolean update_talla(int id_talla, String talla){
+		String query = "UPDATE catalogo_talla SET talla='"+talla+"' WHERE id_talla="+id_talla;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -124,12 +158,12 @@ public class Detalle_Venta_model {
 	}
 	
 	/**
-	 * Elimina un registro en la base de datos
-	 * @param id_detalle_venta El identificador del registro a eliminar
+	 * Elimina un registro de la base de datos
+	 * @param id_talla El identificador del registro a eliminar
 	 * @return <b>true</b> si el registro se elimino exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean delete_detalle_venta(int id_detalle_venta){
-		String query = "DELETE FROM detalle_venta WHERE id_detalle_venta="+id_detalle_venta;
+	public boolean delete_talla(int id_talla){
+		String query = "DELETE FROM catalogo_talla WHERE id_talla="+id_talla;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -156,7 +190,7 @@ public class Detalle_Venta_model {
 	 */
 	private int ultima_fila(){
 		
-		String query = "SELECT max(id_detalle_venta) FROM detalle_venta";
+		String query = "SELECT max(id_talla) FROM catalogo_talla";
 		int max = 0;
 		try{
 			connection = MySQLConnection.getConnection();
