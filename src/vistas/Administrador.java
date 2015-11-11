@@ -117,11 +117,11 @@ public class Administrador extends JFrame {
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[71px][191px][][][][][][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[0.00][71px][-5.00][8.00][][][][][][grow]"));
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.BLACK);
-		contentPane.add(panel, "cell 0 0,alignx center,aligny bottom");
+		panel.setBackground(new Color(0, 51, 153));
+		contentPane.add(panel, "cell 0 1,alignx center,aligny bottom");
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
@@ -131,7 +131,7 @@ public class Administrador extends JFrame {
 		
 		JLabel lblVentasSimapjaco = new JLabel("Administrador");
 		lblVentasSimapjaco.setForeground(Color.WHITE);
-		lblVentasSimapjaco.setFont(new Font("Times New Roman", Font.ITALIC, 22));
+		lblVentasSimapjaco.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblVentasSimapjaco.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblVentasSimapjaco = new GridBagConstraints();
 		gbc_lblVentasSimapjaco.gridwidth = 22;
@@ -208,7 +208,7 @@ public class Administrador extends JFrame {
 		
 		JLabel lblNewBuscar = new JLabel("");
 		lblNewBuscar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewBuscar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/search48.png")));
+		lblNewBuscar.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/search64.png")));
 		GridBagConstraints gbc_lblNewBuscar = new GridBagConstraints();
 		gbc_lblNewBuscar.gridheight = 2;
 		gbc_lblNewBuscar.fill = GridBagConstraints.HORIZONTAL;
@@ -230,11 +230,11 @@ public class Administrador extends JFrame {
 
 			}
 		});
-		tableAdministrador.setBackground(new Color(255, 192, 203));
+		tableAdministrador.setBackground(new Color(176, 224, 226));
 		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		
 		JScrollPane js_1=new JScrollPane (tableAdministrador);
-		contentPane.add(js_1, "cell 0 1 1 3,grow");
-		js_1.setPreferredSize(new Dimension(400, 500));
+		contentPane.add(js_1, "cell 0 4,grow");
+		js_1.setPreferredSize(new Dimension(400, 250));
 	}
 }

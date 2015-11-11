@@ -14,7 +14,7 @@ public class Progress extends Thread{
 		public void run(){
 		for (int i = 0;i < 101; i++) {
 			progreso.setValue(i);
-			pausa(70);
+			pausa(20);
 		}
 	}
 	

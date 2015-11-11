@@ -33,6 +33,7 @@ public class VentanaSplash extends JFrame{
 						if(progressBar.getValue()==100){
 							Ventana_ventas ventas=new Ventana_ventas();
 							ventas.setVisible(true);
+							ventas.setLocationRelativeTo(null);
 							vn.dispose();
 						}
 						
