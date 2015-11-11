@@ -32,7 +32,7 @@ public class Ropa_model {
 	 */
 	public int insert_ropa(Ropa ropa){
 		int id_ropa=-1;
-		String query = "INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('"+ropa.getPrenda()+"','"+ropa.getDescricion()+"',"+ropa.getExistencias()+")";
+		String query = "INSERT INTO ropa(nombre_prenda,descripcion, existencias,precio) VALUES ('"+ropa.getPrenda()+"','"+ropa.getDescricion()+"',"+ropa.getExistencias()+","+ropa.getPrecio()+")";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -75,6 +75,7 @@ public class Ropa_model {
 				 ropa.setPrenda(rs.getString("nombre_prenda"));
 				 ropa.setDescricion(rs.getString("descripcion"));
 				 ropa.setExistencias(rs.getInt("existencias"));
+				 ropa.setPrecio(rs.getDouble("precio"));
 				 ropaLista.add(ropa);
 			}
 			
@@ -112,6 +113,7 @@ public class Ropa_model {
 				 ropa.setPrenda(rs.getString("nombre_prenda"));
 				 ropa.setDescricion(rs.getString("descripcion"));
 				 ropa.setExistencias(rs.getInt("existencias"));
+				 ropa.setPrecio(rs.getDouble("precio"));
 			}
 			
 		} catch (SQLException sqle) {
@@ -136,6 +138,36 @@ public class Ropa_model {
 	 */
 	public boolean update_ropa(int id_ropa, int existencias){
 		String query = "UPDATE ropa SET existencias="+existencias+" WHERE id_ropa="+id_ropa;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Actualiza un registro en la base de datos
+	 * @param id_ropa El identificador del objeto que se desea actualizar
+	 * @param existencias El numero de existencias de ropa
+	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
+	 */
+	public boolean update_ropa(int id_ropa,double precio){
+		String query = "UPDATE ropa SET precio="+precio+" WHERE id_ropa="+id_ropa;
 		try {
 			
 			connection = MySQLConnection.getConnection();

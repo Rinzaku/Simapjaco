@@ -7,6 +7,7 @@ public class Detalle_Venta {
 	private int id_ropa;
 	private int cantidad_articulos;
 	private double precio_unitario;
+	private String estado;
 	
 	/**
 	 * @return the id_detalle_venta
@@ -76,6 +77,20 @@ public class Detalle_Venta {
 	 */
 	public void setPrecio_unitario(double precio_unitario) {
 		this.precio_unitario = precio_unitario;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	/* (non-Javadoc)

@@ -6,6 +6,7 @@ public class Ropa {
 	private String prenda;
 	private String descricion;
 	private int existencias;
+	private double precio;
 	
 	/**
 	 * @return the id_ropa
@@ -61,6 +62,20 @@ public class Ropa {
 	 */
 	public void setExistencias(int existencias) {
 		this.existencias = existencias;
+	}
+
+	/**
+	 * @return the precio
+	 */
+	public double getPrecio() {
+		return precio;
+	}
+
+	/**
+	 * @param precio the precio to set
+	 */
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 
 	/* (non-Javadoc)

@@ -34,7 +34,7 @@ public class Detalle_Venta_model {
 	 */
 	public int insert_detalle_venta(Detalle_Venta dv){
 		int id_detalle=-1;
-		String query = "INSERT INTO ropa(int_venta,int_ropa,cantidad_articulo,precio_unitario) VALUES ("+dv.getId_detalle_venta()+","+dv.getId_ropa()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+")";
+		String query = "INSERT INTO ropa(int_venta,int_ropa,cantidad_articulo,precio_unitario,estado) VALUES ("+dv.getId_detalle_venta()+","+dv.getId_ropa()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+",'"+dv.getEstado()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -77,6 +77,7 @@ public class Detalle_Venta_model {
 				dv.setId_ropa(rs.getInt("id_ropa"));
 				dv.setCantidad_articulos(rs.getInt("cantidad articulo"));
 				dv.setPrecio_unitario(rs.getInt("precio_unitario"));
+				dv.setEstado(rs.getString("estado"));
 				
 			}
 			
@@ -102,6 +103,35 @@ public class Detalle_Venta_model {
 	 */
 	public boolean update_detalle_venta(int id_detalle_venta, int cantidad_articulos){
 		String query = "UPDATE detalle_venta SET cantidad_articulo="+cantidad_articulos+" WHERE id_detalle_venta="+id_detalle_venta;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Actualiza el estado de una venta
+	 * @param id_detalle_venta El identificador del registro a modificar
+	 * @param estado La nueva cantidad de articulos
+	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
+	 */
+	public boolean update_detalle_venta(int id_detalle_venta, String estado){
+		String query = "UPDATE detalle_venta SET estado="+estado+" WHERE id_detalle_venta="+id_detalle_venta;
 		try {
 			
 			connection = MySQLConnection.getConnection();

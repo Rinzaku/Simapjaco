@@ -8,6 +8,7 @@ public class Modelo {
 	private int id_talla;
 	private String modelo;
 	private int existencias;
+	private String estado;
 	
 	/**
 	 * @return the id_modelo
@@ -91,6 +92,20 @@ public class Modelo {
 	 */
 	public void setExistencias(int existencias) {
 		this.existencias = existencias;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	/* (non-Javadoc)
