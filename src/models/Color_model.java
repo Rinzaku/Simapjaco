@@ -111,8 +111,8 @@ public class Color_model {
 			rs = statement.executeQuery(query);
 			if(rs.next()){
 				 color = new Color();
-				 color.setId_color(rs.getInt("id_talla"));
-				 color.setColor(rs.getString("talla"));;
+				 color.setId_color(rs.getInt("id_color"));
+				 color.setColor(rs.getString("color"));;
 			}
 			
 		} catch (SQLException sqle) {
