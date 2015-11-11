@@ -137,6 +137,37 @@ public class Modelo_model {
 	}
 	
 	/**
+	 * Obtiene una lista de modelos en la base de datos
+	 * @param mod El modelo a buscar
+	 * @return La lista de modelos 
+	 */
+	public ArrayList<Modelo> find_modelo(String mod){
+		lista_modelo = new ArrayList<Modelo>();
+		Modelo modelo= null;
+		String query = "SELECT * FROM modelo WHERE modelo='"+mod+"'";
+		
+		try {
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while(rs.next()){
+				modelo = new Modelo();
+				modelo.setId_modelo(rs.getInt("id_modelo"));
+				modelo.setId_ropa(rs.getInt("id_ropa"));
+				modelo.setId_color(rs.getInt("id_color"));
+				modelo.setId_talla(rs.getInt("id_talla"));
+				modelo.setModelo(rs.getString("modelo"));
+				modelo.setExistencias(rs.getInt("existencias"));
+				lista_modelo.add(modelo);
+			}
+			
+		} catch (SQLException sqle) {
+			// TODO: handle exception
+		}
+		return lista_modelo;
+	}
+	
+	/**
 	 * Actualiza las existencias de un registro en la base de datos
 	 * @param id_ropa El identificador del registro a modificar
 	 * @param existencias El numero de nuevas existencias

@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -25,6 +26,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
+
+
+
 
 
 
@@ -53,6 +57,9 @@ import javax.swing.border.TitledBorder;
 
 
 
+
+
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -68,11 +75,14 @@ import javax.swing.event.MenuKeyEvent;
 
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.util.Arrays;
 
 import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+
+import controllers.Ventas_C;
 
 public class Ventana_ventas extends JFrame {
 
@@ -89,6 +99,7 @@ public class Ventana_ventas extends JFrame {
 	DefaultTableModel modelVentas;
 	DefaultTableModel modelBusqueda;
 	JScrollPane scrollVentas;
+	Ventas_C controlador_ventas;
 	
 	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
 			{"","","","","",""},
@@ -130,6 +141,9 @@ public class Ventana_ventas extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
+		
+		controlador_ventas = new Ventas_C();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1265, 642);
 		contentPane = new JPanel();
@@ -256,7 +270,28 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount()==1) {
-					scrollBusqueda.setVisible(true);
+					if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
+						
+						String modelo = textFieldModelo.getText();
+						
+						datosBusqueda = controlador_ventas.busca_modelo(modelo);
+						System.out.println(Arrays.deepToString(datosBusqueda));
+						
+						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
+						tableBusqueda = new JTable(modelBusqueda);
+						tableBusqueda.setBackground(new Color(176, 224, 230));
+						
+						scrollBusqueda= new JScrollPane(tableBusqueda);
+						scrollBusqueda.setPreferredSize(new Dimension(400, 150));
+						
+						contentPane.add(scrollBusqueda, "cell 0 8,grow ");
+						scrollBusqueda.setVisible(true);
+						
+						contentPane.updateUI();
+					}else{
+						JOptionPane.showMessageDialog(null, "Ingresa un modelo");
+					}
+					
 					
 				}
 			}
@@ -273,7 +308,7 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
 		modelVentas = new DefaultTableModel(datosVentas,cabeceraVentas);
-		modelBusqueda=new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
+//		modelBusqueda=new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
 		
 		tableVentas = new JTable(modelVentas);
 		
@@ -377,15 +412,15 @@ public class Ventana_ventas extends JFrame {
 		textFieldCambio = new JTextField();
 		contentPane.add(textFieldCambio, "cell 0 6,alignx right,aligny top");
 		textFieldCambio.setColumns(10);
-		tableBusqueda=new JTable(modelBusqueda);
+//		
+//		tableBusqueda=new JTable(modelBusqueda);
+//		tableBusqueda.setBackground(new Color(176, 224, 230));
+//		
+//		scrollBusqueda= new JScrollPane(tableBusqueda);
+//		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
+//		contentPane.add(scrollBusqueda, "cell 0 8,grow");
+//		scrollBusqueda.setVisible(false);
 		
-		
-		tableBusqueda.setBackground(new Color(176, 224, 230));
-		
-		scrollBusqueda= new JScrollPane(tableBusqueda);
-		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
-		contentPane.add(scrollBusqueda, "cell 0 8,grow");
-		scrollBusqueda.setVisible(false);
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(SystemColor.black);
 		contentPane.add(panelBoton, "cell 0 9 1 2,growx,aligny bottom");
