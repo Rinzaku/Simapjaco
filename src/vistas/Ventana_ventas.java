@@ -349,7 +349,7 @@ public class Ventana_ventas extends JFrame {
 		
 		scrollVentas=new JScrollPane (tableVentas);
 		
-		tableVentas.setBackground(new Color(51, 153, 204));
+		tableVentas.setBackground(new Color(176, 224, 226));
 		tableVentas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
 		tableVentas.setSelectionBackground(Color.MAGENTA);
 		tableVentas.setRowHeight(17);		
@@ -412,6 +412,12 @@ public class Ventana_ventas extends JFrame {
 		textFieldCambio = new JTextField();
 		contentPane.add(textFieldCambio, "cell 0 6,alignx right,aligny top");
 		textFieldCambio.setColumns(10);
+
+		tableBusqueda=new JTable(modelBusqueda);
+		
+		
+		tableBusqueda.setBackground(new Color(176, 224, 226));
+
 //		
 //		tableBusqueda=new JTable(modelBusqueda);
 //		tableBusqueda.setBackground(new Color(176, 224, 230));
@@ -420,6 +426,7 @@ public class Ventana_ventas extends JFrame {
 //		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
 //		contentPane.add(scrollBusqueda, "cell 0 8,grow");
 //		scrollBusqueda.setVisible(false);
+
 		
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(SystemColor.black);
