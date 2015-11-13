@@ -102,10 +102,11 @@ public class Ventana_ventas extends JFrame {
 	Ventas_C controlador_ventas;
 	boolean bandera = false;
 	
-	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
-			{"","","","","",""},
-			{"","","","","",""},
-			{"","","","","",""},};
+//	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
+//			{"","","","","",""},
+//			{"","","","","",""},
+//			{"","","","","",""},};
+	private String [][] datosVentas={};
 	private String [] cabeceraVentas={"Modelo","Descripcion","Talla","Color","Cantidad","Precio"};
 	
 
@@ -221,6 +222,7 @@ public class Ventana_ventas extends JFrame {
 						String modelo = textFieldModelo.getText();
 						
 						datosBusqueda = controlador_ventas.busca_modelo(modelo);
+						
 						System.out.println(Arrays.deepToString(datosBusqueda));
 						
 						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
@@ -319,7 +321,12 @@ public class Ventana_ventas extends JFrame {
 						datosBusqueda = controlador_ventas.busca_modelo(modelo);
 						System.out.println(Arrays.deepToString(datosBusqueda));
 						
-						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
+						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
+							@Override
+							public boolean isCellEditable(int row, int col){
+								return false;
+							}
+						};
 						tableBusqueda = new JTable(modelBusqueda);
 						tableBusqueda.setBackground(new Color(176, 224, 230));
 						
@@ -520,7 +527,18 @@ public class Ventana_ventas extends JFrame {
 			public void mousePressed(MouseEvent click) {
 			
 				if (click.getClickCount()==2) {
-					JOptionPane.showMessageDialog(null, "Hay doble click");
+//					JOptionPane.showMessageDialog(null, "Hay doble click en la fila: "+tableBusqueda.getSelectedRow()+", y columna: "+tableBusqueda.getSelectedColumn());
+					String[] fila = new String[tableBusqueda.getColumnCount()];
+					TableModel tmodel = tableBusqueda.getModel();
+					int i=tableBusqueda.getSelectedRow();
+					String[] precios = controlador_ventas.obten_precios();
+					for (int j = 0; j < fila.length-1; j++) {
+						if(j==4) fila[j]="1";
+						else fila[j]=tmodel.getValueAt(i, j).toString();
+					}
+					fila[fila.length-1]= precios[i];
+					modelVentas.addRow(fila);
+					contentPane.updateUI();
 				}
 				else{
 					System.out.println("No presionaste el double click");
