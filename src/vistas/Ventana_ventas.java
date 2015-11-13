@@ -100,6 +100,7 @@ public class Ventana_ventas extends JFrame {
 	DefaultTableModel modelBusqueda;
 	JScrollPane scrollVentas;
 	Ventas_C controlador_ventas;
+	boolean bandera = false;
 	
 	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
 			{"","","","","",""},
@@ -208,6 +209,45 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblModelo, gbc_lblModelo);
 		
 		textFieldModelo = new JTextField();
+		textFieldModelo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n'){
+//					JOptionPane.showMessageDialog(null, "Presionaste enter");
+					if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
+						if(bandera){
+							contentPane.remove(scrollBusqueda);
+						}
+						String modelo = textFieldModelo.getText();
+						
+						datosBusqueda = controlador_ventas.busca_modelo(modelo);
+						System.out.println(Arrays.deepToString(datosBusqueda));
+						
+						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
+							@Override
+							public boolean isCellEditable(int row, int col){
+								return false;
+							}
+						};
+						tableBusqueda = new JTable(modelBusqueda);	
+						tableBusqueda.setBackground(new Color(176, 224, 230));
+						tableBusqueda.isCellEditable(0,	0);
+						
+						scrollBusqueda= new JScrollPane(tableBusqueda);
+						scrollBusqueda.setPreferredSize(new Dimension(400, 150));
+						
+						contentPane.add(scrollBusqueda, "cell 0 8,grow ");
+						scrollBusqueda.setVisible(true);
+						
+						contentPane.updateUI();
+						bandera = true;
+						addMouseClick();
+					}else{
+						JOptionPane.showMessageDialog(null, "Ingresa un modelo");
+					}
+				}
+			}
+		});
 		GridBagConstraints gbc_textFieldModelo = new GridBagConstraints();
 		gbc_textFieldModelo.gridheight = 2;
 		gbc_textFieldModelo.gridwidth = 2;
@@ -271,7 +311,9 @@ public class Ventana_ventas extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount()==1) {
 					if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
-						
+						if(bandera){
+							contentPane.remove(scrollBusqueda);
+						}
 						String modelo = textFieldModelo.getText();
 						
 						datosBusqueda = controlador_ventas.busca_modelo(modelo);
@@ -288,6 +330,8 @@ public class Ventana_ventas extends JFrame {
 						scrollBusqueda.setVisible(true);
 						
 						contentPane.updateUI();
+						bandera = true;
+						addMouseClick();
 					}else{
 						JOptionPane.showMessageDialog(null, "Ingresa un modelo");
 					}
@@ -312,7 +356,6 @@ public class Ventana_ventas extends JFrame {
 		
 		tableVentas = new JTable(modelVentas);
 		
-
 		tableVentas.addKeyListener(new KeyAdapter() {
 
 			@Override
@@ -346,7 +389,6 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 		
-		
 		scrollVentas=new JScrollPane (tableVentas);
 		
 		tableVentas.setBackground(new Color(176, 224, 226));
@@ -354,7 +396,6 @@ public class Ventana_ventas extends JFrame {
 		tableVentas.setSelectionBackground(Color.MAGENTA);
 		tableVentas.setRowHeight(17);		
 		JPopupMenu menuTabla = new JPopupMenu();
-		
 		
 		menuTabla.setBackground(SystemColor.inactiveCaptionBorder);
 		menuTabla.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -412,20 +453,6 @@ public class Ventana_ventas extends JFrame {
 		textFieldCambio = new JTextField();
 		contentPane.add(textFieldCambio, "cell 0 6,alignx right,aligny top");
 		textFieldCambio.setColumns(10);
-
-		tableBusqueda=new JTable(modelBusqueda);
-		
-		
-		tableBusqueda.setBackground(new Color(176, 224, 226));
-
-//		
-//		tableBusqueda=new JTable(modelBusqueda);
-//		tableBusqueda.setBackground(new Color(176, 224, 230));
-//		
-//		scrollBusqueda= new JScrollPane(tableBusqueda);
-//		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
-//		contentPane.add(scrollBusqueda, "cell 0 8,grow");
-//		scrollBusqueda.setVisible(false);
 
 		
 		JPanel panelBoton = new JPanel();
@@ -485,5 +512,23 @@ public class Ventana_ventas extends JFrame {
 		});
 	}
 	
+	private void addMouseClick(){
+		
+		tableBusqueda.addMouseListener(new MouseAdapter() {
+			@Override
+			//evento para controlar  los clicks de la tabla ^.^/
+			public void mousePressed(MouseEvent click) {
+			
+				if (click.getClickCount()==2) {
+					JOptionPane.showMessageDialog(null, "Hay doble click");
+				}
+				else{
+					System.out.println("No presionaste el double click");
+					//para obtener el numero de filas es getRowCount
+					System.out.println("Filas:"+ tableVentas.getRowCount());
+				}
+			}
+		});
+	}
 	
 }
