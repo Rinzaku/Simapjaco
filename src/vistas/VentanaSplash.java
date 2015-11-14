@@ -27,7 +27,7 @@ public class VentanaSplash extends JFrame{
 		
 				progressBar = new JProgressBar();
 				progressBar.setBackground(Color.WHITE);
-				progressBar.setForeground(new Color(0, 0, 255));
+				progressBar.setForeground(new Color(95, 158, 160));
 				progressBar.addChangeListener(new ChangeListener() {
 					public void stateChanged(ChangeEvent arg0) {
 						if(progressBar.getValue()==100){
@@ -45,8 +45,8 @@ public class VentanaSplash extends JFrame{
 		JLabel labelFont = new JLabel("");
 		labelFont.setForeground(new Color(0, 0, 0));
 		labelFont.setBackground(Color.WHITE);
-		labelFont.setBounds(10, 11, 597, 391);
-		labelFont.setIcon(new ImageIcon(VentanaSplash.class.getResource("/imagenes/azul.png")));
+		labelFont.setBounds(0, 0, 617, 413);
+		labelFont.setIcon(new ImageIcon(VentanaSplash.class.getResource("/imagenes/SIMAPF.png")));
 		p.add(labelFont);
 		getContentPane().add(p);
 		iniciar();
