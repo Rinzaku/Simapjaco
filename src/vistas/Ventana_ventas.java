@@ -500,6 +500,11 @@ public class Ventana_ventas extends JFrame {
 		btnFinalizar.setBackground(new Color(0, 51, 153));
 		btnFinalizar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok32.png")));
 		panelBoton.add(btnFinalizar);
+		
+		JButton button = new JButton("");
+		button.setBackground(new Color(51, 0, 204));
+		button.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
+		panelBoton.add(button);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
