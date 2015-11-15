@@ -100,7 +100,9 @@ public class Ventana_ventas extends JFrame {
 	DefaultTableModel modelBusqueda;
 	JScrollPane scrollVentas;
 	Ventas_C controlador_ventas;
+	
 	boolean bandera = false;
+	int renglon = 0;
 	
 //	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
 //			{"","","","","",""},
@@ -117,7 +119,7 @@ public class Ventana_ventas extends JFrame {
 	private String [] cabeceraBusqueda={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
 	private JTextField txtTotal;
 	private JTextField txtFolio;
-	private JTextField textFieldFecha;
+	private JLabel etiquetaFecha;
 	private JTextField textFieldRecibido;
 	private JTextField textFieldCambio;
 
@@ -160,6 +162,8 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(lblFolio, "flowx,cell 0 0,alignx right");
 		
 		txtFolio = new JTextField();
+		txtFolio.setText(""+controlador_ventas.folio());
+		txtFolio.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtFolio.setEditable(false);
 		contentPane.add(txtFolio, "cell 0 0,alignx center,aligny center");
 		txtFolio.setColumns(10);
@@ -169,11 +173,11 @@ public class Ventana_ventas extends JFrame {
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblFecha, "cell 0 0,alignx right");
 		
-		textFieldFecha = new JTextField();
-		textFieldFecha.setEditable(false);
-		textFieldFecha.setText("");
-		contentPane.add(textFieldFecha, "cell 0 0,alignx right");
-		textFieldFecha.setColumns(10);
+		etiquetaFecha = new JLabel(controlador_ventas.fecha());
+		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(etiquetaFecha, "cell 0 0,alignx right");
+//		textFieldFecha.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 153));
@@ -210,6 +214,7 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblModelo, gbc_lblModelo);
 		
 		textFieldModelo = new JTextField();
+		textFieldModelo.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFieldModelo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -273,6 +278,7 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblColor, gbc_lblColor);
 		
 		textFieldColor = new JTextField();
+		textFieldColor.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFieldColor.setColumns(10);
 		GridBagConstraints gbc_textFieldColor = new GridBagConstraints();
 		gbc_textFieldColor.anchor = GridBagConstraints.EAST;
@@ -296,6 +302,7 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblTalla, gbc_lblTalla);
 		
 		textFieldTalla = new JTextField();
+		textFieldTalla.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFieldTalla.setColumns(10);
 		GridBagConstraints gbc_textFieldTalla = new GridBagConstraints();
 		gbc_textFieldTalla.anchor = GridBagConstraints.EAST;
@@ -413,8 +420,21 @@ public class Ventana_ventas extends JFrame {
 		mntmQuitar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("quitar"+" "+e.getClickCount());
-				modelVentas.removeRow(tableVentas.getSelectedRow());
+//				System.out.println("quitar"+" "+e.getClickCount());
+				
+//				JOptionPane.showMessageDialog(null, "Fila seleccionada "+tableVentas.getSelectedRow());
+				if(tableVentas.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(null, "Selecciona una fila");
+				}else{
+					
+					double total = Double.parseDouble(txtTotal.getText());
+					total -= Double.parseDouble(modelVentas.getValueAt(tableVentas.getSelectedRow(), 5).toString());
+					txtTotal.setText(""+total);
+					
+					modelVentas.removeRow(tableVentas.getSelectedRow());
+					
+				}
+				
 			}
 		});
 		
@@ -439,6 +459,7 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(lblTotal, "flowx,cell 0 4,alignx right");
 		
 		txtTotal = new JTextField();
+		txtTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTotal.setEditable(false);
 		contentPane.add(txtTotal, "cell 0 4,alignx right,aligny center");
 		txtTotal.setColumns(10);
@@ -449,6 +470,7 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(lbelRecibido, "flowx,cell 0 5,alignx right,aligny top");
 		
 		textFieldRecibido = new JTextField();
+		textFieldRecibido.setHorizontalAlignment(SwingConstants.RIGHT);
 		contentPane.add(textFieldRecibido, "cell 0 5,alignx right,aligny top");
 		textFieldRecibido.setColumns(10);
 		
@@ -458,6 +480,7 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(lblCambio, "flowx,cell 0 6,alignx right");
 		
 		textFieldCambio = new JTextField();
+		textFieldCambio.setHorizontalAlignment(SwingConstants.RIGHT);
 		contentPane.add(textFieldCambio, "cell 0 6,alignx right,aligny top");
 		textFieldCambio.setColumns(10);
 
@@ -506,6 +529,7 @@ public class Ventana_ventas extends JFrame {
 		button.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
 		panelBoton.add(button);
 	}
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -535,14 +559,30 @@ public class Ventana_ventas extends JFrame {
 //					JOptionPane.showMessageDialog(null, "Hay doble click en la fila: "+tableBusqueda.getSelectedRow()+", y columna: "+tableBusqueda.getSelectedColumn());
 					String[] fila = new String[tableBusqueda.getColumnCount()];
 					TableModel tmodel = tableBusqueda.getModel();
-					int i=tableBusqueda.getSelectedRow();
+					renglon=tableBusqueda.getSelectedRow();
 					String[] precios = controlador_ventas.obten_precios();
+					
 					for (int j = 0; j < fila.length-1; j++) {
 						if(j==4) fila[j]="1";
-						else fila[j]=tmodel.getValueAt(i, j).toString();
+						else fila[j]=tmodel.getValueAt(renglon, j).toString();
 					}
-					fila[fila.length-1]= precios[i];
+					
+					int existencias = Integer.parseInt(tmodel.getValueAt(renglon, 4).toString());
+					existencias -=1;
+					tmodel.setValueAt(existencias, renglon, 4);
+					
+					fila[fila.length-1]= precios[renglon];
+					
 					modelVentas.addRow(fila);
+					if (txtTotal.getText().isEmpty()) {
+//						JOptionPane.showMessageDialog(null, "Campo total vacio");
+						txtTotal.setText(precios[renglon]);
+					} else {
+//						JOptionPane.showMessageDialog(null, "Hay datos");
+						double total = Double.parseDouble(txtTotal.getText());
+						total +=Double.parseDouble(precios[renglon]);
+						txtTotal.setText(""+total);
+					}
 					contentPane.updateUI();
 				}
 				else{
