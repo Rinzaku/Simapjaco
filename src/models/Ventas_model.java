@@ -186,12 +186,13 @@ public class Ventas_model {
 		}
 	}
 	
-	/*
-	 * Obtiene la ultima fila en la tabla modelo
+	/**
+	 * Obtenemos el identificador del ultimo registro de las ventas
+	 * @return El idetificador del ultimo registro de las ventas
 	 */
-	private int ultima_fila(){
+	public int ultima_fila(){
 		
-		String query = "SELECT max(id_venta) FROM ventas";
+		String query = "SELECT max(id_ventas) FROM ventas";
 		int max = 0;
 		try{
 			connection = MySQLConnection.getConnection();

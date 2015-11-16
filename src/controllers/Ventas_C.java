@@ -43,4 +43,19 @@ public class Ventas_C {
 	public String[] obten_precios(){
 		return precios;
 	}
+	
+	public String fecha(){
+		Calendar calendario = new GregorianCalendar();
+		String day = Integer.toString(calendario.get(Calendar.DATE));
+		String month = Integer.toString(calendario.get(Calendar.MONTH)+1);
+		String year = Integer.toString(calendario.get(Calendar.YEAR));
+		
+		return day+"/"+month+"/"+year;
+	}
+	
+	public int folio(){
+		Ventas_model vmodel = new Ventas_model();
+		int fila = vmodel.ultima_fila() + 1;
+		return fila;
+	}
 }
