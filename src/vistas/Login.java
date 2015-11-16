@@ -82,6 +82,7 @@ public class Login extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Administrador admin =new Administrador();
 				admin.setVisible(true);
+				admin.setLocationRelativeTo(null);
 			}
 		});
 		

@@ -57,12 +57,20 @@ public class ApartarProducto extends JFrame {
 		contentPane.setForeground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[97px][4px][114.00px][190px][12px][][86px]", "[20px][20px][20px][20px][20px][20px][8px][20px][20px][8px][8px][11.00px][41px]"));
+		contentPane.setLayout(new MigLayout("", "[97px][4px][114.00px][190px][12px][][][86px]", "[20px][20px][20px][20px][20px][20px][8px][20px][20px][8px][8px][11.00px][41px]"));
 		
 		JLabel lblFolio = new JLabel("Folio :");
 		lblFolio.setForeground(Color.WHITE);
 		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblFolio, "cell 3 0,alignx right,aligny top");
+		contentPane.add(lblFolio, "flowx,cell 3 0,alignx right,aligny top");
+		
+		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblFecha.setForeground(Color.WHITE);
+		contentPane.add(lblFecha, "cell 5 0");
+		
+		JLabel etiquetaFecha = new JLabel("New label");
+		contentPane.add(etiquetaFecha, "cell 7 0");
 		
 		JLabel lblModelo = new JLabel("Modelo :");
 		lblModelo.setForeground(Color.WHITE);
@@ -133,13 +141,9 @@ public class ApartarProducto extends JFrame {
 		contentPane.add(textResta, "cell 2 8,alignx left,aligny bottom");
 		textResta.setColumns(10);
 		
-		textFolio = new JTextField();
-		contentPane.add(textFolio, "cell 6 0,alignx left,aligny bottom");
-		textFolio.setColumns(10);
-		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/apartar128.png")));
-		contentPane.add(label, "cell 3 1 4 8,alignx center,aligny center");
+		contentPane.add(label, "cell 3 1 5 8,alignx center,aligny center");
 		
 		
 		JButton buttonListo = new JButton("");
@@ -151,6 +155,10 @@ public class ApartarProducto extends JFrame {
 		JButton buttonCancelar = new JButton("");
 		buttonCancelar.setBackground(new Color(51, 0, 204));
 		buttonCancelar.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/error32.png")));
-		contentPane.add(buttonCancelar, "cell 3 12 3 1,grow");
+		contentPane.add(buttonCancelar, "cell 3 12 4 1,grow");
+		
+		textFolio = new JTextField();
+		contentPane.add(textFolio, "cell 3 0,alignx left,aligny bottom");
+		textFolio.setColumns(10);
 	}
 }

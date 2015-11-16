@@ -456,8 +456,8 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				//System.out.println("Apartar:"+" "+e.getClickCount());
-				CambiarProducto apart=new CambiarProducto();
-				apart.setVisible(true);
+				ApartarProducto apartar=new ApartarProducto();
+				apartar.setVisible(true);
 			}
 		});
 		menuTabla.add(mntmApartar);
@@ -545,6 +545,12 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.add(btnFinalizar);
 		
 		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VentanaApartados vtnApartados =new VentanaApartados();
+				vtnApartados.setVisible(true);
+			}
+		});
 		button.setBackground(new Color(51, 0, 204));
 		button.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
 		panelBoton.add(button);
