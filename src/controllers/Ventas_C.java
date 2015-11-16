@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 public class Ventas_C {
 	
 	String[] precios;
+	int[][] identificadores;
 	
 	public String[][] busca_modelo(String modelo){
 		Modelo_model mmodel = new Modelo_model();
@@ -20,7 +21,10 @@ public class Ventas_C {
 		
 		ArrayList<Modelo> lista = mmodel.find_modelo(modelo);
 		String[][] productos = new String[lista.size()][];
+		
 		precios= new String[lista.size()];
+		identificadores = new int[lista.size()][2];
+		
 		int i = 0;
 		
 		for (Modelo m : lista) {
@@ -30,9 +34,11 @@ public class Ventas_C {
 			p[2] = tmodel.find_talla(m.getId_talla()).getTalla();
 			p[3] = cmodel.find_color(m.getId_color()).getColor();
 			p[4] = ""+m.getExistencias();
-			p[5] = "";
+			p[5] = m.getEstado();
 			productos[i]= p;
 			precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
+			identificadores[i][0]=m.getId_modelo();
+			identificadores[i][1]=m.getId_ropa();
 			System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 			i++;
 		}
@@ -44,6 +50,9 @@ public class Ventas_C {
 		return precios;
 	}
 	
+	public int[][] obten_identificadores(){
+		return identificadores;
+	}
 	public String fecha(){
 		Calendar calendario = new GregorianCalendar();
 		String day = Integer.toString(calendario.get(Calendar.DATE));
@@ -55,7 +64,7 @@ public class Ventas_C {
 	
 	public int folio(){
 		Ventas_model vmodel = new Ventas_model();
-		int fila = vmodel.ultima_fila() + 1;
-		return fila;
+		int folio = vmodel.ultima_fila() + 1;
+		return folio;
 	}
 }

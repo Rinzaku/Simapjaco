@@ -34,6 +34,7 @@ import java.awt.Dimension;
 
 
 
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -60,6 +61,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -75,6 +77,7 @@ import javax.swing.event.MenuKeyEvent;
 
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.event.PopupMenuListener;
@@ -103,6 +106,8 @@ public class Ventana_ventas extends JFrame {
 	
 	boolean bandera = false;
 	int renglon = 0;
+	ArrayList<Integer> ids_modelos;
+	ArrayList<Integer> ids_ropas;
 	
 //	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
 //			{"","","","","",""},
@@ -147,6 +152,8 @@ public class Ventana_ventas extends JFrame {
 	public Ventana_ventas() {
 		
 		controlador_ventas = new Ventas_C();
+		ids_modelos = new ArrayList<Integer>();
+		ids_ropas = new ArrayList<Integer>();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1265, 642);
@@ -426,12 +433,14 @@ public class Ventana_ventas extends JFrame {
 				if(tableVentas.getSelectedRow()==-1){
 					JOptionPane.showMessageDialog(null, "Selecciona una fila");
 				}else{
-					
+					System.out.println("Fila -> "+tableVentas.getSelectedRow());
 					double total = Double.parseDouble(txtTotal.getText());
 					total -= Double.parseDouble(modelVentas.getValueAt(tableVentas.getSelectedRow(), 5).toString());
 					txtTotal.setText(""+total);
 					
 					modelVentas.removeRow(tableVentas.getSelectedRow());
+//					ids_modelos.remove(tableVentas.getSelectedRow());
+//					ids_ropas.remove(tableVentas.getSelectedRow());
 					
 				}
 				
@@ -521,6 +530,15 @@ public class Ventana_ventas extends JFrame {
 		
 		JButton btnFinalizar = new JButton("");
 		btnFinalizar.setBackground(new Color(0, 51, 153));
+		btnFinalizar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				JOptionPane.showMessageDialog(null, "Finalizar venta");
+				
+				
+			}
+		});
 		btnFinalizar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok32.png")));
 		panelBoton.add(btnFinalizar);
 		
@@ -561,6 +579,7 @@ public class Ventana_ventas extends JFrame {
 					TableModel tmodel = tableBusqueda.getModel();
 					renglon=tableBusqueda.getSelectedRow();
 					String[] precios = controlador_ventas.obten_precios();
+					int[][] ids = controlador_ventas.obten_identificadores();
 					
 					for (int j = 0; j < fila.length-1; j++) {
 						if(j==4) fila[j]="1";
@@ -572,8 +591,11 @@ public class Ventana_ventas extends JFrame {
 					tmodel.setValueAt(existencias, renglon, 4);
 					
 					fila[fila.length-1]= precios[renglon];
+					ids_modelos.add(ids[renglon][0]);
+					ids_ropas.add(ids[renglon][1]);
 					
 					modelVentas.addRow(fila);
+					
 					if (txtTotal.getText().isEmpty()) {
 //						JOptionPane.showMessageDialog(null, "Campo total vacio");
 						txtTotal.setText(precios[renglon]);

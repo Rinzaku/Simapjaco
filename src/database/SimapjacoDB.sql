@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `Ropa` (
   `nombre_prenda` VARCHAR(45) NOT NULL COMMENT '',
   `descripcion` VARCHAR(45) NOT NULL COMMENT '',
   `existencias` INT NOT NULL COMMENT '',
+  `precio` DOUBLE NOT NULL COMMENT '',
   PRIMARY KEY (`id_ropa`)  COMMENT '')
 ENGINE = InnoDB;
 
@@ -65,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `Modelo` (
   `id_talla` INT NOT NULL COMMENT '',
   `modelo` VARCHAR(45) NOT NULL COMMENT '',
   `existencias` INT NOT NULL COMMENT '',
+  `estado` VARCHAR(20) NOT NULL COMMENT '',
   PRIMARY KEY (`id_modelo`, `id_ropa`)  COMMENT '',
   CONSTRAINT `fk_Modelo_Ropa`
     FOREIGN KEY (`id_ropa`)
@@ -112,25 +114,27 @@ DROP TABLE IF EXISTS `Detalle_venta` ;
 CREATE TABLE IF NOT EXISTS `Detalle_venta` (
   `id_detalle_venta` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `id_venta` INT NOT NULL COMMENT '',
+  `id_modelo` INT NOT NULL COMMENT '',
   `id_ropa` INT NOT NULL COMMENT '',
   `cantidad_articulo` INT NOT NULL COMMENT '',
   `precio_unitario` DOUBLE NOT NULL COMMENT '',
+  `estado` VARCHAR(20) NOT NULL COMMENT '',
   PRIMARY KEY (`id_detalle_venta`, `id_venta`)  COMMENT '',
   CONSTRAINT `fk_Detalle_venta_Ventas1`
     FOREIGN KEY (`id_venta`)
     REFERENCES `Ventas` (`id_ventas`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Detalle_venta_Ropa1`
-    FOREIGN KEY (`id_ropa`)
-    REFERENCES `Ropa` (`id_ropa`)
+  CONSTRAINT `fk_Detalle_venta_Modelo1`
+    FOREIGN KEY (`id_modelo`,`id_ropa`)
+    REFERENCES `Modelo` (`id_modelo`,`id_ropa`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Detalle_venta_Ventas1_idx` ON `Detalle_venta` (`id_venta` ASC)  COMMENT '';
 
-CREATE INDEX `fk_Detalle_venta_Ropa1_idx` ON `Detalle_venta` (`id_ropa` ASC)  COMMENT '';
+CREATE INDEX `fk_Detalle_venta_Modelo1_idx` ON `Detalle_venta` (`id_modelo` ASC,`id_ropa` ASC)  COMMENT '';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -145,14 +149,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 /* INSERTS ROPA                                                 */
 /*==============================================================*/
 
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('pantalon','pantalon de mezclilla para caballero', 15);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('falda','falda de vestir para dama', 25);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('blusa','blusa para dama', 10);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('vestido','vestido de vestir par dama', 30);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('playera','playera polo para caballero', 15);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('playera','playera sport para caballero', 25);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('chamarra','chamarra de piel caballero', 25);
-INSERT INTO ropa(nombre_prenda,descripcion, existencias) VALUES ('zapatos','zapatos para dama', 10);
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('pantalon','pantalon de mezclilla para caballero', 15,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('falda','falda de vestir para dama', 25,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('blusa','blusa para dama', 10,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('vestido','vestido de vestir par dama', 30,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera polo para caballero', 15,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera sport para caballero', 25,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('chamarra','chamarra de piel caballero', 25,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('zapatos','zapatos para dama', 10,floor(RAND()*(500-1)+1));
 
 /*==============================================================*/
 /* INSERTS CATALOGO COLOR                                       */
@@ -203,7 +207,7 @@ CREATE PROCEDURE insert_modelo()
   BEGIN 
     DECLARE a INT Default 1;
     simple_loop:LOOP
-      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(50-1)+1));  
+      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(50-1)+1),'ACTIVO');  
       SET a=a+1;
       IF a=101 THEN
         LEAVE simple_loop;
