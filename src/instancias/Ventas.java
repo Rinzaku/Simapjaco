@@ -6,6 +6,8 @@ public class Ventas {
 	private String fecha;
 	private int no_articulos;
 	private double total_venta;
+	private String estado;
+	private double abono;
 	
 	/**
 	 * @return the id_venta
@@ -61,6 +63,34 @@ public class Ventas {
 	 */
 	public void setTotal_venta(double total_venta) {
 		this.total_venta = total_venta;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	/**
+	 * @return the abono
+	 */
+	public double getAbono() {
+		return abono;
+	}
+
+	/**
+	 * @param abono the abono to set
+	 */
+	public void setAbono(double abono) {
+		this.abono = abono;
 	}
 
 	/* (non-Javadoc)

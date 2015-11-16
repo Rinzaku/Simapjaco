@@ -35,7 +35,7 @@ public class Ventas_model {
 	 */
 	public int insert_venta(Ventas venta){
 		int id_venta = -1;
-		String query = "INSERT INTO ventas(fecha,no_articulos,precio_total) VALUES ('"+venta.getFecha()+"',"+venta.getNo_articulos()+","+venta.getTotal_venta()+")";
+		String query = "INSERT INTO ventas(fecha,no_articulos,precio_total,estado,abono) VALUES ('"+venta.getFecha()+"',"+venta.getNo_articulos()+","+venta.getTotal_venta()+",'"+venta.getEstado()+"',"+venta.getAbono()+")";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -58,7 +58,7 @@ public class Ventas_model {
 	}
 	
 	/**
-	 * Obtiene una lista con las ventas en a base de datos
+	 * Obtiene una lista con las ventas en la base de datos
 	 * @return La lista de las ventas
 	 */
 	public ArrayList<Ventas> get_ventas(){
@@ -76,6 +76,8 @@ public class Ventas_model {
 				ventas.setFecha(rs.getString("fecha"));
 				ventas.setNo_articulos(rs.getInt("no_articulos"));
 				ventas.setTotal_venta(rs.getDouble("precio_total"));
+				ventas.setEstado(rs.getString("estado"));
+				ventas.setAbono(rs.getDouble("abono"));
 				lista_ventas.add(ventas);
 			}
 			
@@ -112,6 +114,8 @@ public class Ventas_model {
 				 venta.setFecha(rs.getString("fecha"));
 				 venta.setNo_articulos(rs.getInt("no_articulos"));
 				 venta.setTotal_venta(rs.getDouble("precio_total"));
+				 venta.setEstado(rs.getString("estado"));
+				 venta.setAbono(rs.getDouble("abono"));
 			}
 			
 		} catch (SQLException sqle) {
@@ -132,11 +136,11 @@ public class Ventas_model {
 	 * Actualiza el numero de articulos y el precio de una venta
 	 * @param id_venta El identificador de la venta a modificar
 	 * @param articulos El nuevo numero de articulos
-	 * @param precio El nuevo total de la venta
+	 * @param abono El nuevo total de la venta
 	 * @return <b>true</b> si la venta se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean update_venta(int id_venta, int articulos, double precio){
-		String query = "UPDATE ventas SET no_articulos="+articulos+",precio="+precio+" WHERE id_color="+id_venta;
+	public boolean update_venta(int id_venta,double abono){
+		String query = "UPDATE ventas SET abono="+abono+" WHERE id_venta="+id_venta;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -157,6 +161,7 @@ public class Ventas_model {
 			}
 		}
 	}
+	
 	
 	/**
 	 * Elimina un registro de la base de datos

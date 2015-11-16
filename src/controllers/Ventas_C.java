@@ -46,6 +46,39 @@ public class Ventas_C {
 		return productos;
 	}
 	
+	public boolean finaliza_venta(String fecha, int no_articulos, double total, ArrayList<Integer> modelos){
+		int id_venta=0;
+		boolean exito = false;
+		id_venta = creaVenta(fecha,no_articulos,total);
+		if(id_venta==-1){
+			exito = creaDetalleVenta(id_venta,modelos);
+			if(exito) return true;
+			else return false;
+		}else
+			return false;
+	}
+	
+	private int creaVenta(String fecha, int no_articulos, double total) {
+		int id=0;
+		Ventas_model vmodel = new Ventas_model();
+		Ventas venta = new Ventas();
+		
+		venta.setFecha(fecha);
+		venta.setNo_articulos(no_articulos);
+		venta.setTotal_venta(total);
+		
+		id=vmodel.insert_venta(venta);
+		
+		return id;
+	}
+
+	private boolean creaDetalleVenta(int id_venta, ArrayList<Integer> modelos) {
+		Detalle_Venta_model dvmodel = new Detalle_Venta_model();
+		Detalle_Venta detalle;
+		
+		return false;
+	}
+
 	public String[] obten_precios(){
 		return precios;
 	}

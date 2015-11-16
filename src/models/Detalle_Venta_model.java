@@ -34,7 +34,7 @@ public class Detalle_Venta_model {
 	 */
 	public int insert_detalle_venta(Detalle_Venta dv){
 		int id_detalle=-1;
-		String query = "INSERT INTO ropa(int_venta,int_ropa,cantidad_articulo,precio_unitario,estado) VALUES ("+dv.getId_detalle_venta()+","+dv.getId_ropa()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+",'"+dv.getEstado()+"')";
+		String query = "INSERT INTO ropa(id_venta,id_modelo,id_ropa,cantidad_articulo,precio_unitario,estado) VALUES ("+dv.getId_venta()+","+dv.getId_ropa()+","+dv.getId_modelo()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+",'"+dv.getEstado()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -74,6 +74,7 @@ public class Detalle_Venta_model {
 				dv = new Detalle_Venta();
 				dv.setId_detalle_venta(rs.getInt("id_detalle_venta"));
 				dv.setId_venta(rs.getInt("id_venta"));
+				dv.setId_modelo(rs.getInt("id_modelo"));
 				dv.setId_ropa(rs.getInt("id_ropa"));
 				dv.setCantidad_articulos(rs.getInt("cantidad articulo"));
 				dv.setPrecio_unitario(rs.getInt("precio_unitario"));

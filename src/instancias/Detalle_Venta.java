@@ -4,6 +4,7 @@ public class Detalle_Venta {
 	
 	private int id_detalle_venta;
 	private int id_venta;
+	private int id_modelo;
 	private int id_ropa;
 	private int cantidad_articulos;
 	private double precio_unitario;
@@ -51,6 +52,20 @@ public class Detalle_Venta {
 		this.id_ropa = id_ropa;
 	}
 	
+	/**
+	 * @return the id_modelo
+	 */
+	public int getId_modelo() {
+		return id_modelo;
+	}
+
+	/**
+	 * @param id_modelo the id_modelo to set
+	 */
+	public void setId_modelo(int id_modelo) {
+		this.id_modelo = id_modelo;
+	}
+
 	/**
 	 * @return the cantidad_articulos
 	 */
