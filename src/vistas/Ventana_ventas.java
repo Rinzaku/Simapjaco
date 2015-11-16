@@ -372,7 +372,13 @@ public class Ventana_ventas extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
-		modelVentas = new DefaultTableModel(datosVentas,cabeceraVentas);
+		modelVentas = new DefaultTableModel(datosVentas,cabeceraVentas){
+			@Override
+			public boolean isCellEditable(int row, int col){
+				if(col==4) return true;
+				else return false;
+			}
+		};
 //		modelBusqueda=new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
 		
 		tableVentas = new JTable(modelVentas);
