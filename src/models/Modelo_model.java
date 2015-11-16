@@ -165,7 +165,8 @@ public class Modelo_model {
 			}
 			
 		} catch (SQLException sqle) {
-			// TODO: handle exception
+		System.out.println(sqle.getMessage());
+		System.out.println(sqle.toString());
 		}
 		return lista_modelo;
 	}

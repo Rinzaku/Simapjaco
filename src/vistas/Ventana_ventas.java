@@ -117,10 +117,7 @@ public class Ventana_ventas extends JFrame {
 	private String [] cabeceraVentas={"Modelo","Descripcion","Talla","Color","Cantidad","Precio"};
 	
 
-	private String [][] datosBusqueda={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
-			{"","","","","",""},
-			{"","","","","",""},
-			{"","","","","",""},};
+	private String [][] datosBusqueda;
 	private String [] cabeceraBusqueda={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
 	private JTextField txtTotal;
 	private JTextField txtFolio;
@@ -226,7 +223,6 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyChar() == '\n'){
-//					JOptionPane.showMessageDialog(null, "Presionaste enter");
 					if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
 						if(bandera){
 							contentPane.remove(scrollBusqueda);
