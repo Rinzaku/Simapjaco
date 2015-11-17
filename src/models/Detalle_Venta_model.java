@@ -34,7 +34,7 @@ public class Detalle_Venta_model {
 	 */
 	public int insert_detalle_venta(Detalle_Venta dv){
 		int id_detalle=-1;
-		String query = "INSERT INTO ropa(id_venta,id_modelo,id_ropa,cantidad_articulo,precio_unitario,estado) VALUES ("+dv.getId_venta()+","+dv.getId_ropa()+","+dv.getId_modelo()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+",'"+dv.getEstado()+"')";
+		String query = "INSERT INTO detalle_venta(id_venta,id_modelo,id_ropa,cantidad_articulo,precio_unitario,estado) VALUES ("+dv.getId_venta()+","+dv.getId_ropa()+","+dv.getId_modelo()+","+dv.getCantidad_articulos()+","+dv.getPrecio_unitario()+",'"+dv.getEstado()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -44,6 +44,8 @@ public class Detalle_Venta_model {
 			
 		} catch (SQLException sqle) {
 			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			System.out.println(sqle.getMessage());
+			System.out.println(sqle.toString());
 		} finally {
 			if (connection != null) {
 				try {

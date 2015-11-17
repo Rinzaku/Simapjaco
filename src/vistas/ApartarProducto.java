@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -39,6 +40,7 @@ public class ApartarProducto extends JFrame {
 	private JTextField textResta;
 	private JTextField textFolio;
 	private Apartar apartar;
+	private JFrame ventanApartar;
 	/**
 	 * Launch the application.
 	 */
@@ -64,7 +66,9 @@ public class ApartarProducto extends JFrame {
 	 * @param descripcion 
 	 * @param modelo 
 	 */
-	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio) {
+	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa) {
+		ventanApartar=this;
+		apartar = new Apartar();
 		setTitle("Apartar producto");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 549, 354);
@@ -86,7 +90,7 @@ public class ApartarProducto extends JFrame {
 		contentPane.add(lblFecha, "cell 5 0");
 		
 		JLabel etiquetaFecha = new JLabel();
-		etiquetaFecha.setText("16/11/2015");
+		etiquetaFecha.setText(apartar.fecha());
 		etiquetaFecha.setForeground(Color.WHITE);
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 7 0");
@@ -152,8 +156,7 @@ public class ApartarProducto extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode()==KeyEvent.VK_ENTER) {
 					String cuenta;
-					Apartar apart=new Apartar();
-					cuenta=apart.diferencia(Double.parseDouble(textPrecio.getText()),Double.parseDouble(textCuenta.getText()));
+					cuenta=apartar.diferencia(Double.parseDouble(textPrecio.getText()),Double.parseDouble(textCuenta.getText()));
 					textResta.setText(cuenta);
 					
 				}
@@ -180,6 +183,23 @@ public class ApartarProducto extends JFrame {
 		JButton buttonListo = new JButton("");
 		
 		buttonListo.setBackground(new Color(51, 0, 204));
+		buttonListo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean bdn=false;
+				bdn=apartar.apartarProducto(modelo, descripcion, talla, color, precio,etiquetaFecha.getText(), Double.parseDouble(textResta.getText()),idModelo,ropa);
+				if (bdn) {
+					JOptionPane.showMessageDialog(null, "Apartado exitoso");
+					ventanApartar.dispose();
+					
+				}else{
+					JOptionPane.showMessageDialog(null, "A ocurrido un error");
+					ventanApartar.dispose();
+				}
+				
+			}
+		});
 		buttonListo.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/ok32.png")));
 		contentPane.add(buttonListo, "cell 0 12 3 1,grow");
 		
