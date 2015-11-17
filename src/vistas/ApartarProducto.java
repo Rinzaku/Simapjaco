@@ -6,16 +6,26 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Color;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+
+import controllers.Apartar;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ApartarProducto extends JFrame {
 
@@ -28,27 +38,33 @@ public class ApartarProducto extends JFrame {
 	private JTextField textCuenta;
 	private JTextField textResta;
 	private JTextField textFolio;
-
+	private Apartar apartar;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ApartarProducto frame = new ApartarProducto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ApartarProducto frame = new ApartarProducto();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
+	 * @param precio 
+	 * @param cantidad 
+	 * @param color 
+	 * @param talla 
+	 * @param descripcion 
+	 * @param modelo 
 	 */
-	public ApartarProducto() {
+	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio) {
 		setTitle("Apartar producto");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 549, 354);
@@ -69,7 +85,10 @@ public class ApartarProducto extends JFrame {
 		lblFecha.setForeground(Color.WHITE);
 		contentPane.add(lblFecha, "cell 5 0");
 		
-		JLabel etiquetaFecha = new JLabel("New label");
+		JLabel etiquetaFecha = new JLabel();
+		etiquetaFecha.setText("16/11/2015");
+		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 7 0");
 		
 		JLabel lblModelo = new JLabel("Modelo :");
@@ -77,7 +96,7 @@ public class ApartarProducto extends JFrame {
 		lblModelo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblModelo, "cell 0 1,alignx right,aligny top");
 		
-		textModelo = new JTextField();
+		textModelo = new JTextField(modelo);
 		textModelo.setEditable(false);
 		contentPane.add(textModelo, "cell 2 1,alignx left,aligny bottom");
 		textModelo.setColumns(10);
@@ -87,7 +106,7 @@ public class ApartarProducto extends JFrame {
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblDescripcion, "cell 0 2,alignx left,aligny top");
 		
-		textDescripcion = new JTextField();
+		textDescripcion = new JTextField(descripcion);
 		textDescripcion.setEditable(false);
 		contentPane.add(textDescripcion, "cell 2 2,alignx left,aligny bottom");
 		textDescripcion.setColumns(10);
@@ -97,7 +116,7 @@ public class ApartarProducto extends JFrame {
 		lblTalla.setForeground(Color.WHITE);
 		contentPane.add(lblTalla, "cell 0 3,alignx right,aligny top");
 		
-		textTalla = new JTextField();
+		textTalla = new JTextField(talla);
 		textTalla.setEditable(false);
 		contentPane.add(textTalla, "cell 2 3,alignx left,aligny bottom");
 		textTalla.setColumns(10);
@@ -107,7 +126,7 @@ public class ApartarProducto extends JFrame {
 		lblColor.setForeground(Color.WHITE);
 		contentPane.add(lblColor, "cell 0 4,alignx right,aligny top");
 		
-		textColor = new JTextField();
+		textColor = new JTextField(color);
 		textColor.setEditable(false);
 		contentPane.add(textColor, "cell 2 4,alignx left,aligny bottom");
 		textColor.setColumns(10);
@@ -117,7 +136,7 @@ public class ApartarProducto extends JFrame {
 		lblPrecio.setForeground(Color.WHITE);
 		contentPane.add(lblPrecio, "cell 0 5,alignx right,aligny top");
 		
-		textPrecio = new JTextField();
+		textPrecio = new JTextField(precio);
 		textPrecio.setEditable(false);
 		contentPane.add(textPrecio, "cell 2 5,alignx left,aligny bottom");
 		textPrecio.setColumns(10);
@@ -128,6 +147,18 @@ public class ApartarProducto extends JFrame {
 		contentPane.add(lblACuenta, "cell 0 7,alignx right,aligny top");
 		
 		textCuenta = new JTextField();
+		textCuenta.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode()==KeyEvent.VK_ENTER) {
+					String cuenta;
+					Apartar apart=new Apartar();
+					cuenta=apart.diferencia(Double.parseDouble(textPrecio.getText()),Double.parseDouble(textCuenta.getText()));
+					textResta.setText(cuenta);
+					
+				}
+			}
+		});
 		contentPane.add(textCuenta, "cell 2 7,alignx left,aligny bottom");
 		textCuenta.setColumns(10);
 		
@@ -157,7 +188,7 @@ public class ApartarProducto extends JFrame {
 		buttonCancelar.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/error32.png")));
 		contentPane.add(buttonCancelar, "cell 3 12 4 1,grow");
 		
-		textFolio = new JTextField();
+		textFolio = new JTextField(folio);
 		contentPane.add(textFolio, "cell 3 0,alignx left,aligny bottom");
 		textFolio.setColumns(10);
 	}

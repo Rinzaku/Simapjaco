@@ -35,6 +35,13 @@ import java.awt.Dimension;
 
 
 
+
+
+
+
+
+
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -53,6 +60,13 @@ import java.awt.SystemColor;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+
+
+
+
+
+
+
 
 
 
@@ -416,7 +430,7 @@ public class Ventana_ventas extends JFrame {
 		
 		tableVentas.setBackground(new Color(176, 224, 226));
 		tableVentas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
-		tableVentas.setSelectionBackground(Color.MAGENTA);
+		tableVentas.setSelectionBackground(Color.cyan);
 		tableVentas.setRowHeight(17);		
 		JPopupMenu menuTabla = new JPopupMenu();
 		
@@ -456,8 +470,22 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				//System.out.println("Apartar:"+" "+e.getClickCount());
-				ApartarProducto apartar=new ApartarProducto();
-				apartar.setVisible(true);
+				if(tableVentas.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(null, "Selecciona una fila");
+				}else{
+
+					int pos =tableVentas.getSelectedRow();
+					String folio=txtFolio.getText();
+					String modelo= (String) tableVentas.getValueAt(pos, 0);
+					String  descripcion =(String) tableVentas.getValueAt(pos,1);
+					String talla =(String) tableVentas.getValueAt(pos,2);
+					String Color =(String) tableVentas.getValueAt(pos, 3);
+					String precio=(String) tableVentas.getValueAt(pos,5);
+
+					ApartarProducto apartarProd =new ApartarProducto(modelo,descripcion,talla,Color,precio,folio);
+					apartarProd.setVisible(true);
+
+				}
 			}
 		});
 		menuTabla.add(mntmApartar);

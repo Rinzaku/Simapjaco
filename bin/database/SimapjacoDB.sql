@@ -102,6 +102,8 @@ CREATE TABLE IF NOT EXISTS `Ventas` (
   `fecha` VARCHAR(45) NOT NULL COMMENT '',
   `no_articulos` INT NOT NULL COMMENT '',
   `precio_total` DOUBLE NOT NULL COMMENT '',
+  `estado` VARCHAR(25) NOT NULL COMMENT '',
+  `abono` DOUBLE NOT NULL COMMENT '',
   PRIMARY KEY (`id_ventas`)  COMMENT '')
 ENGINE = InnoDB;
 
