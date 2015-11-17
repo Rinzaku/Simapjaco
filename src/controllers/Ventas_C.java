@@ -46,19 +46,7 @@ public class Ventas_C {
 		return productos;
 	}
 	
-	public boolean finaliza_venta(String fecha, int no_articulos, double total, ArrayList<Integer> modelos){
-		int id_venta=0;
-		boolean exito = false;
-		id_venta = creaVenta(fecha,no_articulos,total);
-		if(id_venta==-1){
-			exito = creaDetalleVenta(id_venta,modelos);
-			if(exito) return true;
-			else return false;
-		}else
-			return false;
-	}
-	
-	private int creaVenta(String fecha, int no_articulos, double total) {
+	public int creaVenta(String fecha, int no_articulos, double total) {
 		int id=0;
 		Ventas_model vmodel = new Ventas_model();
 		Ventas venta = new Ventas();
@@ -66,17 +54,33 @@ public class Ventas_C {
 		venta.setFecha(fecha);
 		venta.setNo_articulos(no_articulos);
 		venta.setTotal_venta(total);
+		venta.setEstado("FINALIZADA");
+		venta.setAbono(0);
 		
 		id=vmodel.insert_venta(venta);
 		
 		return id;
 	}
 
-	private boolean creaDetalleVenta(int id_venta, ArrayList<Integer> modelos) {
+	public boolean creaDetalleVenta(int id_venta,int id_modelo,int id_ropa,int cantidad, double precio) {
 		Detalle_Venta_model dvmodel = new Detalle_Venta_model();
-		Detalle_Venta detalle;
+		int id_detalle=0;
+		Detalle_Venta detalle = new Detalle_Venta();
+		detalle.setId_venta(id_venta);
+		detalle.setId_modelo(id_modelo);
+		detalle.setId_ropa(id_ropa);
+		detalle.setCantidad_articulos(cantidad);
+		detalle.setPrecio_unitario(precio);
+		detalle.setEstado("VENDIDO");
 		
-		return false;
+		id_detalle=dvmodel.insert_detalle_venta(detalle);
+		
+		if (id_detalle<0) {
+			return false;
+		} else {
+			return true;
+		}
+		
 	}
 
 	public String[] obten_precios(){
