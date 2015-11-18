@@ -161,7 +161,7 @@ public class Ventana_ventas extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
-		
+		Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
 		ids_modelos = new ArrayList<Integer>();
 		ids_ropas = new ArrayList<Integer>();
@@ -482,7 +482,7 @@ public class Ventana_ventas extends JFrame {
 					String Color =(String) tableVentas.getValueAt(pos, 3);
 					String precio=(String) tableVentas.getValueAt(pos,5);
 
-					ApartarProducto apartarProd =new ApartarProducto(modelo,descripcion,talla,Color,precio,folio,ids_modelos.get(0),ids_ropas.get(0));
+					ApartarProducto apartarProd =new ApartarProducto(modelo,descripcion,talla,Color,precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV);
 					apartarProd.setVisible(true);
 
 				}
@@ -659,6 +659,45 @@ public class Ventana_ventas extends JFrame {
 				}
 			}
 		});
+		
+		textFieldRecibido.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+					if (!textFieldRecibido.getText().isEmpty()) {
+						double cambio =controlador_ventas.cambio(Double.parseDouble(textFieldRecibido.getText()), Double.parseDouble(txtTotal.getText()));
+						textFieldCambio.setText(""+cambio);
+						JOptionPane.showMessageDialog(null,"Venta realizada\n cambio :"+cambio);
+						limpiaVentana();
+					}
+					
+				}
+			}
+		});
+	}
+	
+	
+	
+	public void limpiaVentana(){
+		
+		for (int i = tableVentas.getRowCount()-1; i>=0; i--) {
+			modelVentas.removeRow(i);	
+		}
+
+		txtFolio.setText(""+controlador_ventas.folio());
+		textFieldRecibido.setText("");
+		textFieldCambio.setText("");
+		txtTotal.setText("");
+		textFieldModelo.setText("");
+		textFieldColor.setText("");
+		textFieldTalla.setText("");
+
+		contentPane.remove(scrollBusqueda);
+		contentPane.updateUI();
+
+
+
 	}
 	
 }

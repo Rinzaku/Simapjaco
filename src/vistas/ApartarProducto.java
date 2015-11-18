@@ -41,6 +41,7 @@ public class ApartarProducto extends JFrame {
 	private JTextField textFolio;
 	private Apartar apartar;
 	private JFrame ventanApartar;
+	private JFrame ventas;
 	/**
 	 * Launch the application.
 	 */
@@ -66,7 +67,7 @@ public class ApartarProducto extends JFrame {
 	 * @param descripcion 
 	 * @param modelo 
 	 */
-	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa) {
+	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa,Ventana_ventas ventas) {
 		ventanApartar=this;
 		apartar = new Apartar();
 		setTitle("Apartar producto");
@@ -192,10 +193,12 @@ public class ApartarProducto extends JFrame {
 				if (bdn) {
 					JOptionPane.showMessageDialog(null, "Apartado exitoso");
 					ventanApartar.dispose();
+					ventas.limpiaVentana(); 
 					
 				}else{
 					JOptionPane.showMessageDialog(null, "A ocurrido un error");
 					ventanApartar.dispose();
+					ventas.limpiaVentana(); 
 				}
 				
 			}

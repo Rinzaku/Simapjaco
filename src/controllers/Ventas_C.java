@@ -104,4 +104,9 @@ public class Ventas_C {
 		int folio = vmodel.ultima_fila() + 1;
 		return folio;
 	}
+	
+	public double cambio(double recibido, double total){
+		return recibido-total;
+	}
 }
+
