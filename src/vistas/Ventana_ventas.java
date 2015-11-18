@@ -565,6 +565,15 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				JOptionPane.showMessageDialog(null, "Finalizar venta");
+				int total_articulos=0;
+				for (int k = 0; k < tableVentas.getRowCount(); k++) {
+					total_articulos+=Integer.parseInt(modelVentas.getValueAt(k, 4).toString());
+				}
+//				for (int i = 0; i < tableVentas.getRowCount(); i++) {
+//					for (int j = 0; j < tableVentas.getColumnCount(); j++) {
+//						
+//					}
+//				}
 				
 				
 			}
