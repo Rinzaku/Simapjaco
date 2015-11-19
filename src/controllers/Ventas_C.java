@@ -64,6 +64,15 @@ public class Ventas_C {
 
 	public boolean creaDetalleVenta(int id_venta,int id_modelo,int id_ropa,int cantidad, double precio) {
 		Detalle_Venta_model dvmodel = new Detalle_Venta_model();
+		Modelo_model mmodel = new Modelo_model();
+		Ropa_model rmodel = new Ropa_model();
+		
+		Modelo modelo = mmodel.find_modelo(id_modelo);
+		Ropa ropa = rmodel.find_ropa(id_ropa);
+		
+		int existencias_ropa = ropa.getExistencias();
+		int existencias_modelo = modelo.getExistencias();
+		
 		int id_detalle=0;
 		Detalle_Venta detalle = new Detalle_Venta();
 		detalle.setId_venta(id_venta);
@@ -74,6 +83,8 @@ public class Ventas_C {
 		detalle.setEstado("VENDIDO");
 		
 		id_detalle=dvmodel.insert_detalle_venta(detalle);
+		mmodel.update_modelo(id_modelo, existencias_modelo-cantidad);
+		rmodel.update_ropa(id_ropa, existencias_ropa-cantidad);
 		
 		if (id_detalle<0) {
 			return false;

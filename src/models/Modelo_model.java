@@ -178,7 +178,7 @@ public class Modelo_model {
 	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
 	public boolean update_modelo(int id_modelo, int existencias){
-		String query = "UPDATE modelo SET existencias="+existencias+" WHERE id_ropa="+id_modelo;
+		String query = "UPDATE modelo SET existencias="+existencias+" WHERE id_modelo="+id_modelo;
 		try {
 			
 			connection = MySQLConnection.getConnection();

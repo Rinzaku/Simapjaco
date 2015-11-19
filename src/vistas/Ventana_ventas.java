@@ -242,7 +242,7 @@ public class Ventana_ventas extends JFrame {
 							contentPane.remove(scrollBusqueda);
 						}
 						String modelo = textFieldModelo.getText();
-						
+						textFieldModelo.setText("");
 						datosBusqueda = controlador_ventas.busca_modelo(modelo);
 						
 						System.out.println(Arrays.deepToString(datosBusqueda));
@@ -341,7 +341,7 @@ public class Ventana_ventas extends JFrame {
 							contentPane.remove(scrollBusqueda);
 						}
 						String modelo = textFieldModelo.getText();
-						
+						textFieldModelo.setText("");
 						datosBusqueda = controlador_ventas.busca_modelo(modelo);
 						System.out.println(Arrays.deepToString(datosBusqueda));
 						
@@ -566,14 +566,25 @@ public class Ventana_ventas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 //				JOptionPane.showMessageDialog(null, "Finalizar venta");
 				int total_articulos=0;
+				int id_ventas=0;
+				boolean exito=false;
 				for (int k = 0; k < tableVentas.getRowCount(); k++) {
 					total_articulos+=Integer.parseInt(modelVentas.getValueAt(k, 4).toString());
 				}
-//				for (int i = 0; i < tableVentas.getRowCount(); i++) {
-//					for (int j = 0; j < tableVentas.getColumnCount(); j++) {
-//						
-//					}
-//				}
+				id_ventas = controlador_ventas.creaVenta(etiquetaFecha.getText(), total_articulos, Double.parseDouble(txtTotal.getText()));
+				if(id_ventas>0){
+					for (int i = 0; i < tableVentas.getRowCount(); i++) {
+						exito=controlador_ventas.creaDetalleVenta(id_ventas, ids_modelos.get(i), ids_ropas.get(i), Integer.parseInt(modelVentas.getValueAt(i, 4).toString()), Double.parseDouble((modelVentas.getValueAt(i, 5).toString())));
+						if(!exito) break;
+					}
+					if(exito)
+						JOptionPane.showMessageDialog(null, "Venta realizada exitosamente");
+					else
+						JOptionPane.showMessageDialog(null, "A ourrido un error. No se ha podido crear la venta");
+				}else{
+					JOptionPane.showMessageDialog(null, "A ourrido un error. No se ha podido crear la venta");
+				}
+				limpiaVentana();
 				
 				
 			}
@@ -668,8 +679,10 @@ public class Ventana_ventas extends JFrame {
 					if (!textFieldRecibido.getText().isEmpty()) {
 						double cambio =controlador_ventas.cambio(Double.parseDouble(textFieldRecibido.getText()), Double.parseDouble(txtTotal.getText()));
 						textFieldCambio.setText(""+cambio);
-						JOptionPane.showMessageDialog(null,"Venta realizada\n cambio :"+cambio);
-						limpiaVentana();
+//						JOptionPane.showMessageDialog(null,"Venta realizada\n cambio :"+cambio);
+//						limpiaVentana();
+						contentPane.remove(scrollBusqueda);
+						contentPane.updateUI();
 					}
 					
 				}

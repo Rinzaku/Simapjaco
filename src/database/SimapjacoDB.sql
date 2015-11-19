@@ -151,14 +151,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 /* INSERTS ROPA                                                 */
 /*==============================================================*/
 
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('pantalon','pantalon de mezclilla para caballero', 15,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('falda','falda de vestir para dama', 25,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('blusa','blusa para dama', 10,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('vestido','vestido de vestir par dama', 30,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera polo para caballero', 15,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera sport para caballero', 25,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('chamarra','chamarra de piel caballero', 25,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('zapatos','zapatos para dama', 10,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('pantalon','pantalon de mezclilla para caballero', 50,floor(RAND()*(500-1)+100));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('falda','falda de vestir para dama', 50,floor(RAND()*(500-1)+100));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('blusa','blusa para dama', 50,floor(RAND()*(500-1)+1));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('vestido','vestido de vestir par dama', 50,floor(RAND()*(500-1)+100));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera polo para caballero', 50,floor(RAND()*(500-1)+100));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera sport para caballero', 50,floor(RAND()*(500-1)+100));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('chamarra','chamarra de piel caballero', 50,floor(RAND()*(500-1)+100));
+INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('zapatos','zapatos para dama', 50,floor(RAND()*(500-1)+100));
 
 /*==============================================================*/
 /* INSERTS CATALOGO COLOR                                       */
@@ -209,7 +209,7 @@ CREATE PROCEDURE insert_modelo()
   BEGIN 
     DECLARE a INT Default 1;
     simple_loop:LOOP
-      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(50-1)+1),'ACTIVO');  
+      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+1),'ACTIVO');  
       SET a=a+1;
       IF a=101 THEN
         LEAVE simple_loop;
