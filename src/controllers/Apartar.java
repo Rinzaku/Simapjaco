@@ -72,6 +72,33 @@ public class Apartar {
 		return ""+resta1;
 	}
 	
+	public boolean abono(int folio,double abono){
+		Ventas_model update =new  Ventas_model();
+		
+		if (update.update_venta(folio, abono)) 
+			return true;
+
+		else
+			return false;
+	}
+	
+	
+	public String  buscaModelo (int folio){
+		Ventas venta;
+		Ventas_model vtnModel=new Ventas_model();
+		venta =vtnModel.find_venta(folio);
+		if (venta!=null) {
+			
+			String abono =""+venta.getAbono();
+			return (abono);
+			
+		}
+		else{
+			return null;
+		}
+		
+	}
+	
 
 }
 

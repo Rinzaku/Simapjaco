@@ -102,7 +102,7 @@ public class Ventas_model {
 	 */
 	public Ventas find_venta(int id_venta){
 		Ventas venta=null;
-		String query = "SELECT * FROM ventas WHERE id_venta="+id_venta;
+		String query = "SELECT * FROM ventas WHERE id_ventas="+id_venta;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -110,7 +110,7 @@ public class Ventas_model {
 			rs = statement.executeQuery(query);
 			if(rs.next()){
 				 venta = new Ventas();
-				 venta.setId_venta(rs.getInt("id_venta"));
+				 venta.setId_venta(rs.getInt("id_ventas"));
 				 venta.setFecha(rs.getString("fecha"));
 				 venta.setNo_articulos(rs.getInt("no_articulos"));
 				 venta.setTotal_venta(rs.getDouble("precio_total"));
@@ -140,7 +140,7 @@ public class Ventas_model {
 	 * @return <b>true</b> si la venta se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
 	public boolean update_venta(int id_venta,double abono){
-		String query = "UPDATE ventas SET abono="+abono+" WHERE id_venta="+id_venta;
+		String query = "UPDATE ventas SET abono="+abono+" WHERE id_ventas="+id_venta;
 		try {
 			
 			connection = MySQLConnection.getConnection();
