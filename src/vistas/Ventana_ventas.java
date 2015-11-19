@@ -237,38 +237,7 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyChar() == '\n'){
-					if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
-						if(bandera){
-							contentPane.remove(scrollBusqueda);
-						}
-						String modelo = textFieldModelo.getText();
-						textFieldModelo.setText("");
-						datosBusqueda = controlador_ventas.busca_modelo(modelo);
-						
-						System.out.println(Arrays.deepToString(datosBusqueda));
-						
-						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
-							@Override
-							public boolean isCellEditable(int row, int col){
-								return false;
-							}
-						};
-						tableBusqueda = new JTable(modelBusqueda);	
-						tableBusqueda.setBackground(new Color(176, 224, 230));
-						tableBusqueda.isCellEditable(0,	0);
-						
-						scrollBusqueda= new JScrollPane(tableBusqueda);
-						scrollBusqueda.setPreferredSize(new Dimension(400, 150));
-						
-						contentPane.add(scrollBusqueda, "cell 0 8,grow ");
-						scrollBusqueda.setVisible(true);
-						
-						contentPane.updateUI();
-						bandera = true;
-						addMouseClick();
-					}else{
-						JOptionPane.showMessageDialog(null, "Ingresa un modelo");
-					}
+					ejecuta_busqueda();
 				}
 			}
 		});
@@ -296,6 +265,14 @@ public class Ventana_ventas extends JFrame {
 		
 		textFieldColor = new JTextField();
 		textFieldColor.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldColor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n'){
+					ejecuta_busqueda();
+				}
+			}
+		});
 		textFieldColor.setColumns(10);
 		GridBagConstraints gbc_textFieldColor = new GridBagConstraints();
 		gbc_textFieldColor.anchor = GridBagConstraints.EAST;
@@ -320,6 +297,14 @@ public class Ventana_ventas extends JFrame {
 		
 		textFieldTalla = new JTextField();
 		textFieldTalla.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldTalla.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n'){
+					ejecuta_busqueda();
+				}
+			}
+		});
 		textFieldTalla.setColumns(10);
 		GridBagConstraints gbc_textFieldTalla = new GridBagConstraints();
 		gbc_textFieldTalla.anchor = GridBagConstraints.EAST;
@@ -336,38 +321,7 @@ public class Ventana_ventas extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount()==1) {
-					if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
-						if(bandera){
-							contentPane.remove(scrollBusqueda);
-						}
-						String modelo = textFieldModelo.getText();
-						textFieldModelo.setText("");
-						datosBusqueda = controlador_ventas.busca_modelo(modelo);
-						System.out.println(Arrays.deepToString(datosBusqueda));
-						
-						modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
-							@Override
-							public boolean isCellEditable(int row, int col){
-								return false;
-							}
-						};
-						tableBusqueda = new JTable(modelBusqueda);
-						tableBusqueda.setBackground(new Color(176, 224, 230));
-						
-						scrollBusqueda= new JScrollPane(tableBusqueda);
-						scrollBusqueda.setPreferredSize(new Dimension(400, 150));
-						
-						contentPane.add(scrollBusqueda, "cell 0 8,grow ");
-						scrollBusqueda.setVisible(true);
-						
-						contentPane.updateUI();
-						bandera = true;
-						addMouseClick();
-					}else{
-						JOptionPane.showMessageDialog(null, "Ingresa un modelo");
-					}
-					
-					
+					ejecuta_busqueda();
 				}
 			}
 		});
@@ -690,8 +644,6 @@ public class Ventana_ventas extends JFrame {
 		});
 	}
 	
-	
-	
 	public void limpiaVentana(){
 		
 		for (int i = tableVentas.getRowCount()-1; i>=0; i--) {
@@ -711,6 +663,89 @@ public class Ventana_ventas extends JFrame {
 
 
 
+	}
+	
+	private void ejecuta_busqueda(){
+		if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
+			if(bandera){
+				contentPane.remove(scrollBusqueda);
+			}
+			String modelo = textFieldModelo.getText();
+			textFieldModelo.setText("");
+			textFieldColor.setText("");
+			textFieldTalla.setText("");
+			datosBusqueda = controlador_ventas.busca_modelo(modelo);
+			
+			
+		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()) {
+			if(bandera){
+				contentPane.remove(scrollBusqueda);
+			}
+			String modelo = textFieldModelo.getText();
+			String talla = textFieldTalla.getText();
+			textFieldModelo.setText("");
+			textFieldColor.setText("");
+			textFieldTalla.setText("");
+			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla, "");
+			
+		}else if (!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
+			if(bandera){
+				contentPane.remove(scrollBusqueda);
+			}
+			String modelo = textFieldModelo.getText();
+			String color = textFieldColor.getText();
+			textFieldModelo.setText("");
+			textFieldColor.setText("");
+			textFieldTalla.setText("");
+			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color);
+			
+		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
+			if(bandera){
+				contentPane.remove(scrollBusqueda);
+			}
+			String modelo = textFieldModelo.getText();
+			String color = textFieldColor.getText();
+			String talla =textFieldTalla.getText();
+			textFieldModelo.setText("");
+			textFieldColor.setText("");
+			textFieldTalla.setText("");
+			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla, color);
+			
+		}else{
+			JOptionPane.showMessageDialog(null, "Ingresa un modelo");
+			if(bandera){
+				contentPane.remove(scrollBusqueda);
+				contentPane.updateUI();
+				bandera = false;
+			}
+			return;
+		}
+		System.out.println(Arrays.deepToString(datosBusqueda));
+		
+		pinta_productos();
+		addMouseClick();
+	}
+	
+	private void pinta_productos() {
+		modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
+			@Override
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
+		tableBusqueda = new JTable(modelBusqueda);	
+		tableBusqueda.setBackground(new Color(176, 224, 230));
+		tableBusqueda.isCellEditable(0,	0);
+		
+		scrollBusqueda= new JScrollPane(tableBusqueda);
+		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
+		
+		contentPane.add(scrollBusqueda, "cell 0 8,grow ");
+		scrollBusqueda.setVisible(true);
+		
+		contentPane.updateUI();
+		bandera = true;
+		
 	}
 	
 }

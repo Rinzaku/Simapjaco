@@ -10,17 +10,24 @@ import javax.swing.JFrame;
 
 public class Ventas_C {
 	
+	Modelo_model mmodel;
+	Talla_model tmodel;
+	Color_model cmodel;
+	Ropa_model rmodel;
+	
 	String[] precios;
 	int[][] identificadores;
+	ArrayList<Modelo> lista;
+	String[][] productos;
 	
 	public String[][] busca_modelo(String modelo){
-		Modelo_model mmodel = new Modelo_model();
-		Talla_model tmodel = new Talla_model();
-		Color_model cmodel = new Color_model();
-		Ropa_model rmodel =  new Ropa_model();
+		mmodel = new Modelo_model();
+		tmodel = new Talla_model();
+		cmodel = new Color_model();
+		rmodel =  new Ropa_model();
 		
-		ArrayList<Modelo> lista = mmodel.find_modelo(modelo);
-		String[][] productos = new String[lista.size()][];
+		lista = mmodel.find_modelo(modelo);
+		productos = new String[lista.size()][];
 		
 		precios= new String[lista.size()];
 		identificadores = new int[lista.size()][2];
@@ -39,13 +46,30 @@ public class Ventas_C {
 			precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 			identificadores[i][0]=m.getId_modelo();
 			identificadores[i][1]=m.getId_ropa();
-			System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
+//			System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 			i++;
 		}
 		
 		return productos;
 	}
 	
+	public String[][] busca_modelo(String modelo, String talla, String color){
+		mmodel = new Modelo_model();
+		tmodel = new Talla_model();
+		cmodel = new Color_model();
+		rmodel =  new Ropa_model();
+		
+		productos = null;
+		if (talla.compareTo("")==0) {
+			productos = busca_modelo_color(modelo, color);
+		}else if (color.compareTo("")==0) {
+			productos = busca_modelo_talla(modelo,talla);
+		}else {
+			productos = busca_modelo_talla_color(modelo,talla,color);
+		}
+		return productos;
+	}
+
 	public int creaVenta(String fecha, int no_articulos, double total) {
 		int id=0;
 		Ventas_model vmodel = new Ventas_model();
@@ -101,6 +125,7 @@ public class Ventas_C {
 	public int[][] obten_identificadores(){
 		return identificadores;
 	}
+	
 	public String fecha(){
 		Calendar calendario = new GregorianCalendar();
 		String day = Integer.toString(calendario.get(Calendar.DATE));
@@ -118,6 +143,127 @@ public class Ventas_C {
 	
 	public double cambio(double recibido, double total){
 		return recibido-total;
+	}
+	
+	private String[][] busca_modelo_color(String modelo, String color) {
+		lista = mmodel.find_modelo(modelo);
+		
+		precios= new String[lista.size()];
+		identificadores = new int[lista.size()][2];
+		
+		int i = 0;
+		for (Modelo m : lista) {
+			String color_model = cmodel.find_color(m.getId_color()).getColor();
+			if (color.compareTo(color_model)==0) {
+				i++;
+			}
+		}
+		
+		String[][] productos = new String[i][];
+		i=0;
+		for (Modelo m : lista) {
+			String color_model = cmodel.find_color(m.getId_color()).getColor();
+			if (color.compareTo(color_model)==0) {
+				String[] p = new String[6];
+				p[0] = modelo;
+				p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
+				p[2] = tmodel.find_talla(m.getId_talla()).getTalla();
+				p[3] = color_model;
+				p[4] = ""+m.getExistencias();
+				p[5] = m.getEstado();
+				productos[i]= p;
+				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
+				identificadores[i][0]=m.getId_modelo();
+				identificadores[i][1]=m.getId_ropa();
+//				System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
+				i++;
+			}
+		}
+		
+		return productos;
+	}
+
+	private String[][] busca_modelo_talla(String modelo, String talla) {
+		lista = mmodel.find_modelo(modelo);
+		
+		precios= new String[lista.size()];
+		identificadores = new int[lista.size()][2];
+		
+		int i = 0;
+		for (Modelo m : lista) {
+			String talla_model = tmodel.find_talla(m.getId_talla()).getTalla();
+			if (talla.compareTo(talla_model)==0) {
+				i++;
+			}
+		}
+		
+		String[][] productos = new String[i][];
+		i=0;
+		
+		for (Modelo m : lista) {
+			String talla_model = tmodel.find_talla(m.getId_talla()).getTalla();
+			if (talla.compareTo(talla_model)==0) {
+				String[] p = new String[6];
+				p[0] = modelo;
+				p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
+				p[2] = talla_model;
+				p[3] = cmodel.find_color(m.getId_color()).getColor();
+				p[4] = ""+m.getExistencias();
+				p[5] = m.getEstado();
+				productos[i]= p;
+				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
+				identificadores[i][0]=m.getId_modelo();
+				identificadores[i][1]=m.getId_ropa();
+//				System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
+				i++;
+			}
+		}
+		
+		return productos;
+	}
+
+	private String[][] busca_modelo_talla_color(String modelo, String talla,
+			String color) {
+		lista = mmodel.find_modelo(modelo);
+		
+		
+		
+		precios= new String[lista.size()];
+		identificadores = new int[lista.size()][2];
+		
+		int i = 0;
+		for (Modelo m : lista) {
+			String color_model = cmodel.find_color(m.getId_color()).getColor();
+			String talla_model = tmodel.find_talla(m.getId_talla()).getTalla();
+			if (color.compareTo(color_model)==0 && talla.compareTo(talla_model)==0) {
+				i++;
+			}
+		}
+		
+		String[][] productos = new String[i][];
+		i=0;
+		for (Modelo m : lista) {
+			String color_model = cmodel.find_color(m.getId_color()).getColor();
+			String talla_model = tmodel.find_talla(m.getId_talla()).getTalla();
+			if (color.compareTo(color_model)==0 && talla.compareTo(talla_model)==0) {
+				String[] p = new String[6];
+				p[0] = modelo;
+				p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
+				p[2] = talla_model;
+				p[3] = color_model;
+				p[4] = ""+m.getExistencias();
+				p[5] = m.getEstado();
+				productos[i]= p;
+				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
+				identificadores[i][0]=m.getId_modelo();
+				identificadores[i][1]=m.getId_ropa();
+//				System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
+				i++;
+			}
+			
+		}
+		
+		return productos;
 	}
 }
 
