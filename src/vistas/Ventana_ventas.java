@@ -368,8 +368,8 @@ public class Ventana_ventas extends JFrame {
 						System.out.println(tableVentas.getValueAt(tableVentas.getSelectedRow(), i));
 
 					}
-					ReporteDia dia=new ReporteDia();
-					dia.setVisible(true);
+//					ReporteDia dia=new ReporteDia();
+//					dia.setVisible(true);
 					
 				}
 				else{
@@ -397,9 +397,7 @@ public class Ventana_ventas extends JFrame {
 		mntmQuitar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-//				System.out.println("quitar"+" "+e.getClickCount());
 				
-//				JOptionPane.showMessageDialog(null, "Fila seleccionada "+tableVentas.getSelectedRow());
 				if(tableVentas.getSelectedRow()==-1){
 					JOptionPane.showMessageDialog(null, "Selecciona una fila");
 				}else{
@@ -409,8 +407,7 @@ public class Ventana_ventas extends JFrame {
 					txtTotal.setText(""+total);
 					
 					modelVentas.removeRow(tableVentas.getSelectedRow());
-//					ids_modelos.remove(tableVentas.getSelectedRow());
-//					ids_ropas.remove(tableVentas.getSelectedRow());
+					
 					
 				}
 				

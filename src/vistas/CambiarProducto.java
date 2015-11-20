@@ -12,20 +12,31 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 
+
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.Font;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JTextArea;
+
 import java.awt.SystemColor;
+
 import javax.swing.JScrollPane;
 import javax.swing.DropMode;
+
+import controllers.Cambio;
 
 public class CambiarProducto extends JFrame {
 	private JTextField textModeloVenta;
@@ -34,11 +45,16 @@ public class CambiarProducto extends JFrame {
 	private JTextField textPrecioCambio;
 	private JTextField textFolio;
 	private JTextField textDiferencia;
+	private JTextArea txtrdescripcionDeLa;
+	
+	private Cambio cambios;
 
 	/**
 	 * Create the frame.
 	 */
 	public CambiarProducto() {
+		cambios = new Cambio();
+		
 		setResizable(false);
 		getContentPane().setBackground(Color.BLACK);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Public\\Pictures\\Sample Pictures\\icon.jpg"));
@@ -46,7 +62,7 @@ public class CambiarProducto extends JFrame {
 		setTitle("Cambio de Producto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 715, 368);
-		getContentPane().setLayout(new MigLayout("", "[68px][10px][141px,grow][67px][68px][10px][141px,grow][1px]", "[][8.00][117.00px][-68.00px][][22px][20px][]"));
+		getContentPane().setLayout(new MigLayout("", "[68px][10px][141px,grow][67px][68px][10px][141px,grow][1px]", "[][8.00][117.00px][-68.00px][][22px][20px][][][]"));
 		
 		JLabel lblFolio = new JLabel("Folio :");
 		lblFolio.setForeground(Color.WHITE);
@@ -54,15 +70,30 @@ public class CambiarProducto extends JFrame {
 		getContentPane().add(lblFolio, "cell 0 0");
 		
 		textFolio = new JTextField();
+		textFolio.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent key) {
+				if (key.getKeyChar()=='\n') {
+					if (!textFolio.getText().trim().isEmpty()) {
+						int folio = Integer.parseInt(textFolio.getText());
+						String datos = cambios.obten_venta(folio);
+						txtrdescripcionDeLa.setText("Folio \t\t\t Fecha \t\t Total_articulos \t Total Venta \n"+datos);
+					} else {
+						JOptionPane.showMessageDialog(null, "Ingresa un folio de venta");
+					}
+					
+				}
+			}
+		});
 		getContentPane().add(textFolio, "cell 2 0,alignx left");
 		textFolio.setColumns(10);
 		
-		JLabel lblFecha = new JLabel("Fecha :");
+		JLabel lblFecha = new JLabel("Fecha : " + cambios.fecha());
 		lblFecha.setForeground(Color.WHITE);
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		getContentPane().add(lblFecha, "cell 3 0");
 		
-		JTextArea txtrdescripcionDeLa = new JTextArea();
+		txtrdescripcionDeLa = new JTextArea();
 		txtrdescripcionDeLa.setEditable(false);
 		txtrdescripcionDeLa.setFont(new Font("Monospaced", Font.BOLD | Font.ITALIC, 13));
 		txtrdescripcionDeLa.setText("*******************************Descripcion de la venta*******************************");
@@ -114,6 +145,20 @@ public class CambiarProducto extends JFrame {
 		textDiferencia.setEditable(false);
 		getContentPane().add(textDiferencia, "cell 6 7,growx");
 		textDiferencia.setColumns(10);
+		
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		getContentPane().add(btnAceptar, "cell 2 9,growx");
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		getContentPane().add(btnCancelar, "cell 4 9 2 1,growx");
 	}
 }
 

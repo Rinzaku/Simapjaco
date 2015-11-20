@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import instancias.*;
 import database.*;
@@ -12,7 +13,7 @@ import database.*;
  */
 public class Detalle_Venta_model {
 	
-//	private ArrayList<Ropa> detalles_ventas;
+	private ArrayList<Detalle_Venta> detalles_ventas;
 	private ResultSet rs;
 	private Connection connection;
 	private Statement statement; 
@@ -21,7 +22,7 @@ public class Detalle_Venta_model {
 	 * El constructor de la clase
 	 */
 	public Detalle_Venta_model(){
-//		detalles_ventas  = new ArrayList<Ropa>();
+		detalles_ventas  = new ArrayList<Detalle_Venta>();
 		rs = null;
 		connection = null;
 		statement = null;
@@ -63,7 +64,7 @@ public class Detalle_Venta_model {
 	 * @param id_venta El identificador de la venta
 	 * @return La venta correspondiente
 	 */
-	public Detalle_Venta find_detalle_venta(int id_venta){
+	public ArrayList<Detalle_Venta> find_detalle_venta(int id_venta){
 		Detalle_Venta dv = null;
 		String query = "SELECT * FROM detalle_venta WHERE id_venta="+id_venta;
 		try {
@@ -71,16 +72,17 @@ public class Detalle_Venta_model {
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
-			if(rs.next()){
+			while(rs.next()){
 				
 				dv = new Detalle_Venta();
 				dv.setId_detalle_venta(rs.getInt("id_detalle_venta"));
 				dv.setId_venta(rs.getInt("id_venta"));
 				dv.setId_modelo(rs.getInt("id_modelo"));
 				dv.setId_ropa(rs.getInt("id_ropa"));
-				dv.setCantidad_articulos(rs.getInt("cantidad articulo"));
+				dv.setCantidad_articulos(rs.getInt("cantidad_articulo"));
 				dv.setPrecio_unitario(rs.getInt("precio_unitario"));
 				dv.setEstado(rs.getString("estado"));
+				detalles_ventas.add(dv);
 				
 			}
 			
@@ -95,7 +97,7 @@ public class Detalle_Venta_model {
 				}
 			}
 		}
-		return dv;
+		return detalles_ventas;
 	}
 	
 	/**
