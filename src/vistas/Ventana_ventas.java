@@ -501,13 +501,19 @@ public class Ventana_ventas extends JFrame {
 				apartado.setVisible(true);
 			}
 		});
+		
+		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VentanaApartados vtnApartados =new VentanaApartados();
+				vtnApartados.setVisible(true);
+			}
+		});
+		button.setBackground(new Color(51, 0, 204));
+		button.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
+		panelBoton.add(button);
 		btnCambiarProd.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/cambio32.png")));
 		panelBoton.add(btnCambiarProd);
-		
-		JButton btnCancelar = new JButton("");
-		btnCancelar.setBackground(new Color(0, 51, 153));
-		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error32.png")));
-		panelBoton.add(btnCancelar);
 		
 		JButton btnFinalizar = new JButton("");
 		btnFinalizar.setBackground(new Color(0, 51, 153));
@@ -543,16 +549,10 @@ public class Ventana_ventas extends JFrame {
 		btnFinalizar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/ok32.png")));
 		panelBoton.add(btnFinalizar);
 		
-		JButton button = new JButton("");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				VentanaApartados vtnApartados =new VentanaApartados();
-				vtnApartados.setVisible(true);
-			}
-		});
-		button.setBackground(new Color(51, 0, 204));
-		button.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
-		panelBoton.add(button);
+		JButton btnCancelar = new JButton("");
+		btnCancelar.setBackground(new Color(0, 51, 153));
+		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error32.png")));
+		panelBoton.add(btnCancelar);
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {

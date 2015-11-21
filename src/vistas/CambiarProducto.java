@@ -62,12 +62,7 @@ public class CambiarProducto extends JFrame {
 		setTitle("Cambio de Producto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 715, 368);
-		getContentPane().setLayout(new MigLayout("", "[68px][10px][141px,grow][67px][68px][10px][141px,grow][1px]", "[][8.00][117.00px][-68.00px][][22px][20px][][][]"));
-		
-		JLabel lblFolio = new JLabel("Folio :");
-		lblFolio.setForeground(Color.WHITE);
-		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblFolio, "cell 0 0");
+		getContentPane().setLayout(new MigLayout("", "[68px][10px][141px,grow][74.00px][68px][10px][141px,grow][1px]", "[][8.00][117.00px][-68.00px][][22px][20px][][][]"));
 		
 		textFolio = new JTextField();
 		textFolio.addKeyListener(new KeyAdapter() {
@@ -85,13 +80,18 @@ public class CambiarProducto extends JFrame {
 				}
 			}
 		});
-		getContentPane().add(textFolio, "cell 2 0,alignx left");
+		
+		JLabel lblFolio = new JLabel("Folio :");
+		lblFolio.setForeground(Color.WHITE);
+		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
+		getContentPane().add(lblFolio, "cell 3 0,alignx right");
+		getContentPane().add(textFolio, "cell 4 0 2 1,alignx right");
 		textFolio.setColumns(10);
 		
 		JLabel lblFecha = new JLabel("Fecha : " + cambios.fecha());
 		lblFecha.setForeground(Color.WHITE);
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblFecha, "cell 3 0");
+		getContentPane().add(lblFecha, "cell 6 0,alignx right");
 		
 		txtrdescripcionDeLa = new JTextArea();
 		txtrdescripcionDeLa.setEditable(false);
@@ -147,10 +147,7 @@ public class CambiarProducto extends JFrame {
 		textDiferencia.setColumns(10);
 		
 		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
 		getContentPane().add(btnAceptar, "cell 2 9,growx");
 		
 		JButton btnCancelar = new JButton("Cancelar");

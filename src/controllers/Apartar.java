@@ -3,6 +3,8 @@ package controllers;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.itextpdf.text.log.SysoCounter;
+
 import models.Detalle_Venta_model;
 import models.Ventas_model;
 import instancias.Detalle_Venta;
@@ -87,8 +89,9 @@ public class Apartar {
 		Ventas venta;
 		Ventas_model vtnModel=new Ventas_model();
 		venta =vtnModel.find_venta(folio);
+		
 		if (venta!=null) {
-			
+		
 			String abono =""+venta.getAbono();
 			return (abono);
 			

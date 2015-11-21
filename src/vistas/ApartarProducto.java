@@ -27,21 +27,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
 
 public class ApartarProducto extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textModelo;
-	private JTextField textDescripcion;
 	private JTextField textTalla;
 	private JTextField textColor;
 	private JTextField textPrecio;
 	private JTextField textCuenta;
 	private JTextField textResta;
 	private JTextField textFolio;
+	private JButton buttonListo;
 	private Apartar apartar;
 	private JFrame ventanApartar;
-	private JFrame ventas;
+	private JTextField textDesc;
+
 	/**
 	 * Launch the application.
 	 */
@@ -78,7 +80,7 @@ public class ApartarProducto extends JFrame {
 		contentPane.setForeground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[97px][4px][114.00px][190px][12px][][][86px]", "[20px][20px][20px][20px][20px][20px][8px][20px][20px][8px][8px][11.00px][41px]"));
+		contentPane.setLayout(new MigLayout("", "[97px][4px][114.00px,grow][190px][12px][][][86px]", "[20px][20px][20px,grow][20px][20px][20px][8px][20px][20px][8px][8px][11.00px][41px]"));
 		
 		JLabel lblFolio = new JLabel("Folio :");
 		lblFolio.setForeground(Color.WHITE);
@@ -111,10 +113,9 @@ public class ApartarProducto extends JFrame {
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblDescripcion, "cell 0 2,alignx left,aligny top");
 		
-		textDescripcion = new JTextField(descripcion);
-		textDescripcion.setEditable(false);
-		contentPane.add(textDescripcion, "cell 2 2,alignx left,aligny bottom");
-		textDescripcion.setColumns(10);
+		textDesc = new JTextField(descripcion);
+		contentPane.add(textDesc, "cell 2 2,growx");
+		textDesc.setColumns(10);
 		
 		JLabel lblTalla = new JLabel("Talla :");
 		lblTalla.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -181,14 +182,30 @@ public class ApartarProducto extends JFrame {
 		contentPane.add(label, "cell 3 1 5 8,alignx center,aligny center");
 		
 		
-		JButton buttonListo = new JButton("");
+		buttonListo = new JButton("");
 		
 		buttonListo.setBackground(new Color(51, 0, 204));
+		
+		buttonListo.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/ok32.png")));
+		contentPane.add(buttonListo, "cell 0 12 3 1,grow");
+		
+		JButton buttonCancelar = new JButton("");
+		buttonCancelar.setBackground(new Color(51, 0, 204));
+		buttonCancelar.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/error32.png")));
+		contentPane.add(buttonCancelar, "cell 3 12 4 1,grow");
+		
+		textFolio = new JTextField(folio);
+		contentPane.add(textFolio, "cell 3 0,alignx left,aligny bottom");
+		textFolio.setColumns(10);
+		
 		buttonListo.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean bdn=false;
+				if (textCuenta.getText().isEmpty() && textResta.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Ingrese la cantidad para apartar el producto");
+				}
 				bdn=apartar.apartarProducto(modelo, descripcion, talla, color, precio,etiquetaFecha.getText(), Double.parseDouble(textResta.getText()),idModelo,ropa);
 				if (bdn) {
 					JOptionPane.showMessageDialog(null, "Apartado exitoso");
@@ -201,18 +218,9 @@ public class ApartarProducto extends JFrame {
 					ventas.limpiaVentana(); 
 				}
 				
+				
+				
 			}
 		});
-		buttonListo.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/ok32.png")));
-		contentPane.add(buttonListo, "cell 0 12 3 1,grow");
-		
-		JButton buttonCancelar = new JButton("");
-		buttonCancelar.setBackground(new Color(51, 0, 204));
-		buttonCancelar.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/error32.png")));
-		contentPane.add(buttonCancelar, "cell 3 12 4 1,grow");
-		
-		textFolio = new JTextField(folio);
-		contentPane.add(textFolio, "cell 3 0,alignx left,aligny bottom");
-		textFolio.setColumns(10);
 	}
 }
