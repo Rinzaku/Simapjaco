@@ -61,7 +61,7 @@ public class CambiarProducto extends JFrame {
 		
 		setTitle("Cambio de Producto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 715, 314);
+		setBounds(100, 100, 800, 350);
 		
 		textFolio = new JTextField();
 		textFolio.addKeyListener(new KeyAdapter() {
@@ -71,7 +71,7 @@ public class CambiarProducto extends JFrame {
 					if (!textFolio.getText().trim().isEmpty()) {
 						int folio = Integer.parseInt(textFolio.getText());
 						String datos = cambios.obten_venta(folio);
-						txtrdescripcionDeLa.setText("Folio \t\t\t Fecha \t\t Total_articulos \t Total Venta \n"+datos);
+						txtrdescripcionDeLa.setText("Folio \t Fecha \t\t Total artículos \t Total Venta \n"+datos);
 					} else {
 						JOptionPane.showMessageDialog(null, "Ingresa un folio de venta");
 					}
