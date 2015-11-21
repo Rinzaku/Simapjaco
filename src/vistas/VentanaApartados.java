@@ -58,94 +58,80 @@ public class VentanaApartados extends JFrame {
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new MigLayout("", "[57px][14px][142px][68px][18px][53px][8px][111px]", "[19px][48px][19.00px][18px][20px][18px][27px][41px]"));
 		
 		JLabel lblFecha = new JLabel("Fecha :");
-		lblFecha.setBounds(315, 12, 53, 19);
 		lblFecha.setForeground(Color.WHITE);
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblFecha.setBackground(Color.WHITE);
-		contentPane.add(lblFecha);
+		contentPane.add(lblFecha, "cell 5 0,alignx left,aligny top");
 		
 		JLabel etiquetaFecha = new JLabel(apat.fecha());
-		etiquetaFecha.setBounds(376, 12, 98, 19);
 		etiquetaFecha.setForeground(Color.WHITE);
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(etiquetaFecha);
+		contentPane.add(etiquetaFecha, "cell 7 0,alignx left,aligny top");
 		
 		JLabel lblModelo = new JLabel("Folio :");
-		lblModelo.setBounds(23, 48, 46, 19);
 		lblModelo.setForeground(Color.WHITE);
 		lblModelo.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblModelo);
+		contentPane.add(lblModelo, "cell 0 1,alignx right,aligny center");
 		
 		textFolio = new JTextField();
-		textFolio.setBounds(83, 47, 142, 20);
-		contentPane.add(textFolio);
+		contentPane.add(textFolio, "cell 2 1,growx,aligny center");
 		textFolio.setColumns(10);
 		
 		labelImage = new JLabel("");
-		labelImage.setBounds(235, 35, 62, 48);
 		
 		labelImage.setHorizontalAlignment(SwingConstants.CENTER);
 		labelImage.setIcon(new ImageIcon(VentanaApartados.class.getResource("/imagenes/search48.png")));
-		contentPane.add(labelImage);
+		contentPane.add(labelImage, "cell 3 1,growx,aligny top");
 		
 		JLabel lblResta = new JLabel("Resta :");
-		lblResta.setBounds(17, 108, 52, 19);
 		lblResta.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblResta.setForeground(Color.WHITE);
-		contentPane.add(lblResta);
+		contentPane.add(lblResta, "cell 0 3,alignx right,aligny bottom");
 		
 		textResta = new JTextField();
 		textResta.setEditable(false);
-		textResta.setBounds(83, 108, 142, 20);
-		contentPane.add(textResta);
+		contentPane.add(textResta, "cell 2 3,growx,aligny bottom");
 		textResta.setColumns(10);
 		
 		JLabel lblAbono = new JLabel("Abono :");
-		lblAbono.setBounds(14, 146, 55, 19);
 		lblAbono.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblAbono.setForeground(Color.WHITE);
-		contentPane.add(lblAbono);
+		contentPane.add(lblAbono, "cell 0 4,alignx right,aligny top");
 		
 		textAbono = new JTextField();
-		textAbono.setBounds(83, 146, 142, 20);
-		contentPane.add(textAbono);
+		contentPane.add(textAbono, "cell 2 4,growx,aligny top");
 		textAbono.setColumns(10);
 		
 		JLabel lblTotal = new JLabel("Total :");
-		lblTotal.setBounds(22, 184, 47, 19);
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblTotal.setForeground(Color.WHITE);
-		contentPane.add(lblTotal);
+		contentPane.add(lblTotal, "cell 0 5,alignx right,aligny top");
 		
 		textTotal = new JTextField();
 		textTotal.setEditable(false);
-		textTotal.setBounds(83, 184, 142, 20);
-		contentPane.add(textTotal);
+		contentPane.add(textTotal, "cell 2 5,growx,aligny top");
 		textTotal.setColumns(10);
 		
 		JLabel labelImagen = new JLabel("");
-		labelImagen.setBounds(315, 83, 172, 128);
 		labelImagen.setHorizontalAlignment(SwingConstants.CENTER);
 		labelImagen.setIcon(new ImageIcon(VentanaApartados.class.getResource("/imagenes/money215.png")));
-		contentPane.add(labelImagen);
+		contentPane.add(labelImagen, "cell 5 1 3 6,growx,aligny top");
 		
 		buttonCancelar = new JButton("");
-		buttonCancelar.setBounds(12, 228, 213, 41);
 		buttonCancelar.setBackground(new Color(51, 0, 204));
 		buttonCancelar.setForeground(new Color(51, 0, 204));
 		buttonCancelar.setIcon(new ImageIcon(VentanaApartados.class.getResource("/imagenes/error32.png")));
-		contentPane.add(buttonCancelar);
+		contentPane.add(buttonCancelar, "cell 0 7 3 1,growx,aligny top");
 		
 		buttonListo = new JButton("");
-		buttonListo.setBounds(229, 228, 258, 41);
 		buttonListo.setBackground(new Color(51, 0, 204));
 		buttonListo.setForeground(new Color(51, 0, 204));
 		buttonListo.setIcon(new ImageIcon(VentanaApartados.class.getResource("/imagenes/ok32.png")));
 		
-		contentPane.add(buttonListo);
+		contentPane.add(buttonListo, "cell 3 7 5 1,growx,aligny top");
 		
 		textFolio.addKeyListener(new KeyAdapter() {
 			@Override
