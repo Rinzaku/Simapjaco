@@ -61,6 +61,36 @@ public class Talla_model {
 	}
 	
 	/**
+	 * Inserta una talla  Ceci
+	 * @param talla
+	 * @return id_talla 
+	 */
+	
+	public int insert_talla(String talla){
+		int id_talla =-1;
+		String query = "INSERT INTO catalogo_talla(talla) VALUES('"+talla+"')";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			id_talla=ultima_fila();
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return id_talla;
+	}
+	
+	/**
 	 * Obtiene una lista con las tallas en la base de datos
 	 * @return Una lista con las tallas del catalogo
 	 */
@@ -127,6 +157,40 @@ public class Talla_model {
 		}
 		return talla;
 	}
+	
+	/**
+	 * Metodo para buscar una talla en la base de datos.
+	 * @param id_talla
+	 * @return id_talla
+	 */
+	public Talla find_talla(String tallaN){
+		Talla talla=null;
+		String query = "SELECT * FROM catalogo_talla WHERE talla='"+tallaN+"'";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if(rs.next()){
+				 talla = new Talla();
+				 talla.setId_talla(rs.getInt("id_talla"));
+				 talla.setTalla(rs.getString("talla"));;
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return talla;
+	}
+	
 	
 	/**
 	 * Actualiza la talla de un registro en a base de datos

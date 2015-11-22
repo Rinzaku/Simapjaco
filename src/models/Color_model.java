@@ -37,9 +37,34 @@ public class Color_model {
 	 * @param color El color a insertar en la base de datos
 	 * @return El indice del registro insertado
 	 */
-	public int insert_color(Color color){
+//	public int insert_color(Color color){
+//		int id_color =-1;
+//		String query = "INSERT INTO catalogo_color(color) VALUES('"+color.getColor()+"')";
+//		try {
+//			
+//			connection = MySQLConnection.getConnection();
+//			statement = connection.createStatement();
+//			statement.executeUpdate(query);
+//			id_color=ultima_fila();
+//			
+//		} catch (SQLException sqle) {
+//			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+//		} finally {
+//			if (connection != null) {
+//				try {
+//					connection.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return id_color;
+//	}
+	
+	
+	public int insert_color(String color){
 		int id_color =-1;
-		String query = "INSERT INTO catalogo_color(color) VALUES('"+color.getColor()+"')";
+		String query = "INSERT INTO catalogo_color(color) VALUES('"+color+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -61,11 +86,13 @@ public class Color_model {
 		return id_color;
 	}
 	
+	
+	
 	/**
 	 * Obtiene una lista con los colores en la base de datos
 	 * @return Una lista de los colores en la base de datos
 	 */
-	public ArrayList<Color> get_tallas(){
+	public ArrayList<Color> get_color(){
 		lista_color = new ArrayList<Color>();
 		Color color= null;
 		String query = "SELECT * FROM catalogo_color";
@@ -216,4 +243,53 @@ public class Color_model {
 		}
 		return max;
 	}
+	
+	/**
+	 * Regresa el id del color a buscar
+	 * @param id_color
+	 * @return
+	 */
+	public Color find_colorN(String colorN){
+		Color color=null;
+		String query = "SELECT * FROM catalogo_color WHERE color='"+colorN+"'";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if(rs.next()){
+				 color = new Color();
+				 color.setId_color(rs.getInt("id_color"));
+				 color.setColor(rs.getString("color"));;
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			System.out.println(sqle.getMessage());
+			System.out.println(sqle.toString());
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return color;
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+

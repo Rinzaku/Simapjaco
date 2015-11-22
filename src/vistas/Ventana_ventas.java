@@ -502,16 +502,16 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 		
-		JButton button = new JButton("");
-		button.addActionListener(new ActionListener() {
+		JButton buttonApartar = new JButton("");
+		buttonApartar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				VentanaApartados vtnApartados =new VentanaApartados();
 				vtnApartados.setVisible(true);
 			}
 		});
-		button.setBackground(new Color(51, 0, 204));
-		button.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
-		panelBoton.add(button);
+		buttonApartar.setBackground(new Color(51, 0, 204));
+		buttonApartar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
+		panelBoton.add(buttonApartar);
 		btnCambiarProd.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/cambio32.png")));
 		panelBoton.add(btnCambiarProd);
 		

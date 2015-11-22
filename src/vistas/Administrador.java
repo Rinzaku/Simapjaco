@@ -50,6 +50,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import controllers.Alta_producto;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -63,11 +65,9 @@ public class Administrador extends JFrame {
 	private JTextField textFieldTalla;
 	private JTable tableAdministrador;
 	DefaultTableModel model;
-	private String [][] datos={{"","","","","",""},
-							   {"","","","","",""},
-							   {"","","","","",""},
-							   {"","","","","",""},};
-	private String [] cabecera={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
+	private String [][] datos={{"","","","","","",""},
+							  };
+	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio"};
 
 	/**
 	 * Launch the application.
@@ -117,7 +117,7 @@ public class Administrador extends JFrame {
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[0.00][71px][-5.00][8.00][][][][][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[0.00][71px][-5.00][8.00][][][][][][][][grow]"));
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 153));
@@ -223,7 +223,7 @@ public class Administrador extends JFrame {
 		tableAdministrador.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent key) {
-				if ( key.getKeyCode() == KeyEvent.VK_TAB) {
+				if ( key.getKeyCode() == KeyEvent.VK_ENTER) {
 					model.addRow(new String[]{"","","","","",""});
 					tableAdministrador.setModel(model);
 				}
@@ -236,5 +236,40 @@ public class Administrador extends JFrame {
 		JScrollPane js_1=new JScrollPane (tableAdministrador);
 		contentPane.add(js_1, "cell 0 4,grow");
 		js_1.setPreferredSize(new Dimension(400, 250));
+		
+		JButton btnAltaProd = new JButton("");
+		btnAltaProd.setBackground(new Color(51, 0, 204));
+		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
+		btnAltaProd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Alta_producto alP=new Alta_producto();
+				int filas=tableAdministrador.getRowCount();
+				//System.out.println("columnas"+filas);
+				for (int i = 0; i < filas; i++) {
+					String modelo=(String) tableAdministrador.getValueAt(i,0);
+					String nombreP=(String) tableAdministrador.getValueAt(i,1);
+					String descripcion=(String)tableAdministrador.getValueAt(i,2);
+					String talla=(String)tableAdministrador.getValueAt(i,3);
+					String color=(String)tableAdministrador.getValueAt(i,4);
+					double existencia=Double.parseDouble((String) tableAdministrador.getValueAt(i,5));
+					double precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
+					alP.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio);
+				}
+				
+				
+				
+				alP.altaProducto("201514", "bufanda", "tejida a mano", "unitalla", "beige",12,145);
+			}
+		});
+		contentPane.add(btnAltaProd, "cell 0 9,alignx right");
 	}
 }
+
+
+
+
+
+
+
+
+
