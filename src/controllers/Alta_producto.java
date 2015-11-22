@@ -1,8 +1,10 @@
 package controllers;
 
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import models.Color_model;
-import instancias.Ropa;
 import instancias.*;
 import models.*;
 /**
@@ -84,6 +86,15 @@ public boolean altaProducto(String modelo,String nombreP,String descripcion,Stri
 		return true;
 	}
 	
+}
+
+public String fecha(){
+	Calendar calendario = new GregorianCalendar();
+	String day = Integer.toString(calendario.get(Calendar.DATE));
+	String month = Integer.toString(calendario.get(Calendar.MONTH)+1);
+	String year = Integer.toString(calendario.get(Calendar.YEAR));
+	
+	return day+"/"+month+"/"+year;
 }
 
 

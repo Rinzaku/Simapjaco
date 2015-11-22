@@ -7,10 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
+
+
 
 import net.miginfocom.swing.MigLayout;
 
@@ -46,6 +44,7 @@ import javax.swing.SpringLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -65,6 +64,7 @@ public class Administrador extends JFrame {
 	private JTextField textFieldTalla;
 	private JTable tableAdministrador;
 	DefaultTableModel model;
+	private Alta_producto altaProducto;
 	private String [][] datos={{"","","","","","",""},
 							  };
 	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio"};
@@ -89,6 +89,7 @@ public class Administrador extends JFrame {
 	 * Create the frame.
 	 */
 	public Administrador() {
+		altaProducto=new Alta_producto();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1027, 480);
 		
@@ -117,11 +118,16 @@ public class Administrador extends JFrame {
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[0.00][71px][-5.00][8.00][][][][][][][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][0.00][71px][-5.00][8.00][][][][][][][][grow]"));
+		
+		JLabel lblFecha = new JLabel("Fecha :");
+		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(lblFecha, "flowx,cell 0 0,alignx right");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 153));
-		contentPane.add(panel, "cell 0 1,alignx center,aligny bottom");
+		contentPane.add(panel, "cell 0 2,alignx center,aligny bottom");
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
@@ -218,8 +224,45 @@ public class Administrador extends JFrame {
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
+		JLabel etiquetaFecha = new JLabel(altaProducto.fecha());
+		etiquetaFecha.setEnabled(false);
+		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(etiquetaFecha, "cell 0 0");
+		
 		model=new DefaultTableModel(datos,cabecera);
 		tableAdministrador = new JTable(model);
+		
+		tableAdministrador.setBackground(new Color(176, 224, 226));
+		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		
+		JScrollPane js_1=new JScrollPane (tableAdministrador);
+		contentPane.add(js_1, "cell 0 5,grow");
+		js_1.setPreferredSize(new Dimension(400, 250));
+		
+		JButton btnAltaProd = new JButton("");
+		btnAltaProd.setBackground(new Color(51, 0, 204));
+		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
+		contentPane.add(btnAltaProd, "cell 0 10,alignx right");
+
+		btnAltaProd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int filas=tableAdministrador.getRowCount();
+
+				for (int i = 0; i < filas; i++) {
+					String modelo=(String) tableAdministrador.getValueAt(i,0);
+					String nombreP=(String) tableAdministrador.getValueAt(i,1);
+					String descripcion=(String)tableAdministrador.getValueAt(i,2);
+					String talla=(String)tableAdministrador.getValueAt(i,3);
+					String color=(String)tableAdministrador.getValueAt(i,4);
+					double existencia=Double.parseDouble((String) tableAdministrador.getValueAt(i,5));
+					double precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
+					altaProducto.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio);
+				}
+			}
+		});
+
 		tableAdministrador.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent key) {
@@ -230,39 +273,7 @@ public class Administrador extends JFrame {
 
 			}
 		});
-		tableAdministrador.setBackground(new Color(176, 224, 226));
-		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		
-		JScrollPane js_1=new JScrollPane (tableAdministrador);
-		contentPane.add(js_1, "cell 0 4,grow");
-		js_1.setPreferredSize(new Dimension(400, 250));
-		
-		JButton btnAltaProd = new JButton("");
-		btnAltaProd.setBackground(new Color(51, 0, 204));
-		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
-		btnAltaProd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Alta_producto alP=new Alta_producto();
-				int filas=tableAdministrador.getRowCount();
-				//System.out.println("columnas"+filas);
-				for (int i = 0; i < filas; i++) {
-					String modelo=(String) tableAdministrador.getValueAt(i,0);
-					String nombreP=(String) tableAdministrador.getValueAt(i,1);
-					String descripcion=(String)tableAdministrador.getValueAt(i,2);
-					String talla=(String)tableAdministrador.getValueAt(i,3);
-					String color=(String)tableAdministrador.getValueAt(i,4);
-					double existencia=Double.parseDouble((String) tableAdministrador.getValueAt(i,5));
-					double precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
-					alP.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio);
-				}
-				
-				
-				
-				alP.altaProducto("201514", "bufanda", "tejida a mano", "unitalla", "beige",12,145);
-			}
-		});
-		contentPane.add(btnAltaProd, "cell 0 9,alignx right");
-	}
+	}//fin constructor
 }
 
 
