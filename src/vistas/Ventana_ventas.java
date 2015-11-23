@@ -100,6 +100,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
 import controllers.Ventas_C;
+import java.awt.Toolkit;
 
 public class Ventana_ventas extends JFrame {
 
@@ -161,6 +162,7 @@ public class Ventana_ventas extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
 		Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
 		ids_modelos = new ArrayList<Integer>();
@@ -481,7 +483,7 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnBotonAdmin = new JButton("");
-		btnBotonAdmin.setBackground(new Color(51, 0, 204));
+		btnBotonAdmin.setBackground(new Color(0, 51, 153));
 		btnBotonAdmin.setForeground(Color.WHITE);
 		btnBotonAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -509,7 +511,7 @@ public class Ventana_ventas extends JFrame {
 				vtnApartados.setVisible(true);
 			}
 		});
-		buttonApartar.setBackground(new Color(51, 0, 204));
+		buttonApartar.setBackground(new Color(0, 51, 153));
 		buttonApartar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/apartados.png")));
 		panelBoton.add(buttonApartar);
 		btnCambiarProd.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/cambio32.png")));

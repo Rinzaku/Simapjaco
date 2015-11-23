@@ -37,29 +37,29 @@ public class Color_model {
 	 * @param color El color a insertar en la base de datos
 	 * @return El indice del registro insertado
 	 */
-//	public int insert_color(Color color){
-//		int id_color =-1;
-//		String query = "INSERT INTO catalogo_color(color) VALUES('"+color.getColor()+"')";
-//		try {
-//			
-//			connection = MySQLConnection.getConnection();
-//			statement = connection.createStatement();
-//			statement.executeUpdate(query);
-//			id_color=ultima_fila();
-//			
-//		} catch (SQLException sqle) {
-//			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-//		} finally {
-//			if (connection != null) {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return id_color;
-//	}
+	public int insert_color(Color color){
+		int id_color =-1;
+		String query = "INSERT INTO catalogo_color(color) VALUES('"+color.getColor()+"')";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			id_color=ultima_fila();
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return id_color;
+	}
 	
 	
 	public int insert_color(String color){

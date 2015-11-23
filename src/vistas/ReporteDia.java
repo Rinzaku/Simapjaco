@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class ReporteDia extends JFrame {
 
@@ -32,6 +33,7 @@ public class ReporteDia extends JFrame {
 	 * Create the frame.
 	 */
 	public ReporteDia() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ReporteDia.class.getResource("/imagenes/Shopping48.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

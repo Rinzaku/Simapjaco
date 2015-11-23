@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
+import java.awt.Toolkit;
 
 public class ApartarProducto extends JFrame {
 
@@ -70,6 +71,7 @@ public class ApartarProducto extends JFrame {
 	 * @param modelo 
 	 */
 	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa,Ventana_ventas ventas) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ApartarProducto.class.getResource("/imagenes/Shopping48.png")));
 		ventanApartar=this;
 		apartar = new Apartar();
 		setTitle("Apartar producto");

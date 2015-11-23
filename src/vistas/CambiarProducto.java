@@ -73,7 +73,7 @@ public class CambiarProducto extends JFrame {
 		
 		setResizable(false);
 		getContentPane().setBackground(Color.BLACK);
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Public\\Pictures\\Sample Pictures\\icon.jpg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CambiarProducto.class.getResource("/imagenes/Shopping48.png")));
 		
 		setTitle("Cambio de Producto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

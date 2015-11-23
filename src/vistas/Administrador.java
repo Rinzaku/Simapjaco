@@ -12,6 +12,8 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -57,8 +59,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 import javax.swing.JComboBox;
+import java.awt.Toolkit;
 
 public class Administrador extends JFrame {
 
@@ -67,6 +71,7 @@ public class Administrador extends JFrame {
 	private JTextField textFieldColor;
 	private JTextField textFieldTalla;
 	private JTable tableAdministrador;
+	private JScrollPane ScrollAdministrador;
 	private JLabel lblNewBuscar;
 	DefaultTableModel model;
 	private Alta_producto altaProducto;
@@ -94,6 +99,7 @@ public class Administrador extends JFrame {
 	 * Create the frame.
 	 */
 	public Administrador() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagenes/Shopping48.png")));
 		altaProducto=new Alta_producto();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1027, 480);
@@ -237,12 +243,13 @@ public class Administrador extends JFrame {
 		contentPane.add(etiquetaFecha, "cell 0 0");
 		
 		model=new DefaultTableModel(datos,cabecera);
+		
 		tableAdministrador = new JTable(model);
 		
 		tableAdministrador.setBackground(new Color(176, 224, 226));
 		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		
-		JScrollPane ScrollAdministrador=new JScrollPane (tableAdministrador);
+		tableAdministrador.isCellEditable(0, 4);
+		ScrollAdministrador=new JScrollPane (tableAdministrador);
 		contentPane.add(ScrollAdministrador, "cell 0 5,grow");
 		ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
 		
@@ -253,12 +260,18 @@ public class Administrador extends JFrame {
 		DefaultCellEditor defaultCellEditor=new DefaultCellEditor(comboBox);
 		tableAdministrador.getColumnModel().getColumn(3).setCellEditor(defaultCellEditor);
 		
+		JButton btnUpdate = new JButton("");
+		btnUpdate.setBackground(new Color(0,51, 153));
+		btnUpdate.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/update.png")));
+		contentPane.add(btnUpdate, "flowx,cell 0 10,alignx center");
+		
 				
 		JButton btnAltaProd = new JButton("");
-		btnAltaProd.setBackground(new Color(51, 0, 204));
+		btnAltaProd.setBackground(new Color(0, 51, 153));
 		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
-		contentPane.add(btnAltaProd, "cell 0 10,alignx right");
-
+		contentPane.add(btnAltaProd, "cell 0 10,alignx center");
+		
+		
 		btnAltaProd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -291,10 +304,23 @@ public class Administrador extends JFrame {
 		lblNewBuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				altaProducto.buscarModel("123453", "10", "1");
+
+				if (!textFieldModelo.getText().isEmpty() && !textFieldColor.getText().isEmpty() && !textFieldTalla.getText().isEmpty()){
+					String [][] busqueda;
+					busqueda=altaProducto.buscarModel(textFieldModelo.getText(),textFieldTalla.getText(), textFieldColor.getText());
+					System.out.println(Arrays.deepToString(busqueda));
+					for (int i = 0; i < busqueda[0].length; i++) {
+						tableAdministrador.setValueAt(busqueda[0][i ],0, i);
+					}
+					
+				}
+				else if(!textFieldModelo.getText().isEmpty() && textFieldColor.getText().isEmpty() && !textFieldTalla.getText().isEmpty()){
+					altaProducto.buscarModeloMT(textFieldModelo.getText(),textFieldTalla.getText());
+				}
+				
 			}
 		});
-		
+
 	}//fin constructor
 	
 }

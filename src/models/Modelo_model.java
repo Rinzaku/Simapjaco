@@ -176,6 +176,47 @@ public class Modelo_model {
 	}
 	
 	/**
+	 * 
+	 */
+	
+	public ArrayList<Modelo>  find_modelo(String modelo,String talla){
+		Modelo modeloR=null;
+		lista_modelo=new ArrayList<Modelo>();
+		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla='"+talla+"'";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			System.out.println(rs.next());
+			if(rs.next()){
+				 modeloR = new Modelo();
+				 modeloR.setId_modelo(rs.getInt("id_modelo"));
+				 modeloR.setId_ropa(rs.getInt("id_ropa"));
+				 modeloR.setId_color(rs.getInt("id_color"));
+				 modeloR.setId_talla(rs.getInt("id_talla"));
+				 modeloR.setModelo(rs.getString("modelo"));
+				 modeloR.setExistencias(rs.getInt("existencias"));
+				 modeloR.setEstado(rs.getString("estado"));
+				 lista_modelo.add(modeloR);
+				
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lista_modelo;
+	}
+	
+	/**
 	 * Obtiene una lista de modelos en la base de datos
 	 * @param mod El modelo a buscar
 	 * @return La lista de modelos 

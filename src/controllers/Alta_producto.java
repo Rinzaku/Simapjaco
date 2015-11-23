@@ -2,10 +2,12 @@ package controllers;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import models.Color_model;
+import models.Modelo_model;
 import models.Talla_model;
 import instancias.*;
 import models.*;
@@ -112,14 +114,50 @@ public String [] tallas(){
 	
 }
 
-public void buscarModel(String modelo,String talla,String color){
+public String [][] buscarModel(String modelo,String talla,String color){
+	String [] models=new String[7];
+	String [][] model=new String [1][];
 	Modelo modelI;
 	Modelo_model modelM=new Modelo_model();
-	modelI=modelM.find_modelo(modelo, talla, color);
-	double precio=700.0;
-	Ropa_model Ropam=new Ropa_model();
-	Ropam.update_ropa(modelI.getId_ropa(),precio );
+	Talla_model tallaM=new Talla_model();
+	Talla tallaI=tallaM.find_talla(talla);
 	
+	Color_model colorM=new Color_model();
+	Color colorI=colorM.find_colorN(color);
+	
+	modelI=modelM.find_modelo(modelo, ""+tallaI.getId_talla(), ""+colorI.getId_color());
+	System.out.println(modelI);
+	Ropa_model ropaM=new Ropa_model();
+	
+	Ropa ropaI;
+	ropaI=ropaM.find_ropa(modelI.getId_ropa());
+	
+	
+	double precio=1000;
+	ropaM.update_ropa(modelI.getId_ropa(),precio );
+	
+	models[0]=modelo;
+	models[1]=ropaI.getPrenda();
+	models[2]=ropaI.getDescricion();
+	models[3]=tallaI.getTalla();
+	models[4]=colorI.getColor();
+	models[5]=""+ropaI.getExistencias();
+	models[6]=""+ropaI.getPrecio();
+	model[0]=models;
+	return model;
+	
+}
+
+public String [][] buscarModeloMT(String modelo, String talla){
+	Modelo_model modelM=new Modelo_model();
+	Modelo modelI;
+	ArrayList<Modelo> arrModel;
+	Talla_model tallaM=new Talla_model();
+	Talla tallaI=tallaM.find_talla(talla);
+	arrModel=modelM.find_modelo(modelo, ""+tallaI.getId_talla());
+	System.out.println(arrModel.size());
+	
+	return null;
 }
 
 

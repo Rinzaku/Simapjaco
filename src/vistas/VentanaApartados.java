@@ -29,6 +29,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class VentanaApartados extends JFrame {
 
@@ -47,6 +48,7 @@ public class VentanaApartados extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaApartados() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaApartados.class.getResource("/imagenes/Shopping48.png")));
 		ventanAparatdos=this;
 		apat=new Apartar();
 		setTitle("Apartados");
