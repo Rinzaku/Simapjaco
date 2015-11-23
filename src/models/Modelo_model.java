@@ -137,6 +137,43 @@ public class Modelo_model {
 		}
 		return modelo;
 	}
+	/**
+	 * Obtiene el modelo dado la talla y color
+	 * @param id_modelo
+	 * @return
+	 */
+	public Modelo find_modelo(String modelo,String talla,String color){
+		Modelo modeloR=null;
+		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla='"+talla+"' and id_color='"+color+"'";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if(rs.next()){
+				 modeloR = new Modelo();
+				 modeloR.setId_modelo(rs.getInt("id_modelo"));
+				 modeloR.setId_ropa(rs.getInt("id_ropa"));
+				 modeloR.setId_color(rs.getInt("id_color"));
+				 modeloR.setId_talla(rs.getInt("id_talla"));
+				 modeloR.setModelo(rs.getString("modelo"));
+				 modeloR.setExistencias(rs.getInt("existencias"));
+				 modeloR.setEstado(rs.getString("estado"));
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return modeloR;
+	}
 	
 	/**
 	 * Obtiene una lista de modelos en la base de datos

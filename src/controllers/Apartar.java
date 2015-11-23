@@ -1,13 +1,16 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.itextpdf.text.log.SysoCounter;
 
 import models.Detalle_Venta_model;
+import models.Talla_model;
 import models.Ventas_model;
 import instancias.Detalle_Venta;
+import instancias.Talla;
 import instancias.Ventas;
 
 public class Apartar {
@@ -101,6 +104,8 @@ public class Apartar {
 		}
 		
 	}
+	
+	
 	
 
 }

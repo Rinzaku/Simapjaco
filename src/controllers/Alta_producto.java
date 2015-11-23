@@ -1,10 +1,12 @@
 package controllers;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import models.Color_model;
+import models.Talla_model;
 import instancias.*;
 import models.*;
 /**
@@ -95,6 +97,29 @@ public String fecha(){
 	String year = Integer.toString(calendario.get(Calendar.YEAR));
 	
 	return day+"/"+month+"/"+year;
+}
+
+public String [] tallas(){
+	Talla_model tallaModel=new Talla_model();
+	ArrayList<Talla> tallaI=tallaModel.get_tallas();
+	String tallas[]=new String[tallaI.size()];
+	
+	for (int i = 0; i < tallaI.size(); i++) {
+		tallas[i]=tallaI.get(i).getTalla();
+	}
+
+	return tallas;
+	
+}
+
+public void buscarModel(String modelo,String talla,String color){
+	Modelo modelI;
+	Modelo_model modelM=new Modelo_model();
+	modelI=modelM.find_modelo(modelo, talla, color);
+	double precio=700.0;
+	Ropa_model Ropam=new Ropa_model();
+	Ropam.update_ropa(modelI.getId_ropa(),precio );
+	
 }
 
 

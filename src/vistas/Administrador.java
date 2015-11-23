@@ -3,10 +3,12 @@ package vistas;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
 
 
 
@@ -56,6 +58,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JComboBox;
+
 public class Administrador extends JFrame {
 
 	private JPanel contentPane;
@@ -63,6 +67,7 @@ public class Administrador extends JFrame {
 	private JTextField textFieldColor;
 	private JTextField textFieldTalla;
 	private JTable tableAdministrador;
+	private JLabel lblNewBuscar;
 	DefaultTableModel model;
 	private Alta_producto altaProducto;
 	private String [][] datos={{"","","","","","",""},
@@ -212,7 +217,8 @@ public class Administrador extends JFrame {
 		gbc_textFieldTalla.gridy = 1;
 		panel.add(textFieldTalla, gbc_textFieldTalla);
 		
-		JLabel lblNewBuscar = new JLabel("");
+		lblNewBuscar = new JLabel("");
+		
 		lblNewBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewBuscar.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/search64.png")));
 		GridBagConstraints gbc_lblNewBuscar = new GridBagConstraints();
@@ -236,10 +242,18 @@ public class Administrador extends JFrame {
 		tableAdministrador.setBackground(new Color(176, 224, 226));
 		tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		
-		JScrollPane js_1=new JScrollPane (tableAdministrador);
-		contentPane.add(js_1, "cell 0 5,grow");
-		js_1.setPreferredSize(new Dimension(400, 250));
+		JScrollPane ScrollAdministrador=new JScrollPane (tableAdministrador);
+		contentPane.add(ScrollAdministrador, "cell 0 5,grow");
+		ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
 		
+		JComboBox comboBox = new JComboBox(altaProducto.tallas());
+		comboBox.setBackground(Color.darkGray);
+		comboBox.setEditable(true);
+		comboBox.setForeground(Color.white);
+		DefaultCellEditor defaultCellEditor=new DefaultCellEditor(comboBox);
+		tableAdministrador.getColumnModel().getColumn(3).setCellEditor(defaultCellEditor);
+		
+				
 		JButton btnAltaProd = new JButton("");
 		btnAltaProd.setBackground(new Color(51, 0, 204));
 		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
@@ -273,7 +287,16 @@ public class Administrador extends JFrame {
 
 			}
 		});
+		
+		lblNewBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				altaProducto.buscarModel("123453", "10", "1");
+			}
+		});
+		
 	}//fin constructor
+	
 }
 
 
