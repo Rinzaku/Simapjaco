@@ -182,14 +182,14 @@ public class Modelo_model {
 	public ArrayList<Modelo>  find_modelo(String modelo,String talla){
 		Modelo modeloR=null;
 		lista_modelo=new ArrayList<Modelo>();
-		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla='"+talla+"'";
+		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla="+talla;
 		try {
 			
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
-			System.out.println(rs.next());
-			if(rs.next()){
+//			System.out.println(rs.next());
+			while(rs.next()){
 				 modeloR = new Modelo();
 				 modeloR.setId_modelo(rs.getInt("id_modelo"));
 				 modeloR.setId_ropa(rs.getInt("id_ropa"));

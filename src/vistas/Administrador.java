@@ -75,9 +75,12 @@ public class Administrador extends JFrame {
 	private JLabel lblNewBuscar;
 	DefaultTableModel model;
 	private Alta_producto altaProducto;
-	private String [][] datos={{"","","","","","",""},
-							  };
+//	private String [][] datos={{"","","","","","",""},
+//							  };
+	private String [][] datos;
 	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio"};
+	
+	private boolean bandera=false;
 
 	/**
 	 * Launch the application.
@@ -315,7 +318,40 @@ public class Administrador extends JFrame {
 					
 				}
 				else if(!textFieldModelo.getText().isEmpty() && textFieldColor.getText().isEmpty() && !textFieldTalla.getText().isEmpty()){
-					altaProducto.buscarModeloMT(textFieldModelo.getText(),textFieldTalla.getText());
+					
+					datos=altaProducto.buscarModeloMT(textFieldModelo.getText(),textFieldTalla.getText());
+//					if(bandera) 
+					contentPane.remove(ScrollAdministrador);
+					model = new DefaultTableModel(datos, cabecera);
+					tableAdministrador = new JTable(model);
+					
+					tableAdministrador.setBackground(new Color(176, 224, 226));
+					tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+					tableAdministrador.isCellEditable(0, 4);
+					ScrollAdministrador=new JScrollPane (tableAdministrador);
+					contentPane.add(ScrollAdministrador, "cell 0 5,grow");
+					ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
+					
+					JComboBox comboBox = new JComboBox(altaProducto.tallas());
+					comboBox.setBackground(Color.darkGray);
+					comboBox.setEditable(true);
+					comboBox.setForeground(Color.white);
+					DefaultCellEditor defaultCellEditor=new DefaultCellEditor(comboBox);
+					tableAdministrador.getColumnModel().getColumn(3).setCellEditor(defaultCellEditor);
+					
+//					tableAdministrador.addKeyListener(new KeyAdapter() {
+//						@Override
+//						public void keyPressed(KeyEvent key) {
+//							if ( key.getKeyCode() == KeyEvent.VK_ENTER) {
+//								model.addRow(new String[]{"","","","","",""});
+//								tableAdministrador.setModel(model);
+//							}
+//
+//						}
+//					});
+					
+					contentPane.updateUI();
+					bandera=true;
 				}
 				
 			}
