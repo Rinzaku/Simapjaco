@@ -339,17 +339,6 @@ public class Administrador extends JFrame {
 					DefaultCellEditor defaultCellEditor=new DefaultCellEditor(comboBox);
 					tableAdministrador.getColumnModel().getColumn(3).setCellEditor(defaultCellEditor);
 					
-//					tableAdministrador.addKeyListener(new KeyAdapter() {
-//						@Override
-//						public void keyPressed(KeyEvent key) {
-//							if ( key.getKeyCode() == KeyEvent.VK_ENTER) {
-//								model.addRow(new String[]{"","","","","",""});
-//								tableAdministrador.setModel(model);
-//							}
-//
-//						}
-//					});
-					
 					contentPane.updateUI();
 					bandera=true;
 				}
