@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `Modelo` (
   `modelo` VARCHAR(45) NOT NULL COMMENT '',
   `existencias` INT NOT NULL COMMENT '',
   `estado` VARCHAR(20) NOT NULL COMMENT '',
+  `foto` VARCHAR(200) NOT NULL COMMENT '',
   PRIMARY KEY (`id_modelo`, `id_ropa`)  COMMENT '',
   CONSTRAINT `fk_Modelo_Ropa`
     FOREIGN KEY (`id_ropa`)
@@ -119,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `Ventas` (
   `precio_total` DOUBLE NOT NULL COMMENT '',
   `estado` VARCHAR(25) NOT NULL COMMENT '',
   `abono` DOUBLE NOT NULL COMMENT '',
+  `descuento` DOUBLE NULL COMMENT '',
   PRIMARY KEY (`id_ventas`)  COMMENT '')
 ENGINE = InnoDB;
 
@@ -230,7 +232,7 @@ CREATE PROCEDURE insert_modelo()
   BEGIN 
     DECLARE a INT Default 1;
     simple_loop:LOOP
-      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+1),'ACTIVO');  
+      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado,foto) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+1),'ACTIVO','inserte direccion de foto aqui');  
       SET a=a+1;
       IF a=101 THEN
         LEAVE simple_loop;
