@@ -91,6 +91,21 @@ CREATE INDEX `fk_Modelo_Catalogo_color1_idx` ON `Modelo` (`id_color` ASC)  COMME
 
 CREATE INDEX `fk_Modelo_Catalogo_talla1_idx` ON `Modelo` (`id_talla` ASC)  COMMENT '';
 
+-- -----------------------------------------------------
+-- Table `Empleados`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Empleados` ;
+
+CREATE TABLE IF NOT EXISTS `Empleados` (
+  `id_empleado` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `nombre` VARCHAR(45) NOT NULL COMMENT '',
+  `apellidos` VARCHAR(45) NOT NULL COMMENT '',
+  `fecha_inicio` VARCHAR(45) NOT NULL COMMENT '',
+  `direccion` VARCHAR(100) NOT NULL COMMENT '',
+  `telefono` VARCHAR(45) NOT NULL COMMENT '',
+  PRIMARY KEY (`id_empleado`)  COMMENT '')
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `Ventas`
@@ -191,6 +206,12 @@ INSERT INTO catalogo_talla(talla) VALUES ('11-32');
 INSERT INTO catalogo_talla(talla) VALUES ('13-34');
 INSERT INTO catalogo_talla(talla) VALUES ('15-36');
 INSERT INTO catalogo_talla(talla) VALUES ('17-38');
+
+/*==============================================================*/
+/* INSERTS EMPLEADO                                             */
+/*==============================================================*/
+INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Francisco','Del Mazo Jeis','04/12/2015','Por mi casa','5512326545');
+INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Rosa','Melcacho Justino','04/12/2015','Por la UAM','5598563214');
 
 /*==============================================================*/
 /* INSERTS MODELO                                               */
