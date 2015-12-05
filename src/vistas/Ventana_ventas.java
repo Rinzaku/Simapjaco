@@ -101,6 +101,8 @@ import javax.swing.UIManager;
 
 import controllers.Ventas_C;
 import java.awt.Toolkit;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class Ventana_ventas extends JFrame {
 
@@ -139,6 +141,7 @@ public class Ventana_ventas extends JFrame {
 	private JLabel etiquetaFecha;
 	private JTextField textFieldRecibido;
 	private JTextField textFieldCambio;
+	private JTextField textFieldEmpleado;
 
 	
 	  
@@ -162,6 +165,7 @@ public class Ventana_ventas extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
 		Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
@@ -174,7 +178,7 @@ public class Ventana_ventas extends JFrame {
 		contentPane.setBackground(SystemColor.black);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][76.00px][27.00px][][29.00][29.00][29.00,grow,top][21.00][grow][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][][76.00px][27.00px][][29.00][][][29.00][29.00,grow,top][21.00][grow][][grow]"));
 		
 		JLabel lblFolio = new JLabel("Folio:");
 		lblFolio.setForeground(Color.WHITE);
@@ -197,11 +201,20 @@ public class Ventana_ventas extends JFrame {
 		etiquetaFecha.setForeground(Color.WHITE);
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 0 0,alignx right");
+		
+		JLabel lblNewLabel = new JLabel("N\u00B0 Empleado");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel.setForeground(Color.WHITE);
+		contentPane.add(lblNewLabel, "flowx,cell 0 1,alignx right");
+		
+		textFieldEmpleado = new JTextField();
+		contentPane.add(textFieldEmpleado, "cell 0 1,alignx right");
+		textFieldEmpleado.setColumns(10);
 //		textFieldFecha.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 153));
-		contentPane.add(panel, "cell 0 1,alignx center,aligny bottom");
+		contentPane.add(panel, "cell 0 2,alignx center,aligny bottom");
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
@@ -232,7 +245,7 @@ public class Ventana_ventas extends JFrame {
 		gbc_lblModelo.gridx = 0;
 		gbc_lblModelo.gridy = 1;
 		panel.add(lblModelo, gbc_lblModelo);
-		
+		//pinta_productos();
 		textFieldModelo = new JTextField();
 		textFieldModelo.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFieldModelo.addKeyListener(new KeyAdapter() {
@@ -442,44 +455,44 @@ public class Ventana_ventas extends JFrame {
 			}
 		});
 		menuTabla.add(mntmApartar);
-		contentPane.add(scrollVentas, "cell 0 3,grow");
-		scrollVentas.setPreferredSize(new Dimension(400, 150));
+		contentPane.add(scrollVentas, "cell 0 4,grow");
+		scrollVentas.setPreferredSize(new Dimension(350, 150));
 		
 		JLabel lblTotal = new JLabel("Total:  $");
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblTotal, "flowx,cell 0 4,alignx right");
+		contentPane.add(lblTotal, "flowx,cell 0 5,alignx right");
 		
 		txtTotal = new JTextField();
 		txtTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTotal.setEditable(false);
-		contentPane.add(txtTotal, "cell 0 4,alignx right,aligny center");
+		contentPane.add(txtTotal, "cell 0 5,alignx right,aligny center");
 		txtTotal.setColumns(10);
 		
 		JLabel lbelRecibido = new JLabel("Recibido:  $");
 		lbelRecibido.setForeground(Color.WHITE);
 		lbelRecibido.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lbelRecibido, "flowx,cell 0 5,alignx right,aligny top");
+		contentPane.add(lbelRecibido, "flowx,cell 0 8,alignx right,aligny top");
 		
 		textFieldRecibido = new JTextField();
 		textFieldRecibido.setHorizontalAlignment(SwingConstants.RIGHT);
-		contentPane.add(textFieldRecibido, "cell 0 5,alignx right,aligny top");
+		contentPane.add(textFieldRecibido, "cell 0 8,alignx right,aligny top");
 		textFieldRecibido.setColumns(10);
 		
 		JLabel lblCambio = new JLabel("Cambio:  $");
 		lblCambio.setForeground(Color.WHITE);
 		lblCambio.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblCambio, "flowx,cell 0 6,alignx right");
+		contentPane.add(lblCambio, "flowx,cell 0 9,alignx right");
 		
 		textFieldCambio = new JTextField();
 		textFieldCambio.setHorizontalAlignment(SwingConstants.RIGHT);
-		contentPane.add(textFieldCambio, "cell 0 6,alignx right,aligny top");
+		contentPane.add(textFieldCambio, "cell 0 9,alignx right,aligny top");
 		textFieldCambio.setColumns(10);
 
 		
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(SystemColor.black);
-		contentPane.add(panelBoton, "cell 0 9 1 2,growx,aligny bottom");
+		contentPane.add(panelBoton, "cell 0 12 1 2,growx,aligny bottom");
 		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnBotonAdmin = new JButton("");
@@ -555,6 +568,18 @@ public class Ventana_ventas extends JFrame {
 		btnCancelar.setBackground(new Color(0, 51, 153));
 		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error32.png")));
 		panelBoton.add(btnCancelar);
+		
+		JLabel lblNewLabel_1 = new JLabel("Descuento %:");
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(lblNewLabel_1, "flowx,cell 0 6,alignx right");
+		
+		JComboBox comboDescuento = new JComboBox();
+		comboDescuento.setFont(new Font("Tahoma", Font.BOLD, 11));
+		comboDescuento.setBackground(Color.WHITE);
+		comboDescuento.setForeground(Color.BLACK);
+		comboDescuento.setModel(new DefaultComboBoxModel(new String[] {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"}));
+		contentPane.add(comboDescuento, "cell 0 6,alignx right");
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -739,7 +764,7 @@ public class Ventana_ventas extends JFrame {
 		scrollBusqueda= new JScrollPane(tableBusqueda);
 		scrollBusqueda.setPreferredSize(new Dimension(400, 150));
 		
-		contentPane.add(scrollBusqueda, "cell 0 8,grow ");
+		contentPane.add(scrollBusqueda, "cell 0 11,grow");
 		scrollBusqueda.setVisible(true);
 		
 		contentPane.updateUI();

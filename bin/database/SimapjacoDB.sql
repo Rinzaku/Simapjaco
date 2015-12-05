@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `Modelo` (
   `modelo` VARCHAR(45) NOT NULL COMMENT '',
   `existencias` INT NOT NULL COMMENT '',
   `estado` VARCHAR(20) NOT NULL COMMENT '',
+  `foto` VARCHAR(200) NOT NULL COMMENT '',
   PRIMARY KEY (`id_modelo`, `id_ropa`)  COMMENT '',
   CONSTRAINT `fk_Modelo_Ropa`
     FOREIGN KEY (`id_ropa`)
@@ -91,6 +92,21 @@ CREATE INDEX `fk_Modelo_Catalogo_color1_idx` ON `Modelo` (`id_color` ASC)  COMME
 
 CREATE INDEX `fk_Modelo_Catalogo_talla1_idx` ON `Modelo` (`id_talla` ASC)  COMMENT '';
 
+-- -----------------------------------------------------
+-- Table `Empleados`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Empleados` ;
+
+CREATE TABLE IF NOT EXISTS `Empleados` (
+  `id_empleado` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `nombre` VARCHAR(45) NOT NULL COMMENT '',
+  `apellidos` VARCHAR(45) NOT NULL COMMENT '',
+  `fecha_inicio` VARCHAR(45) NOT NULL COMMENT '',
+  `direccion` VARCHAR(100) NOT NULL COMMENT '',
+  `telefono` VARCHAR(45) NOT NULL COMMENT '',
+  PRIMARY KEY (`id_empleado`)  COMMENT '')
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `Ventas`
@@ -104,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `Ventas` (
   `precio_total` DOUBLE NOT NULL COMMENT '',
   `estado` VARCHAR(25) NOT NULL COMMENT '',
   `abono` DOUBLE NOT NULL COMMENT '',
+  `descuento` DOUBLE NULL COMMENT '',
   PRIMARY KEY (`id_ventas`)  COMMENT '')
 ENGINE = InnoDB;
 
@@ -193,6 +210,12 @@ INSERT INTO catalogo_talla(talla) VALUES ('15-36');
 INSERT INTO catalogo_talla(talla) VALUES ('17-38');
 
 /*==============================================================*/
+/* INSERTS EMPLEADO                                             */
+/*==============================================================*/
+INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Francisco','Del Mazo Jeis','04/12/2015','Por mi casa','5512326545');
+INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Rosa','Melcacho Justino','04/12/2015','Por la UAM','5598563214');
+
+/*==============================================================*/
 /* INSERTS MODELO                                               */
 /*==============================================================*/
 -- DO $$
@@ -209,7 +232,7 @@ CREATE PROCEDURE insert_modelo()
   BEGIN 
     DECLARE a INT Default 1;
     simple_loop:LOOP
-      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+1),'ACTIVO');  
+      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado,foto) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+1),'ACTIVO','inserte direccion de foto aqui');  
       SET a=a+1;
       IF a=101 THEN
         LEAVE simple_loop;
