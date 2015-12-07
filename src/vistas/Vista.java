@@ -29,7 +29,7 @@ public class Vista extends JFrame {
 	private DefaultTableModel model;
 	
 	private String[][] datos;
-	private String[] cabecera = {"","","","","",""};
+	private String[] cabecera = {"Modelo","Descripcion","Talla","Color","Cantidad","Precio"};
 	/**
 	 * Launch the application.
 	 */
@@ -67,6 +67,13 @@ public class Vista extends JFrame {
 			public void keyTyped(KeyEvent key) {
 				if(key.getKeyChar()=='\n'){
 //					JOptionPane.showConfirmDialog(null, "Hecho");
+					if (!textField.getText().isEmpty()) {
+//						datos = 
+						scrollPane = new JScrollPane();
+						contentPane.add(scrollPane, "cell 0 3,grow");
+					}else{
+						JOptionPane.showConfirmDialog(null, "POr favor ingresa un modelos");
+					}
 					
 				}
 			}
@@ -74,8 +81,6 @@ public class Vista extends JFrame {
 		contentPane.add(textField, "cell 0 1");
 		textField.setColumns(10);
 		
-		scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "cell 0 3,grow");
 	}
 
 }

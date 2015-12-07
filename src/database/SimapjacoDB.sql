@@ -115,15 +115,22 @@ DROP TABLE IF EXISTS `Ventas` ;
 
 CREATE TABLE IF NOT EXISTS `Ventas` (
   `id_ventas` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `id_empleado` INT(11) NOT NULL COMMENT '',
   `fecha` VARCHAR(45) NOT NULL COMMENT '',
   `no_articulos` INT NOT NULL COMMENT '',
   `precio_total` DOUBLE NOT NULL COMMENT '',
   `estado` VARCHAR(25) NOT NULL COMMENT '',
   `abono` DOUBLE NOT NULL COMMENT '',
   `descuento` DOUBLE NULL COMMENT '',
-  PRIMARY KEY (`id_ventas`)  COMMENT '')
+  PRIMARY KEY (`id_ventas`)  COMMENT '',
+  CONSTRAINT `fk_ventas_empleados1`
+    FOREIGN KEY (`id_empleado`)
+    REFERENCES `Empleados` (`id_empleado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE INDEX `fk_ventas_empleados1_idx` ON `Ventas` (`id_empleado` ASC)  COMMENT '';
 
 -- -----------------------------------------------------
 -- Table `Detalle_venta`
