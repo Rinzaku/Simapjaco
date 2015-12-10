@@ -75,7 +75,7 @@ public class Administrador extends JFrame {
 	private JLabel lblNewBuscar;
 	DefaultTableModel model;
 	private Alta_producto altaProducto;
-//	private String [][] datos={{"","","","","","",""},
+	//private String [][] datos={{"","","","","","",""},
 //							  };
 	private String [][] datos;
 	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio"};

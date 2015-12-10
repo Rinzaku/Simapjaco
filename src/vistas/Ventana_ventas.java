@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
+
 
 
 
@@ -76,6 +78,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -100,12 +103,26 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
 import controllers.Ventas_C;
+
 import java.awt.Toolkit;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class Ventana_ventas extends JFrame {
 
+	private class ImageV extends JFrame{
+		private JPanel panel;
+		
+		
+		private ImageV(){
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			setBounds(100, 100, 450, 300);
+			panel=new JPanel();
+			
+			
+		}
+	}
 
 	private JPanel contentPane;
 	private JTextField textFieldModelo;
@@ -694,6 +711,8 @@ public class Ventana_ventas extends JFrame {
 			if(bandera){
 				contentPane.remove(scrollBusqueda);
 			}
+			ImageV ventanaImage=new ImageV();
+			ventanaImage.setVisible(true);
 			String modelo = textFieldModelo.getText();
 			textFieldModelo.setText("");
 			textFieldColor.setText("");
