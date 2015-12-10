@@ -26,7 +26,7 @@ public class Cambio {
 		detalles = dvmodel.find_detalle_venta(id_venta);
 		String descripcion = "";
 		
-		descripcion = ventas.getId_venta()+" \t "+ventas.getFecha()+" \t "+ventas.getNo_articulos()+" \t\t "+ventas.getTotal_venta()+" \n";
+		descripcion = ventas.getId_venta()+" \t "+ventas.getFecha()+" \t\t "+ventas.getNo_articulos()+" \t\t "+ventas.getTotal_venta()+" \n";
 //		descripcion += "\nModelo \t Descripción \t\t\t\t No. artículos \t Precio unitario \t Estado \n";
 //		for (Detalle_Venta detalle_venta : detalles) {
 //			String desc = rmodel.find_ropa(detalle_venta.getId_ropa()).getDescricion();

@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,6 +24,9 @@ import javax.swing.JButton;
 
 
 
+
+
+import javax.swing.SwingUtilities;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -53,6 +58,12 @@ import javax.swing.DropMode;
 import controllers.Cambio;
 
 import javax.swing.JTable;
+
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
+import java.util.Arrays;
 
 public class CambiarProducto extends JFrame {
 	
@@ -135,30 +146,62 @@ public class CambiarProducto extends JFrame {
 					if(click.getClickCount()==2){
 //						JOptionPane.showMessageDialog(null, "Docle click");
 						int renglon = tablaModelo.getSelectedRow();
-						double precio = Double.parseDouble(model.getValueAt(renglon, 5).toString());
+//						double precio = Double.parseDouble(model.getValueAt(renglon, 5).toString());
 						double precioProducto = Double.parseDouble(modelCambios.getValueAt(renglonCambio, 3).toString());
-						double diferencia = precioProducto-precio;
+//						double diferencia = precioProducto-precio;
+						double diferencia=0, precio;
+//						textModeloCambio.setText(model.getValueAt(renglon, 0).toString());
+						String[][] datos = {{model.getValueAt(renglon, 0).toString(),model.getValueAt(renglon, 1).toString(),""+1,model.getValueAt(renglon, 5).toString()}};
 						
-						textModeloCambio.setText(model.getValueAt(renglon, 0).toString());
-						txtColor.setText(model.getValueAt(renglon, 3).toString());
-						txtTalla.setText(model.getValueAt(renglon, 2).toString());
-						textPrecioCambio.setText(""+precio);
-						if (diferencia<=0) {
-							textDiferencia.setText(""+Math.abs(diferencia));
-							v.dispose();
-						}else{
-							JOptionPane.showMessageDialog(null, "El producto no puede costar menos que el producto a cambio");
+						if(bandera2==2){
+							System.out.println("Ya esta la tabla");
+							datosTablaCambio = datos;
+							modeloCambio.addRow(datos[0]);
+							scrollCambio.updateUI();
+							
+						}else if(bandera2==0){
+//							System.out.println("Entre al else");
+							datosTablaCambio = datos;
+							modeloCambio = new DefaultTableModel(datosTablaCambio,cabeceraCambio){
+								@Override
+								public boolean isCellEditable(int row, int col){
+									return col==2 ? true:false;
+								}
+							};
+							
+							tablaCambio = new JTable(modeloCambio);
+							tablaCambio.setBackground(new Color(176, 224, 230));
+							
+							bandera2=1;
+							
 						}
+						
+						precio=0;
+						for (int i = 0; i < modeloCambio.getRowCount(); i++) {
+							precio += Double.parseDouble(modeloCambio.getValueAt(i, 3).toString());
+						}
+						
+						diferencia = precio - precioProducto;
+						dif = diferencia;
+						textDiferencia.setText(""+diferencia);
+						v.dispose();
+						
+//						if (diferencia<=0) {
+////							v.setVisible(false);
+//						}else{
+//							JOptionPane.showMessageDialog(null, "El producto no puede costar menos que el producto a cambio");
+//						}
 						
 					}
 				}
 			});
 		}
+		
 
 	}
 	
 	private JTextField textModeloCambio;
-	private JTextField textPrecioCambio;
+//	private JTextField textPrecioCambio;
 	private JTextField textFolio;
 	private JTextField textDiferencia;
 	private JTextArea textAreaDatosVenta;
@@ -170,19 +213,54 @@ public class CambiarProducto extends JFrame {
 
 	private String [] cabecera = {"Modelo", "Descripcion","No. articulos", "Precio unitario", "Estado"};
 	private String [][] datostable;
-	private boolean bandera=false;
-	private JTextField txtColor;
-	private JTextField txtTalla;
+	
+	private DefaultTableModel modeloCambio;
+	private String[] cabeceraCambio={"Modelo", "Descripcion","No. articulos", "Precio unitario"};
+	private String[][] datosTablaCambio;
+	private JTable tablaCambio;
+	private JScrollPane scrollCambio;
+	private boolean bandera1=false;
+	private int bandera2=0;
+//	private JTextField txtColor;
+//	private JTextField txtTalla;
 	
 	private JButton btnAceptar;
 	
+	
 	private int renglonCambio=-1;
+	
+	private double dif=0;
+	private double total=0;
 	/**
 	 * Create the frame.
 	 */
 	public CambiarProducto() {
-		CambiarProducto cp = this;
 		cambios = new Cambio();
+		CambiarProducto cp = this;
+		cp.addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent arg0) {
+				System.out.println("Ventana gano el enfoque");
+				if(bandera2==1){
+					
+					scrollCambio = new JScrollPane(tablaCambio);
+					scrollCambio.setPreferredSize(new Dimension(300, 100));
+					
+					agregaEscuchaTablaCambio();
+					
+					cp.getContentPane().add(scrollCambio, "cell 0 8 9 2,grow");
+					scrollCambio.setVisible(true);
+					
+					SwingUtilities.updateComponentTreeUI(cp);
+					bandera2=2;
+//					System.out.println("Diferencia: "+dif);
+					if (dif<0) {
+						JOptionPane.showMessageDialog(cp, "Recuerda que debes llevar una o mas prendas que cubran el costo\nde la prenda a devolver");
+					}
+				}
+			}
+			public void windowLostFocus(WindowEvent arg0) {
+			}
+		});
 		
 		setResizable(false);
 		getContentPane().setBackground(Color.BLACK);
@@ -190,7 +268,7 @@ public class CambiarProducto extends JFrame {
 		
 		setTitle("Cambio de Producto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 810, 380);
+		setBounds(100, 100, 810, 449);
 		
 		textFolio = new JTextField();
 		textFolio.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -199,7 +277,7 @@ public class CambiarProducto extends JFrame {
 			public void keyTyped(KeyEvent key) {
 				if (key.getKeyChar()=='\n') {
 					if (!textFolio.getText().trim().isEmpty()) {
-						if (bandera) {
+						if (bandera1) {
 							getContentPane().remove(scrollCambios);
 						} 
 						
@@ -228,12 +306,12 @@ public class CambiarProducto extends JFrame {
 						});
 						
 						scrollCambios = new JScrollPane(tableCambios);
-						scrollCambios.setPreferredSize(new Dimension(400, 150));
-						System.out.println(bandera);
-						getContentPane().add(scrollCambios,"cell 0 2 9 12,grow");
+						scrollCambios.setPreferredSize(new Dimension(300, 100));
+//						System.out.println(bandera1);
+						getContentPane().add(scrollCambios,"cell 0 3 9 2,grow");
 						
-						scrollCambios.setVisible(true);
-						bandera = true;
+//						scrollCambios.setVisible(true);
+						bandera1 = true;
 						
 					} else {
 						JOptionPane.showMessageDialog(null, "Ingresa un folio de venta");
@@ -242,7 +320,8 @@ public class CambiarProducto extends JFrame {
 				}
 			}
 		});
-		getContentPane().setLayout(new MigLayout("", "[207.00px,grow][18px][149px,grow][32px][46px][4px][101px][33px][163px]", "[21px][60.00px,grow][20px][21px][21px][0.00][0.00][0.00][0.00][0.00][][][0.00][][][][][][][baseline][41px,bottom]"));
+		getContentPane().setLayout(new MigLayout("", "[207.00px,grow][18px][149px,grow][32px][46px][4px][101px][33px][163px]", "[23.00px][87.00px][21px][][22.00px][][][][9.00][26.00,baseline][32.00px,bottom][]"));
+		
 		
 		JLabel lblFolio = new JLabel("Folio :");
 		lblFolio.setForeground(Color.WHITE);
@@ -261,6 +340,23 @@ public class CambiarProducto extends JFrame {
 		textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
 		getContentPane().add(textAreaDatosVenta, "cell 0 1 9 1,grow");
 		
+		btnAceptar = new JButton("");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				JOptionPane.showMessageDialog(null, "Cambio efectuado exitosamente");
+				
+				getContentPane().remove(scrollCambios);
+				textFolio.setText("");
+				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
+//				textModeloCambio.setText("");
+//				textPrecioCambio.setText("");
+				textDiferencia.setText("");
+//				txtColor.setText("");
+//				txtTalla.setText("");
+			}
+		});
+		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -275,78 +371,26 @@ public class CambiarProducto extends JFrame {
 				
 			}
 		});
-		getContentPane().add(btnBuscar, "cell 0 14,alignx left");
+		getContentPane().add(btnBuscar, "cell 0 6,alignx left");
 		
 		JLabel lblModeloCambio = new JLabel("Modelo de Cambio :");
 		lblModeloCambio.setForeground(Color.WHITE);
 		lblModeloCambio.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblModeloCambio, "flowx,cell 0 15,alignx left,aligny center");
-		
-		textModeloCambio = new JTextField();
-		textModeloCambio.setEditable(false);
-		getContentPane().add(textModeloCambio, "cell 2 15,growx,aligny top");
-		textModeloCambio.setColumns(10);
-		
-		JLabel lblPrecioCambio = new JLabel("Precio :");
-		lblPrecioCambio.setForeground(Color.WHITE);
-		lblPrecioCambio.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblPrecioCambio, "cell 6 15,alignx left,aligny top");
-		
-		textPrecioCambio = new JTextField();
-		textPrecioCambio.setEditable(false);
-		getContentPane().add(textPrecioCambio, "cell 8 15,growx,aligny bottom");
-		textPrecioCambio.setColumns(10);
-		
-		JLabel lblColor = new JLabel("Color :");
-		lblColor.setForeground(Color.WHITE);
-		lblColor.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblColor, "cell 0 16");
-		
-		txtColor = new JTextField();
-		txtColor.setEditable(false);
-		txtColor.setColumns(10);
-		getContentPane().add(txtColor, "cell 2 16,growx");
-		
-		JLabel lblTalla = new JLabel("Talla :");
-		lblTalla.setForeground(Color.WHITE);
-		lblTalla.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblTalla, "cell 0 17");
-		
-		txtTalla = new JTextField();
-		txtTalla.setEditable(false);
-		txtTalla.setColumns(10);
-		getContentPane().add(txtTalla, "cell 2 17,growx");
+		getContentPane().add(lblModeloCambio, "flowx,cell 0 7,alignx left,aligny center");
 		
 		JLabel lblDiferencia = new JLabel("Diferencia :");
 		lblDiferencia.setForeground(Color.WHITE);
 		lblDiferencia.setFont(new Font("Tahoma", Font.BOLD, 15));
-		getContentPane().add(lblDiferencia, "cell 6 17,alignx left,aligny top");
+		getContentPane().add(lblDiferencia, "cell 6 10,alignx left,aligny top");
 		
 		textDiferencia = new JTextField();
 		textDiferencia.setEditable(false);
-		getContentPane().add(textDiferencia, "cell 8 17,growx,aligny bottom");
+		getContentPane().add(textDiferencia, "cell 8 10,growx,aligny bottom");
 		textDiferencia.setColumns(10);
-		
-		btnAceptar = new JButton("");
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				JOptionPane.showMessageDialog(null, "Cambio efectuado exitosamente");
-				
-				getContentPane().remove(scrollCambios);
-				textFolio.setText("");
-				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
-				textModeloCambio.setText("");
-				textPrecioCambio.setText("");
-				textDiferencia.setText("");
-				txtColor.setText("");
-				txtTalla.setText("");
-			}
-		});
 		btnAceptar.setBackground(new Color(51, 0, 204));
 		btnAceptar.setIcon(new ImageIcon(CambiarProducto.class.getResource("/imagenes/ok32.png")));
 		btnAceptar.setEnabled(false);
-		getContentPane().add(btnAceptar, "cell 0 20 3 1,growx,aligny bottom");
+		getContentPane().add(btnAceptar, "cell 0 11 3 1,growx,aligny bottom");
 		
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setBackground(new Color(51, 0, 204));
@@ -356,7 +400,28 @@ public class CambiarProducto extends JFrame {
 				cp.dispose();
 			}
 		});
-		getContentPane().add(btnCancelar, "cell 4 20 5 1,growx,aligny bottom");
+		getContentPane().add(btnCancelar, "cell 4 11 5 1,growx,aligny bottom");
+	}
+	
+	private void agregaEscuchaTablaCambio(){
+		
+		TableModelListener tml = new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+//				JOptionPane.showMessageDialog(null, "Bien hecho!! x.x");
+				int row = tablaCambio.getSelectedRow();
+				double costo = Double.parseDouble(modeloCambio.getValueAt(row, 3).toString());
+				int cantidad = Integer.parseInt(modeloCambio.getValueAt(row, 2).toString());
+				total = costo * cantidad;
+				
+				
+				
+			}
+		};
+		modeloCambio.addTableModelListener(tml);
+//		modeloCambio.setValueAt(total, tablaCambio.getSelectedRow(), 3);
+		modeloCambio.removeTableModelListener(tml);
 	}
 }
 
