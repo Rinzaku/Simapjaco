@@ -142,9 +142,9 @@ public class Modelo_model {
 	 * @param id_modelo
 	 * @return
 	 */
-	public Modelo find_modelo(String modelo,String talla,String color){
+	public Modelo find_modelo(String modelo,int id_talla,int id_color){
 		Modelo modeloR=null;
-		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla='"+talla+"' and id_color='"+color+"'";
+		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla="+id_talla+" and id_color="+id_color+"";
 		try {
 			
 			connection = MySQLConnection.getConnection();

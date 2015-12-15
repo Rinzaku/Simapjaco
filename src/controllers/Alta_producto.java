@@ -125,7 +125,7 @@ public class Alta_producto {
 		Color_model colorM=new Color_model();
 		Color colorI=colorM.find_colorN(color);
 
-		modelI=modelM.find_modelo(modelo, ""+tallaI.getId_talla(), ""+colorI.getId_color());
+		modelI=modelM.find_modelo(modelo, tallaI.getId_talla(), colorI.getId_color());
 		System.out.println(modelI);
 		Ropa_model ropaM=new Ropa_model();
 

@@ -44,6 +44,10 @@ import java.awt.Dimension;
 
 
 
+
+
+
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -79,6 +83,10 @@ import javax.swing.border.TitledBorder;
 
 
 
+
+
+
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -91,6 +99,8 @@ import java.awt.Component;
 import javax.swing.JMenuItem;
 import javax.swing.event.MenuKeyListener;
 import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
@@ -160,7 +170,9 @@ public class Ventana_ventas extends JFrame {
 	private JTextField textFieldCambio;
 	private JTextField textFieldEmpleado;
 
+	private TableModelListener tml;
 	
+	private int numero_prendas=0;
 	  
 	/**
 	 * Launch the application.
@@ -375,7 +387,30 @@ public class Ventana_ventas extends JFrame {
 				else return false;
 			}
 		};
-//		modelBusqueda=new DefaultTableModel(datosBusqueda,cabeceraBusqueda);
+		
+		tml = new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				int row = e.getFirstRow();
+				int col = e.getColumn();
+				
+				if (col == 5) return;
+				
+				double costo = Double.parseDouble(modelVentas.getValueAt(row, 5).toString())/numero_prendas;
+				int cantidad = Integer.parseInt(modelVentas.getValueAt(row, 4).toString());
+				double total = costo * cantidad;
+				
+				modelVentas.setValueAt(total, row, 5);
+				double newTot =0;
+				for (int i = 0; i < tableVentas.getRowCount(); i++) {
+					newTot += Double.parseDouble(modelVentas.getValueAt(i, 5).toString());
+				}
+				txtTotal.setText(""+newTot);
+			}
+		};
+		
+		modelVentas.addTableModelListener(tml);
 		
 		tableVentas = new JTable(modelVentas);
 		
@@ -395,19 +430,7 @@ public class Ventana_ventas extends JFrame {
 			public void mousePressed(MouseEvent click) {
 			
 				if (click.getClickCount()==2) {
-					//si son 2 clicks se elimina un producto de la tabla
-					for (int i = 0; i < cabeceraVentas.length; i++) {
-						System.out.println(tableVentas.getValueAt(tableVentas.getSelectedRow(), i));
-
-					}
-//					ReporteDia dia=new ReporteDia();
-//					dia.setVisible(true);
-					
-				}
-				else{
-					System.out.println("No presionaste el double click");
-					//para obtener el numero de filas es getRowCount
-					System.out.println("Filas:"+ tableVentas.getRowCount());
+					numero_prendas = Integer.parseInt(modelVentas.getValueAt(tableVentas.getSelectedRow(), 4).toString());
 				}
 			}
 		});
@@ -625,7 +648,8 @@ public class Ventana_ventas extends JFrame {
 			public void mousePressed(MouseEvent click) {
 			
 				if (click.getClickCount()==2) {
-//					JOptionPane.showMessageDialog(null, "Hay doble click en la fila: "+tableBusqueda.getSelectedRow()+", y columna: "+tableBusqueda.getSelectedColumn());
+					modelVentas.removeTableModelListener(tml);
+					
 					String[] fila = new String[tableBusqueda.getColumnCount()];
 					TableModel tmodel = tableBusqueda.getModel();
 					renglon=tableBusqueda.getSelectedRow();
@@ -656,6 +680,7 @@ public class Ventana_ventas extends JFrame {
 						total +=Double.parseDouble(precios[renglon]);
 						txtTotal.setText(""+total);
 					}
+					modelVentas.addTableModelListener(tml);
 					contentPane.updateUI();
 				}
 				else{
@@ -686,7 +711,7 @@ public class Ventana_ventas extends JFrame {
 	}
 	
 	public void limpiaVentana(){
-		
+		modelVentas.removeTableModelListener(tml);
 		for (int i = tableVentas.getRowCount()-1; i>=0; i--) {
 			modelVentas.removeRow(i);	
 		}

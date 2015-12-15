@@ -106,8 +106,9 @@ public class Detalle_Venta_model {
 	 * @param cantidad_articulos La nueva cantidad de articulos
 	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean update_detalle_venta(int id_detalle_venta, int cantidad_articulos){
-		String query = "UPDATE detalle_venta SET cantidad_articulo="+cantidad_articulos+" WHERE id_detalle_venta="+id_detalle_venta;
+	public boolean update_detalle_venta(int id_detalle_venta, int cantidad_articulos, int id_modelo, int id_ropa, double precio, String estado){
+		String query = "UPDATE detalle_venta SET cantidad_articulo="+cantidad_articulos+", id_modelo="+id_modelo+",id_ropa="+id_ropa+",precio_unitario="+precio+""
+				+ ",estado='"+estado+"' WHERE id_detalle_venta="+id_detalle_venta;
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -135,8 +136,8 @@ public class Detalle_Venta_model {
 	 * @param estado La nueva cantidad de articulos
 	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
-	public boolean update_detalle_venta(int id_detalle_venta, String estado){
-		String query = "UPDATE detalle_venta SET estado="+estado+" WHERE id_detalle_venta="+id_detalle_venta;
+	public boolean update_detalle_venta(int id_detalle_venta,int id_modelo,int cantidad_articulos, String estado){
+		String query = "UPDATE detalle_venta SET estado='"+estado+"',cantidad_articulo="+cantidad_articulos+" WHERE id_detalle_venta="+id_detalle_venta+" AND id_modelo="+id_modelo;
 		try {
 			
 			connection = MySQLConnection.getConnection();

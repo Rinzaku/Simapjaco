@@ -102,8 +102,8 @@ public class CambiarProducto extends JFrame {
 				@Override
 				public void keyTyped(KeyEvent key) {
 					if(key.getKeyChar()=='\n'){
-//						JOptionPane.showConfirmDialog(null, "Hecho");
 						if (!textField.getText().isEmpty()) {
+							
 							if(bandera) contentPane.remove(scrollPane);
 							
 							datos = cambios.busca_modelo(textField.getText());
@@ -141,26 +141,21 @@ public class CambiarProducto extends JFrame {
 		private void addMouseClick(){
 			tablaModelo.addMouseListener(new MouseAdapter() {
 				@Override
-				//evento para controlar  los clicks de la tabla ^.^/
 				public void mousePressed(MouseEvent click) {
 					if(click.getClickCount()==2){
-//						JOptionPane.showMessageDialog(null, "Docle click");
 						int renglon = tablaModelo.getSelectedRow();
-//						double precio = Double.parseDouble(model.getValueAt(renglon, 5).toString());
 						double precioProducto = Double.parseDouble(modelCambios.getValueAt(renglonCambio, 3).toString());
-//						double diferencia = precioProducto-precio;
 						double diferencia=0, precio;
-//						textModeloCambio.setText(model.getValueAt(renglon, 0).toString());
-						String[][] datos = {{model.getValueAt(renglon, 0).toString(),model.getValueAt(renglon, 1).toString(),""+1,model.getValueAt(renglon, 5).toString()}};
+						String[][] datos = {{model.getValueAt(renglon, 0).toString(),model.getValueAt(renglon, 1).toString(),""+1,model.getValueAt(renglon, 2).toString(),model.getValueAt(renglon, 3).toString(),model.getValueAt(renglon, 5).toString()}};
 						
 						if(bandera2==2){
-							System.out.println("Ya esta la tabla");
+							modeloCambio.removeTableModelListener(tml);
 							datosTablaCambio = datos;
 							modeloCambio.addRow(datos[0]);
 							scrollCambio.updateUI();
+							modeloCambio.addTableModelListener(tml);
 							
 						}else if(bandera2==0){
-//							System.out.println("Entre al else");
 							datosTablaCambio = datos;
 							modeloCambio = new DefaultTableModel(datosTablaCambio,cabeceraCambio){
 								@Override
@@ -168,6 +163,31 @@ public class CambiarProducto extends JFrame {
 									return col==2 ? true:false;
 								}
 							};
+							tml = new TableModelListener() {
+								
+								@Override
+								public void tableChanged(TableModelEvent e) {
+									int row = e.getFirstRow();
+									int column = e.getColumn();
+									
+									if(column == 5) return;
+									
+									double costo = Double.parseDouble(modeloCambio.getValueAt(row, 5).toString())/numero_prendas;
+									int cantidad = Integer.parseInt(modeloCambio.getValueAt(row, column).toString());
+									double total = costo * cantidad;
+									
+									modeloCambio.setValueAt(total, row, 5);
+									double precio=0;
+									for (int i = 0; i < modeloCambio.getRowCount(); i++) {
+										precio += Double.parseDouble(modeloCambio.getValueAt(i, 5).toString());
+									}
+									
+									double diferencia = precio - precioProducto;
+									dif = diferencia;
+									textDiferencia.setText(""+diferencia);
+								}
+							};
+							modeloCambio.addTableModelListener(tml);
 							
 							tablaCambio = new JTable(modeloCambio);
 							tablaCambio.setBackground(new Color(176, 224, 230));
@@ -178,19 +198,13 @@ public class CambiarProducto extends JFrame {
 						
 						precio=0;
 						for (int i = 0; i < modeloCambio.getRowCount(); i++) {
-							precio += Double.parseDouble(modeloCambio.getValueAt(i, 3).toString());
+							precio += Double.parseDouble(modeloCambio.getValueAt(i, 5).toString());
 						}
 						
 						diferencia = precio - precioProducto;
 						dif = diferencia;
 						textDiferencia.setText(""+diferencia);
 						v.dispose();
-						
-//						if (diferencia<=0) {
-////							v.setVisible(false);
-//						}else{
-//							JOptionPane.showMessageDialog(null, "El producto no puede costar menos que el producto a cambio");
-//						}
 						
 					}
 				}
@@ -200,8 +214,6 @@ public class CambiarProducto extends JFrame {
 
 	}
 	
-	private JTextField textModeloCambio;
-//	private JTextField textPrecioCambio;
 	private JTextField textFolio;
 	private JTextField textDiferencia;
 	private JTextArea textAreaDatosVenta;
@@ -215,22 +227,21 @@ public class CambiarProducto extends JFrame {
 	private String [][] datostable;
 	
 	private DefaultTableModel modeloCambio;
-	private String[] cabeceraCambio={"Modelo", "Descripcion","No. articulos", "Precio unitario"};
+	private TableModelListener tml;
+	private String[] cabeceraCambio={"Modelo", "Descripcion","No. articulos","Talla","Color","Precio"};
 	private String[][] datosTablaCambio;
 	private JTable tablaCambio;
 	private JScrollPane scrollCambio;
 	private boolean bandera1=false;
 	private int bandera2=0;
-//	private JTextField txtColor;
-//	private JTextField txtTalla;
 	
 	private JButton btnAceptar;
 	
 	
 	private int renglonCambio=-1;
+	private int numero_prendas=0;
 	
 	private double dif=0;
-	private double total=0;
 	/**
 	 * Create the frame.
 	 */
@@ -252,7 +263,6 @@ public class CambiarProducto extends JFrame {
 					
 					SwingUtilities.updateComponentTreeUI(cp);
 					bandera2=2;
-//					System.out.println("Diferencia: "+dif);
 					if (dif<0) {
 						JOptionPane.showMessageDialog(cp, "Recuerda que debes llevar una o mas prendas que cubran el costo\nde la prenda a devolver");
 					}
@@ -283,6 +293,10 @@ public class CambiarProducto extends JFrame {
 						
 						int folio = Integer.parseInt(textFolio.getText());
 						String datos = cambios.obten_venta(folio);
+						if(datos==null){
+							JOptionPane.showMessageDialog(getContentPane(), "Lo sentimos!!\nLa fecha para cambio ha expirado");
+							return;
+						}
 						textAreaDatosVenta.setText("Folio \t Fecha \t\t Total artículos \t Total Venta \n"+datos);
 						datostable = cambios.obten_detalles_venta(folio);
 						modelCambios = new DefaultTableModel(datostable,cabecera){
@@ -296,7 +310,6 @@ public class CambiarProducto extends JFrame {
 						
 						tableCambios.addMouseListener(new MouseAdapter() {
 							@Override
-							//evento para controlar  los clicks de la tabla ^.^/
 							public void mousePressed(MouseEvent click) {
 								if(click.getClickCount()==1){
 									renglonCambio = tableCambios.getSelectedRow();
@@ -307,10 +320,7 @@ public class CambiarProducto extends JFrame {
 						
 						scrollCambios = new JScrollPane(tableCambios);
 						scrollCambios.setPreferredSize(new Dimension(300, 100));
-//						System.out.println(bandera1);
 						getContentPane().add(scrollCambios,"cell 0 3 9 2,grow");
-						
-//						scrollCambios.setVisible(true);
 						bandera1 = true;
 						
 					} else {
@@ -344,18 +354,45 @@ public class CambiarProducto extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				JOptionPane.showMessageDialog(null, "Cambio efectuado exitosamente");
+				int cantidad_art = Integer.parseInt(modelCambios.getValueAt(renglonCambio, 2).toString());
+				int numero_arts = tablaCambio.getRowCount();
+				boolean hecho = false;
+				if(cantidad_art==1 && numero_arts==1){
+					//"Eliminamos" el articulo y lo sustituimos por el articulo de cambio
+					hecho=cambios.elimina_modelo_en_venta(renglonCambio,modeloCambio.getValueAt(0, 0).toString(), modeloCambio.getValueAt(0, 3).toString(), modeloCambio.getValueAt(0, 4).toString(), Integer.parseInt(modeloCambio.getValueAt(0, 2).toString()),Double.parseDouble(textDiferencia.getText()));
+					
+				}else if(cantidad_art==1 && numero_arts>1){
+					hecho=cambios.elimina_modelo_en_venta(renglonCambio,modeloCambio.getValueAt(0, 0).toString(), modeloCambio.getValueAt(0, 3).toString(), modeloCambio.getValueAt(0, 4).toString(), Integer.parseInt(modeloCambio.getValueAt(0, 2).toString()),Double.parseDouble(textDiferencia.getText()));
+					for (int i = 1; i < numero_arts; i++) {
+						hecho = hecho && cambios.agrega_a_venta(modeloCambio.getValueAt(i, 0).toString(), modeloCambio.getValueAt(i, 3).toString(), modeloCambio.getValueAt(i, 4).toString(), Integer.parseInt(modeloCambio.getValueAt(i, 2).toString()));
+					}
+					
+				}else if(cantidad_art>1 && numero_arts==1){
+					
+					hecho = cambios.actualiza_venta(renglonCambio, cantidad_art-1, Double.parseDouble(textDiferencia.getText())) 
+							&& cambios.agrega_a_venta(modeloCambio.getValueAt(0, 0).toString(), modeloCambio.getValueAt(0, 3).toString(), modeloCambio.getValueAt(0, 4).toString(), Integer.parseInt(modeloCambio.getValueAt(0, 2).toString()));
+					
+				}else if(cantidad_art>1 && numero_arts>1){
+					hecho = cambios.actualiza_venta(renglonCambio, cantidad_art-1, Double.parseDouble(textDiferencia.getText()));
+					for (int i = 0; i < numero_arts; i++) {
+						hecho = hecho && cambios.agrega_a_venta(modeloCambio.getValueAt(i, 0).toString(), modeloCambio.getValueAt(i, 3).toString(), modeloCambio.getValueAt(i, 4).toString(), Integer.parseInt(modeloCambio.getValueAt(i, 2).toString()));
+					}
+				}
 				
-				getContentPane().remove(scrollCambios);
-				textFolio.setText("");
-				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
-//				textModeloCambio.setText("");
-//				textPrecioCambio.setText("");
-				textDiferencia.setText("");
-//				txtColor.setText("");
-//				txtTalla.setText("");
+				String msj = hecho ? "Cambio efectuado exitosamente\nGracias por su compra" : "Ha ocurrido un error\nPor favor vuelva a intentarlo";
+				JOptionPane.showMessageDialog(getContentPane(), msj);
+				
+//				getContentPane().remove(scrollCambios);
+//				textFolio.setText("");
+//				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
+//				textDiferencia.setText("");
 			}
 		});
+
+		btnAceptar.setBackground(new Color(51, 0, 204));
+		btnAceptar.setIcon(new ImageIcon(CambiarProducto.class.getResource("/imagenes/ok32.png")));
+		btnAceptar.setEnabled(false);
+		getContentPane().add(btnAceptar, "cell 0 11 3 1,growx,aligny bottom");
 		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
@@ -373,7 +410,7 @@ public class CambiarProducto extends JFrame {
 		});
 		getContentPane().add(btnBuscar, "cell 0 6,alignx left");
 		
-		JLabel lblModeloCambio = new JLabel("Modelo de Cambio :");
+		JLabel lblModeloCambio = new JLabel("Cambia por :");
 		lblModeloCambio.setForeground(Color.WHITE);
 		lblModeloCambio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		getContentPane().add(lblModeloCambio, "flowx,cell 0 7,alignx left,aligny center");
@@ -387,10 +424,6 @@ public class CambiarProducto extends JFrame {
 		textDiferencia.setEditable(false);
 		getContentPane().add(textDiferencia, "cell 8 10,growx,aligny bottom");
 		textDiferencia.setColumns(10);
-		btnAceptar.setBackground(new Color(51, 0, 204));
-		btnAceptar.setIcon(new ImageIcon(CambiarProducto.class.getResource("/imagenes/ok32.png")));
-		btnAceptar.setEnabled(false);
-		getContentPane().add(btnAceptar, "cell 0 11 3 1,growx,aligny bottom");
 		
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setBackground(new Color(51, 0, 204));
@@ -405,23 +438,14 @@ public class CambiarProducto extends JFrame {
 	
 	private void agregaEscuchaTablaCambio(){
 		
-		TableModelListener tml = new TableModelListener() {
-			
+		tablaCambio.addMouseListener(new MouseAdapter() {
 			@Override
-			public void tableChanged(TableModelEvent e) {
-//				JOptionPane.showMessageDialog(null, "Bien hecho!! x.x");
-				int row = tablaCambio.getSelectedRow();
-				double costo = Double.parseDouble(modeloCambio.getValueAt(row, 3).toString());
-				int cantidad = Integer.parseInt(modeloCambio.getValueAt(row, 2).toString());
-				total = costo * cantidad;
-				
-				
-				
+			public void mousePressed(MouseEvent click) {
+				if (click.getClickCount()==2) {
+					numero_prendas = Integer.parseInt(modeloCambio.getValueAt(tablaCambio.getSelectedRow(), tablaCambio.getSelectedColumn()).toString());
+				}
 			}
-		};
-		modeloCambio.addTableModelListener(tml);
-//		modeloCambio.setValueAt(total, tablaCambio.getSelectedRow(), 3);
-		modeloCambio.removeTableModelListener(tml);
+		});
 	}
 }
 

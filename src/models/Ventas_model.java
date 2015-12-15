@@ -162,6 +162,65 @@ public class Ventas_model {
 		}
 	}
 	
+	/**
+	 * Actualiza el numero de articulos y el precio de una venta
+	 * @param id_venta El identificador de la venta a modificar
+	 * @param articulos El nuevo numero de articulos
+	 * @param abono El nuevo total de la venta
+	 * @return <b>true</b> si la venta se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
+	 */
+	public boolean update_venta(int id_venta,int no_articulos){
+		String query = "UPDATE ventas SET no_articulos="+no_articulos+" WHERE id_ventas="+id_venta;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Actualiza el numero de articulos y el precio de una venta
+	 * @param id_venta El identificador de la venta a modificar
+	 * @param articulos El nuevo numero de articulos
+	 * @param abono El nuevo total de la venta
+	 * @return <b>true</b> si la venta se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
+	 */
+	public boolean update_venta_total(int id_venta,double total_venta){
+		String query = "UPDATE ventas SET precio_total="+total_venta+" WHERE id_ventas="+id_venta;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Elimina un registro de la base de datos
