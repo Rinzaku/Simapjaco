@@ -10,7 +10,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -40,6 +42,7 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.ScrollPane;
@@ -87,15 +90,19 @@ public class CambiarProducto extends JFrame {
 		public Vista() {
 			v = this;
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(100, 100, 450, 300);
+			setBounds(100, 100, 650, 300);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][29.00px][27.00px][grow][29.00][29.00][29.00,grow,top][21.00][grow][][grow]"));
+			contentPane.setBackground(Color.BLACK);
+			setIconImage(Toolkit.getDefaultToolkit().getImage(Vista.class.getResource("/imagenes/Shopping48.png")));
+			setTitle("Modelo a cambio");
 			setContentPane(contentPane);
 			
-			JLabel lblNewLabel = new JLabel("Modelo");
-			
-			contentPane.add(lblNewLabel, "flowx,cell 0 1,alignx center");
+			JLabel lblModelo = new JLabel("Modelo");
+			lblModelo.setForeground(Color.WHITE);
+			lblModelo.setFont(new Font("Tahoma", Font.BOLD, 15));
+			contentPane.add(lblModelo, "flowx,cell 0 1,alignx center");
 			
 			textField = new JTextField();
 			textField.addKeyListener(new KeyAdapter() {
@@ -144,6 +151,10 @@ public class CambiarProducto extends JFrame {
 				public void mousePressed(MouseEvent click) {
 					if(click.getClickCount()==2){
 						int renglon = tablaModelo.getSelectedRow();
+						if(Integer.parseInt(model.getValueAt(renglon, 4).toString())==0){
+							JOptionPane.showMessageDialog(contentPane, "Ya no hay existencias\nde este modelo","Agotado",JOptionPane.WARNING_MESSAGE);
+							return;
+						}
 						double precioProducto = Double.parseDouble(modelCambios.getValueAt(renglonCambio, 3).toString());
 						double diferencia=0, precio;
 						String[][] datos = {{model.getValueAt(renglon, 0).toString(),model.getValueAt(renglon, 1).toString(),""+1,model.getValueAt(renglon, 2).toString(),model.getValueAt(renglon, 3).toString(),model.getValueAt(renglon, 5).toString()}};
@@ -236,12 +247,13 @@ public class CambiarProducto extends JFrame {
 	private int bandera2=0;
 	
 	private JButton btnAceptar;
-	
+	private JPopupMenu menuTabla;
 	
 	private int renglonCambio=-1;
 	private int numero_prendas=0;
 	
 	private double dif=0;
+	private JMenuItem mntmQuitar;
 	/**
 	 * Create the frame.
 	 */
@@ -297,7 +309,7 @@ public class CambiarProducto extends JFrame {
 							JOptionPane.showMessageDialog(getContentPane(), "Lo sentimos!!\nLa fecha para cambio ha expirado");
 							return;
 						}
-						textAreaDatosVenta.setText("Folio \t Fecha \t\t Total artículos \t Total Venta \n"+datos);
+						textAreaDatosVenta.setText("Folio \t Fecha \t\t Total artículos\tSubtotal \t Descuento \t Total Ventas \n"+datos);
 						datostable = cambios.obten_detalles_venta(folio);
 						modelCambios = new DefaultTableModel(datostable,cabecera){
 							@Override
@@ -382,10 +394,13 @@ public class CambiarProducto extends JFrame {
 				String msj = hecho ? "Cambio efectuado exitosamente\nGracias por su compra" : "Ha ocurrido un error\nPor favor vuelva a intentarlo";
 				JOptionPane.showMessageDialog(getContentPane(), msj);
 				
-//				getContentPane().remove(scrollCambios);
-//				textFolio.setText("");
-//				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
-//				textDiferencia.setText("");
+				getContentPane().remove(scrollCambios);
+				getContentPane().remove(scrollCambio);
+				textFolio.setText("");
+				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
+				textDiferencia.setText("");
+				btnAceptar.setEnabled(false);
+				
 			}
 		});
 
@@ -434,6 +449,32 @@ public class CambiarProducto extends JFrame {
 			}
 		});
 		getContentPane().add(btnCancelar, "cell 4 11 5 1,growx,aligny bottom");
+		
+		menuTabla = new JPopupMenu();
+		menuTabla.setBackground(SystemColor.inactiveCaptionBorder);
+		menuTabla.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		menuTabla.setForeground(Color.BLACK);
+		
+		mntmQuitar = new JMenuItem("Quitar");
+		mntmQuitar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+				if(tablaCambio.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(getContentPane(), "Selecciona una fila");
+				}else{
+					double dif = Double.parseDouble(textDiferencia.getText());
+					double resta = Double.parseDouble(modeloCambio.getValueAt(tablaCambio.getSelectedRow(), 5).toString());
+					textDiferencia.setText(""+(dif - resta));
+					modeloCambio.removeTableModelListener(tml);
+					modeloCambio.removeRow(tablaCambio.getSelectedRow());
+					modeloCambio.addTableModelListener(tml);
+				}
+				
+			}
+		});
+		
+		menuTabla.add(mntmQuitar);
 	}
 	
 	private void agregaEscuchaTablaCambio(){
@@ -444,6 +485,26 @@ public class CambiarProducto extends JFrame {
 				if (click.getClickCount()==2) {
 					numero_prendas = Integer.parseInt(modeloCambio.getValueAt(tablaCambio.getSelectedRow(), tablaCambio.getSelectedColumn()).toString());
 				}
+			}
+		});
+		
+		addPopup(tablaCambio, menuTabla);
+	}
+	
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
 	}

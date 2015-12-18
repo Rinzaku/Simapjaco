@@ -163,16 +163,17 @@ public class Ventana_ventas extends JFrame {
 
 	private String [][] datosBusqueda;
 	private String [] cabeceraBusqueda={"Modelo","Descripcion","Talla","Color","Cantidad","Estado"};
-	private JTextField txtTotal;
+	private JTextField txtSubTotal;
 	private JTextField txtFolio;
 	private JLabel etiquetaFecha;
 	private JTextField textFieldRecibido;
 	private JTextField textFieldCambio;
 	private JTextField textFieldEmpleado;
-
+	private JComboBox comboDescuento;
 	private TableModelListener tml;
 	
 	private int numero_prendas=0;
+	private JTextField textTotal;
 	  
 	/**
 	 * Launch the application.
@@ -215,6 +216,7 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(lblFolio, "flowx,cell 0 0,alignx right");
 		
 		txtFolio = new JTextField();
+		txtFolio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtFolio.setText(""+controlador_ventas.folio());
 		txtFolio.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtFolio.setEditable(false);
@@ -237,6 +239,8 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(lblNewLabel, "flowx,cell 0 1,alignx right");
 		
 		textFieldEmpleado = new JTextField();
+		textFieldEmpleado.setFont(new Font("Tahoma", Font.BOLD, 11));
+		textFieldEmpleado.setHorizontalAlignment(SwingConstants.RIGHT);
 		contentPane.add(textFieldEmpleado, "cell 0 1,alignx right");
 		textFieldEmpleado.setColumns(10);
 //		textFieldFecha.setColumns(10);
@@ -406,7 +410,8 @@ public class Ventana_ventas extends JFrame {
 				for (int i = 0; i < tableVentas.getRowCount(); i++) {
 					newTot += Double.parseDouble(modelVentas.getValueAt(i, 5).toString());
 				}
-				txtTotal.setText(""+newTot);
+				txtSubTotal.setText(""+newTot);
+				textTotal.setText(""+newTot);
 			}
 		};
 		
@@ -441,8 +446,8 @@ public class Ventana_ventas extends JFrame {
 		tableVentas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
 		tableVentas.setSelectionBackground(Color.cyan);
 		tableVentas.setRowHeight(17);		
-		JPopupMenu menuTabla = new JPopupMenu();
 		
+		JPopupMenu menuTabla = new JPopupMenu();
 		menuTabla.setBackground(SystemColor.inactiveCaptionBorder);
 		menuTabla.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		menuTabla.setForeground(Color.BLACK);
@@ -457,11 +462,13 @@ public class Ventana_ventas extends JFrame {
 					JOptionPane.showMessageDialog(null, "Selecciona una fila");
 				}else{
 					System.out.println("Fila -> "+tableVentas.getSelectedRow());
-					double total = Double.parseDouble(txtTotal.getText());
+					double total = Double.parseDouble(txtSubTotal.getText());
 					total -= Double.parseDouble(modelVentas.getValueAt(tableVentas.getSelectedRow(), 5).toString());
-					txtTotal.setText(""+total);
-					
+					txtSubTotal.setText(""+total);
+					textTotal.setText(""+total);
+					modelVentas.removeTableModelListener(tml);
 					modelVentas.removeRow(tableVentas.getSelectedRow());
+					modelVentas.addTableModelListener(tml);
 					
 					
 				}
@@ -498,16 +505,29 @@ public class Ventana_ventas extends JFrame {
 		contentPane.add(scrollVentas, "cell 0 4,grow");
 		scrollVentas.setPreferredSize(new Dimension(350, 150));
 		
-		JLabel lblTotal = new JLabel("Total:  $");
-		lblTotal.setForeground(Color.WHITE);
-		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		contentPane.add(lblTotal, "flowx,cell 0 5,alignx right");
+		JLabel lblSubTotal = new JLabel("Subtotal:  $");
+		lblSubTotal.setForeground(Color.WHITE);
+		lblSubTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
+		contentPane.add(lblSubTotal, "flowx,cell 0 5,alignx right");
 		
-		txtTotal = new JTextField();
-		txtTotal.setHorizontalAlignment(SwingConstants.RIGHT);
-		txtTotal.setEditable(false);
-		contentPane.add(txtTotal, "cell 0 5,alignx right,aligny center");
-		txtTotal.setColumns(10);
+		txtSubTotal = new JTextField();
+		txtSubTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtSubTotal.setEditable(false);
+		txtSubTotal.setFont(new Font("Tahoma", Font.BOLD, 11));
+		contentPane.add(txtSubTotal, "cell 0 5,alignx right,aligny center");
+		txtSubTotal.setColumns(10);
+		
+		JLabel lblTotal = new JLabel("Total: $");
+		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTotal.setForeground(Color.WHITE);
+		contentPane.add(lblTotal, "flowx,cell 0 7,alignx right");
+		
+		textTotal = new JTextField();
+		textTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+		textTotal.setFont(new Font("Tahoma", Font.BOLD, 11));
+		textTotal.setEditable(false);
+		contentPane.add(textTotal, "cell 0 7,alignx right,aligny top");
+		textTotal.setColumns(10);
 		
 		JLabel lbelRecibido = new JLabel("Recibido:  $");
 		lbelRecibido.setForeground(Color.WHITE);
@@ -516,8 +536,28 @@ public class Ventana_ventas extends JFrame {
 		
 		textFieldRecibido = new JTextField();
 		textFieldRecibido.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldRecibido.setFont(new Font("Tahoma", Font.BOLD, 11));
 		contentPane.add(textFieldRecibido, "cell 0 8,alignx right,aligny top");
 		textFieldRecibido.setColumns(10);
+		textFieldRecibido.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+					if (!textFieldRecibido.getText().isEmpty()) {
+						double recibido = Double.parseDouble(textFieldRecibido.getText());
+						double cambio =controlador_ventas.cambio(recibido, Double.parseDouble(textTotal.getText()));
+						textFieldCambio.setText(""+cambio);
+						textFieldRecibido.setText(""+recibido);
+						//						JOptionPane.showMessageDialog(null,"Venta realizada\n cambio :"+cambio);
+						//						limpiaVentana();
+						contentPane.remove(scrollBusqueda);
+						contentPane.updateUI();
+					}
+
+				}
+			}
+		});
 		
 		JLabel lblCambio = new JLabel("Cambio:  $");
 		lblCambio.setForeground(Color.WHITE);
@@ -526,6 +566,7 @@ public class Ventana_ventas extends JFrame {
 		
 		textFieldCambio = new JTextField();
 		textFieldCambio.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldCambio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		contentPane.add(textFieldCambio, "cell 0 9,alignx right,aligny top");
 		textFieldCambio.setColumns(10);
 
@@ -580,23 +621,37 @@ public class Ventana_ventas extends JFrame {
 				int total_articulos=0;
 				int id_ventas=0;
 				boolean exito=false;
+				int cantidad_modelo=0; 
 				for (int k = 0; k < tableVentas.getRowCount(); k++) {
-					total_articulos+=Integer.parseInt(modelVentas.getValueAt(k, 4).toString());
-				}
-				id_ventas = controlador_ventas.creaVenta(etiquetaFecha.getText(), total_articulos, Double.parseDouble(txtTotal.getText()));
-				if(id_ventas>0){
-					for (int i = 0; i < tableVentas.getRowCount(); i++) {
-						exito=controlador_ventas.creaDetalleVenta(id_ventas, ids_modelos.get(i), ids_ropas.get(i), Integer.parseInt(modelVentas.getValueAt(i, 4).toString()), Double.parseDouble((modelVentas.getValueAt(i, 5).toString())));
-						if(!exito) break;
+					cantidad_modelo = Integer.parseInt(modelVentas.getValueAt(k, 4).toString()); 
+					if(controlador_ventas.hayExistencias(ids_modelos.get(k), cantidad_modelo)){
+						total_articulos+=cantidad_modelo;
+					}else{
+						String modelo = controlador_ventas.dameModelo(ids_modelos.get(k));
+						JOptionPane.showMessageDialog(contentPane, "La cantidad a vender del modelo:\n"+modelo+"\nexcede las existencias","Agotado",JOptionPane.WARNING_MESSAGE);
+						return;
 					}
-					if(exito)
-						JOptionPane.showMessageDialog(null, "Venta realizada exitosamente");
-					else
-						JOptionPane.showMessageDialog(null, "A ourrido un error. No se ha podido crear la venta");
-				}else{
-					JOptionPane.showMessageDialog(null, "A ourrido un error. No se ha podido crear la venta");
+					
 				}
-				limpiaVentana();
+				if(!textFieldEmpleado.getText().isEmpty()){
+					id_ventas = controlador_ventas.creaVenta(etiquetaFecha.getText(), total_articulos, Double.parseDouble(txtSubTotal.getText()),Integer.parseInt(textFieldEmpleado.getText()),Double.parseDouble(comboDescuento.getSelectedItem().toString()),Double.parseDouble(textTotal.getText()));
+					if(id_ventas>0){
+						for (int i = 0; i < tableVentas.getRowCount(); i++) {
+							exito=controlador_ventas.creaDetalleVenta(id_ventas, ids_modelos.get(i), ids_ropas.get(i), Integer.parseInt(modelVentas.getValueAt(i, 4).toString()), Double.parseDouble((modelVentas.getValueAt(i, 5).toString())));
+							if(!exito) break;
+						}
+						if(exito)
+							JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
+						else
+							JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
+					}else{
+						JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
+					}
+					limpiaVentana();
+				}else{
+					JOptionPane.showMessageDialog(contentPane, "Por favor introduce tu numero de empleado", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
 				
 				
 			}
@@ -614,12 +669,16 @@ public class Ventana_ventas extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblNewLabel_1, "flowx,cell 0 6,alignx right");
 		
-		JComboBox comboDescuento = new JComboBox();
+		comboDescuento = new JComboBox();
 		comboDescuento.setFont(new Font("Tahoma", Font.BOLD, 11));
 		comboDescuento.setBackground(Color.WHITE);
 		comboDescuento.setForeground(Color.BLACK);
 		comboDescuento.setModel(new DefaultComboBoxModel(new String[] {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"}));
+		comboDescuento.setSelectedIndex(0);
 		contentPane.add(comboDescuento, "cell 0 6,alignx right");
+		
+		agregaAccionACombobox();
+		
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -648,6 +707,12 @@ public class Ventana_ventas extends JFrame {
 			public void mousePressed(MouseEvent click) {
 			
 				if (click.getClickCount()==2) {
+					
+					int existencias = Integer.parseInt(modelBusqueda.getValueAt(tableBusqueda.getSelectedRow(), 4).toString());
+					if(existencias == 0){
+						JOptionPane.showMessageDialog(contentPane, "Ya no hay existencias\nde este modelo","Agotado",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					modelVentas.removeTableModelListener(tml);
 					
 					String[] fila = new String[tableBusqueda.getColumnCount()];
@@ -661,7 +726,6 @@ public class Ventana_ventas extends JFrame {
 						else fila[j]=tmodel.getValueAt(renglon, j).toString();
 					}
 					
-					int existencias = Integer.parseInt(tmodel.getValueAt(renglon, 4).toString());
 					existencias -=1;
 					tmodel.setValueAt(existencias, renglon, 4);
 					
@@ -671,40 +735,39 @@ public class Ventana_ventas extends JFrame {
 					
 					modelVentas.addRow(fila);
 					
-					if (txtTotal.getText().isEmpty()) {
+					if (txtSubTotal.getText().isEmpty()) {
 //						JOptionPane.showMessageDialog(null, "Campo total vacio");
-						txtTotal.setText(precios[renglon]);
+						txtSubTotal.setText(precios[renglon]);
+						textTotal.setText(precios[renglon]);
 					} else {
 //						JOptionPane.showMessageDialog(null, "Hay datos");
-						double total = Double.parseDouble(txtTotal.getText());
+						double total = Double.parseDouble(txtSubTotal.getText());
 						total +=Double.parseDouble(precios[renglon]);
-						txtTotal.setText(""+total);
+						txtSubTotal.setText(""+total);
+						textTotal.setText(""+total);
 					}
 					modelVentas.addTableModelListener(tml);
 					contentPane.updateUI();
 				}
-				else{
-					System.out.println("No presionaste el double click");
-					//para obtener el numero de filas es getRowCount
-					System.out.println("Filas:"+ tableVentas.getRowCount());
-				}
 			}
 		});
-		
-		textFieldRecibido.addKeyListener(new KeyAdapter() {
-			
+	}
+	
+	private void agregaAccionACombobox(){
+		comboDescuento.addActionListener(new ActionListener() {
 			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
-					if (!textFieldRecibido.getText().isEmpty()) {
-						double cambio =controlador_ventas.cambio(Double.parseDouble(textFieldRecibido.getText()), Double.parseDouble(txtTotal.getText()));
+			public void actionPerformed(ActionEvent e) {
+				if(!txtSubTotal.getText().isEmpty()){
+					double desc = Double.parseDouble(comboDescuento.getSelectedItem().toString())/100;
+					double subtotal = Double.parseDouble(txtSubTotal.getText());
+					double total = subtotal - (subtotal * desc);
+					textTotal.setText(""+total);
+					if(!textFieldRecibido.getText().isEmpty()){
+						double recibido = Double.parseDouble(textFieldRecibido.getText());
+						double cambio =controlador_ventas.cambio(recibido, Double.parseDouble(textTotal.getText()));
 						textFieldCambio.setText(""+cambio);
-//						JOptionPane.showMessageDialog(null,"Venta realizada\n cambio :"+cambio);
-//						limpiaVentana();
-						contentPane.remove(scrollBusqueda);
-						contentPane.updateUI();
+						textFieldRecibido.setText(""+recibido);
 					}
-					
 				}
 			}
 		});
@@ -719,10 +782,11 @@ public class Ventana_ventas extends JFrame {
 		txtFolio.setText(""+controlador_ventas.folio());
 		textFieldRecibido.setText("");
 		textFieldCambio.setText("");
-		txtTotal.setText("");
+		txtSubTotal.setText("");
 		textFieldModelo.setText("");
 		textFieldColor.setText("");
 		textFieldTalla.setText("");
+		textTotal.setText("");
 
 		contentPane.remove(scrollBusqueda);
 		contentPane.updateUI();

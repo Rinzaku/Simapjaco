@@ -36,7 +36,7 @@ public class Cambio {
 		}
 		String descripcion = "";
 		
-		descripcion = ventas.getId_venta()+" \t "+ventas.getFecha()+" \t "+ventas.getNo_articulos()+" \t\t "+ventas.getTotal_venta()+" \n";
+		descripcion = ventas.getId_venta()+" \t "+ventas.getFecha()+" \t "+ventas.getNo_articulos()+" \t\t"+ventas.getSub_total()+" \t "+ventas.getDescuento()+" \t "+ventas.getTotal_venta()+" \n";
 		
 		return descripcion;
 	}
@@ -126,6 +126,7 @@ public class Cambio {
 		rmodel = new Ropa_model();
 		Modelo m = mmodel.find_modelo(modelo, new Talla_model().find_talla(talla).getId_talla(), new Color_model().find_colorN(color).getId_color());
 		Ropa r = rmodel.find_ropa(m.getId_ropa());
+		ventas = vmodel.find_venta(detalles.get(0).getId_venta());
 		int total_arts = ventas.getNo_articulos() + no_articulos;
 		Detalle_Venta dv = new Detalle_Venta();
 		dv.setCantidad_articulos(no_articulos);

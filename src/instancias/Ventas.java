@@ -5,9 +5,12 @@ public class Ventas {
 	private int id_venta;
 	private String fecha;
 	private int no_articulos;
+	private double sub_total;
+	private double descuento;
 	private double total_venta;
 	private String estado;
 	private double abono;
+	private int no_empleado;
 	
 	/**
 	 * @return the id_venta
@@ -52,6 +55,34 @@ public class Ventas {
 	}
 	
 	/**
+	 * @return the sub_total
+	 */
+	public double getSub_total() {
+		return sub_total;
+	}
+
+	/**
+	 * @param sub_total the sub_total to set
+	 */
+	public void setSub_total(double sub_total) {
+		this.sub_total = sub_total;
+	}
+
+	/**
+	 * @return the descuento
+	 */
+	public double getDescuento() {
+		return descuento;
+	}
+
+	/**
+	 * @param descuento the descuento to set
+	 */
+	public void setDescuento(double descuento) {
+		this.descuento = descuento;
+	}
+	
+	/**
 	 * @return the total_venta
 	 */
 	public double getTotal_venta() {
@@ -64,7 +95,7 @@ public class Ventas {
 	public void setTotal_venta(double total_venta) {
 		this.total_venta = total_venta;
 	}
-
+	
 	/**
 	 * @return the estado
 	 */
@@ -91,6 +122,20 @@ public class Ventas {
 	 */
 	public void setAbono(double abono) {
 		this.abono = abono;
+	}
+
+	/**
+	 * @return the no_empleado
+	 */
+	public int getNo_empleado() {
+		return no_empleado;
+	}
+
+	/**
+	 * @param no_empleado the no_empleado to set
+	 */
+	public void setNo_empleado(int no_empleado) {
+		this.no_empleado = no_empleado;
 	}
 
 	/* (non-Javadoc)

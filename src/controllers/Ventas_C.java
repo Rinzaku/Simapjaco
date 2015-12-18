@@ -70,20 +70,20 @@ public class Ventas_C {
 		return productos;
 	}
 
-	public int creaVenta(String fecha, int no_articulos, double total) {
-		int id=0;
+	public int creaVenta(String fecha, int no_articulos, double subtotal, int numero_empleado, double desc, double total) {
 		Ventas_model vmodel = new Ventas_model();
 		Ventas venta = new Ventas();
 		
 		venta.setFecha(fecha);
 		venta.setNo_articulos(no_articulos);
+		venta.setSub_total(subtotal);
+		venta.setDescuento(desc);
 		venta.setTotal_venta(total);
 		venta.setEstado("FINALIZADA");
 		venta.setAbono(0);
+		venta.setNo_empleado(numero_empleado);
 		
-		id=vmodel.insert_venta(venta);
-		
-		return id;
+		return vmodel.insert_venta(venta);
 	}
 
 	public boolean creaDetalleVenta(int id_venta,int id_modelo,int id_ropa,int cantidad, double precio) {
@@ -103,7 +103,7 @@ public class Ventas_C {
 		detalle.setId_modelo(id_modelo);
 		detalle.setId_ropa(id_ropa);
 		detalle.setCantidad_articulos(cantidad);
-		detalle.setPrecio_unitario(precio);
+		detalle.setPrecio_unitario(precio/cantidad);
 		detalle.setEstado("VENDIDO");
 		
 		id_detalle=dvmodel.insert_detalle_venta(detalle);
@@ -118,6 +118,19 @@ public class Ventas_C {
 		
 	}
 
+	public boolean hayExistencias(int id_modelo,int cantidad){
+		
+		int existencias_total = new Modelo_model().find_modelo(id_modelo).getExistencias() - cantidad;
+		
+		return existencias_total < 0? false : true;
+	}
+	
+	public String dameModelo(int id_modelo){
+		Modelo m = new Modelo_model().find_modelo(id_modelo);
+		String msj = m.getModelo()+", "+(new Ropa_model().find_ropa(m.getId_ropa()).getDescricion())+", "+(new Color_model().find_color(m.getId_color()).getColor())+
+				", "+(new Talla_model().find_talla(m.getId_talla()).getTalla())+", existencias: "+m.getExistencias();
+		return msj;
+	}
 	public String[] obten_precios(){
 		return precios;
 	}

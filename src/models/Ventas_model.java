@@ -35,7 +35,7 @@ public class Ventas_model {
 	 */
 	public int insert_venta(Ventas venta){
 		int id_venta = -1;
-		String query = "INSERT INTO ventas(fecha,no_articulos,precio_total,estado,abono) VALUES ('"+venta.getFecha()+"',"+venta.getNo_articulos()+","+venta.getTotal_venta()+",'"+venta.getEstado()+"',"+venta.getAbono()+")";
+		String query = "INSERT INTO ventas(id_empleado,fecha,no_articulos,sub_total, descuento, total, abono, estado) VALUES ("+venta.getNo_empleado()+",'"+venta.getFecha()+"',"+venta.getNo_articulos()+","+venta.getSub_total()+","+venta.getDescuento()+","+venta.getTotal_venta()+","+venta.getAbono()+",'"+venta.getEstado()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -45,6 +45,9 @@ public class Ventas_model {
 			
 		} catch (SQLException sqle) {
 			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			System.out.println("Msj - Error: "+sqle.getMessage());
+			System.out.println(("SQL - Error: "+sqle.getSQLState()));
+			
 		} finally {
 			if (connection != null) {
 				try {
@@ -73,11 +76,14 @@ public class Ventas_model {
 			while(rs.next()){
 				ventas = new Ventas();
 				ventas.setId_venta(rs.getInt("id_ventas"));
+				ventas.setNo_empleado(rs.getInt("id_empleado"));
 				ventas.setFecha(rs.getString("fecha"));
 				ventas.setNo_articulos(rs.getInt("no_articulos"));
-				ventas.setTotal_venta(rs.getDouble("precio_total"));
-				ventas.setEstado(rs.getString("estado"));
+				ventas.setSub_total(rs.getDouble("sub_total"));
+				ventas.setDescuento(rs.getDouble("descuento"));
+				ventas.setTotal_venta(rs.getDouble("total"));
 				ventas.setAbono(rs.getDouble("abono"));
+				ventas.setEstado(rs.getString("estado"));
 				lista_ventas.add(ventas);
 			}
 			
@@ -111,11 +117,15 @@ public class Ventas_model {
 			if(rs.next()){
 				 venta = new Ventas();
 				 venta.setId_venta(rs.getInt("id_ventas"));
+				 venta.setNo_empleado(rs.getInt("id_empleado"));
 				 venta.setFecha(rs.getString("fecha"));
 				 venta.setNo_articulos(rs.getInt("no_articulos"));
-				 venta.setTotal_venta(rs.getDouble("precio_total"));
-				 venta.setEstado(rs.getString("estado"));
+				 venta.setSub_total(rs.getDouble("sub_total"));
+				 venta.setDescuento(rs.getDouble("descuento"));
+				 venta.setTotal_venta(rs.getDouble("total"));
 				 venta.setAbono(rs.getDouble("abono"));
+				 venta.setEstado(rs.getString("estado"));
+				 
 			}
 			
 		} catch (SQLException sqle) {
@@ -200,7 +210,7 @@ public class Ventas_model {
 	 * @return <b>true</b> si la venta se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
 	public boolean update_venta_total(int id_venta,double total_venta){
-		String query = "UPDATE ventas SET precio_total="+total_venta+" WHERE id_ventas="+id_venta;
+		String query = "UPDATE ventas SET total="+total_venta+" WHERE id_ventas="+id_venta;
 		try {
 			
 			connection = MySQLConnection.getConnection();
