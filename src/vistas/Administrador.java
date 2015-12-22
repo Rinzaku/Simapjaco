@@ -4,10 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+
+
 
 
 
@@ -62,6 +67,7 @@ import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 import javax.swing.JComboBox;
+
 import java.awt.Toolkit;
 
 public class Administrador extends JFrame {
@@ -75,10 +81,10 @@ public class Administrador extends JFrame {
 	private JLabel lblNewBuscar;
 	DefaultTableModel model;
 	private Alta_producto altaProducto;
-	//private String [][] datos={{"","","","","","",""},
-//							  };
-	private String [][] datos;
-	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio"};
+	private String [][] datos={{"","","","","","","",""},
+							  };
+//	private String [][] datos;
+	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio","Imagen"};
 	
 	private boolean bandera=false;
 
@@ -245,7 +251,12 @@ public class Administrador extends JFrame {
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 0 0");
 		
-		model=new DefaultTableModel(datos,cabecera);
+		model=new DefaultTableModel(datos,cabecera){
+			@Override
+			public boolean isCellEditable(int row, int col){
+				return col==7 ? false : true;
+			}
+		};
 		
 		tableAdministrador = new JTable(model);
 		
@@ -274,22 +285,49 @@ public class Administrador extends JFrame {
 		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
 		contentPane.add(btnAltaProd, "cell 0 10,alignx center");
 		
+		JButton btnSelectImage = new JButton("");
+		btnSelectImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(tableAdministrador.getSelectedRow()!=-1){
+					JFileChooser chooser = new JFileChooser();
+					int returnval = chooser.showOpenDialog(contentPane);
+					if(returnval == JFileChooser.APPROVE_OPTION){
+						model.setValueAt(chooser.getSelectedFile(), tableAdministrador.getSelectedRow(), 7);
+						System.out.println("Name: "+ chooser.getSelectedFile().getName());
+						System.out.println("Path: "+ chooser.getSelectedFile());
+					}
+				}else{
+					JOptionPane.showMessageDialog(contentPane, "Por favor selecciona el articulo al que le\nasignaras una imagen","Articulo no seleccionado",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		btnSelectImage.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/selectImage.png")));
+		btnSelectImage.setBackground(new Color(0, 51, 153));
+		contentPane.add(btnSelectImage, "cell 0 10,alignx center");
+		
 		
 		btnAltaProd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				boolean hecho = false;
 				int filas=tableAdministrador.getRowCount();
-
+				String modelo="",nombreP="",descripcion="",talla="",color="", imagen="";
+				int existencia=0;
+				double precio=0.0;
 				for (int i = 0; i < filas; i++) {
-					String modelo=(String) tableAdministrador.getValueAt(i,0);
-					String nombreP=(String) tableAdministrador.getValueAt(i,1);
-					String descripcion=(String)tableAdministrador.getValueAt(i,2);
-					String talla=(String)tableAdministrador.getValueAt(i,3);
-					String color=(String)tableAdministrador.getValueAt(i,4);
-					double existencia=Double.parseDouble((String) tableAdministrador.getValueAt(i,5));
-					double precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
-					altaProducto.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio);
+					modelo=(String) tableAdministrador.getValueAt(i,0);
+					nombreP=(String) tableAdministrador.getValueAt(i,1);
+					descripcion=(String)tableAdministrador.getValueAt(i,2);
+					talla=(String)tableAdministrador.getValueAt(i,3);
+					color=(String)tableAdministrador.getValueAt(i,4);
+					existencia=Integer.parseInt((String) tableAdministrador.getValueAt(i,5));
+					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
+					imagen = tableAdministrador.getValueAt(i, 7).toString();
+					hecho = altaProducto.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio, imagen);
+					if(!hecho) return;
 				}
+				
+				String msj = hecho ? "Los modelos han sido almacenados correctamente" : "A ocurrido un error al almacenar\n"+modelo+","+descripcion+","+talla+","+color+",existencias="+existencia;
+				JOptionPane.showMessageDialog(contentPane, msj,"Informacion",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 
@@ -300,7 +338,12 @@ public class Administrador extends JFrame {
 					model.addRow(new String[]{"","","","","",""});
 					tableAdministrador.setModel(model);
 				}
-
+				
+				if(key.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+					if(tableAdministrador.getSelectedRow()!=0){
+						model.removeRow(tableAdministrador.getSelectedRow());	
+					}
+				}
 			}
 		});
 		

@@ -9,6 +9,7 @@ public class Modelo {
 	private String modelo;
 	private int existencias;
 	private String estado;
+	private String imagen;
 	
 	/**
 	 * @return the id_modelo
@@ -106,6 +107,20 @@ public class Modelo {
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * @return the imagen
+	 */
+	public String getImagen() {
+		return imagen;
+	}
+
+	/**
+	 * @param imagen the imagen to set
+	 */
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	/* (non-Javadoc)

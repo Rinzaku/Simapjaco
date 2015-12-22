@@ -69,10 +69,13 @@ public class Alta_producto {
 
 	}
 
-	public boolean altaProducto(String modelo,String nombreP,String descripcion,String talla,String color,double existencia, double precio ){
+	public boolean altaProducto(String modelo,String nombreP,String descripcion,String talla,String color,double existencia, double precio, String pathImagen ){
+
+		Modelo_model modeloM=new Modelo_model();
 		int idColor=Color(color);
 		int idTalla=Talla(talla);
-		int idRopa=Ropa(nombreP, descripcion,(int) existencia, precio);
+		int idRopa= Ropa(nombreP, descripcion,(int) existencia, precio);
+		
 		Modelo modeloI=new Modelo();
 		modeloI.setExistencias((int)existencia);
 		modeloI.setId_color(idColor);
@@ -80,15 +83,10 @@ public class Alta_producto {
 		modeloI.setId_talla(idTalla);
 		modeloI.setModelo(modelo);
 		modeloI.setEstado("ACTIVO");
-
-		Modelo_model modeloM=new Modelo_model();
+		modeloI.setImagen(pathImagen);
 		int model=modeloM.insert_modelo(modeloI);
-		if (model<0) {
-			return false;
-
-		}else{
-			return true;
-		}
+		
+		return model < 0 ? false : true;
 
 	}
 

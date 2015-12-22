@@ -38,7 +38,7 @@ public class Modelo_model {
 	 */
 	public int insert_modelo(Modelo modelo){
 		int id_modelo =-1;
-		String query = "INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias,estado) VALUES("+modelo.getId_ropa()+","+modelo.getId_color()+","+modelo.getId_talla()+",'"+modelo.getModelo()+"',"+modelo.getExistencias()+",'"+modelo.getEstado()+"')";
+		String query = "INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias,estado,foto) VALUES("+modelo.getId_ropa()+","+modelo.getId_color()+","+modelo.getId_talla()+",'"+modelo.getModelo()+"',"+modelo.getExistencias()+",'"+modelo.getEstado()+"','"+modelo.getImagen()+"')";
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -83,6 +83,7 @@ public class Modelo_model {
 				modelo.setModelo(rs.getString("modelo"));
 				modelo.setExistencias(rs.getInt("existencias"));
 				modelo.setEstado(rs.getString("estado"));
+				modelo.setImagen(rs.getString("foto"));
 				lista_modelo.add(modelo);
 			}
 			
@@ -122,6 +123,7 @@ public class Modelo_model {
 				 modelo.setModelo(rs.getString("modelo"));
 				 modelo.setExistencias(rs.getInt("existencias"));
 				 modelo.setEstado(rs.getString("estado"));
+				 modelo.setImagen(rs.getString("foto"));
 			}
 			
 		} catch (SQLException sqle) {
@@ -159,6 +161,7 @@ public class Modelo_model {
 				 modeloR.setModelo(rs.getString("modelo"));
 				 modeloR.setExistencias(rs.getInt("existencias"));
 				 modeloR.setEstado(rs.getString("estado"));
+				 modeloR.setImagen(rs.getString("foto"));
 			}
 			
 		} catch (SQLException sqle) {
@@ -178,7 +181,6 @@ public class Modelo_model {
 	/**
 	 * 
 	 */
-	
 	public ArrayList<Modelo>  find_modelo(String modelo,String talla){
 		Modelo modeloR=null;
 		lista_modelo=new ArrayList<Modelo>();
@@ -188,7 +190,6 @@ public class Modelo_model {
 			connection = MySQLConnection.getConnection();
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
-//			System.out.println(rs.next());
 			while(rs.next()){
 				 modeloR = new Modelo();
 				 modeloR.setId_modelo(rs.getInt("id_modelo"));
@@ -198,6 +199,7 @@ public class Modelo_model {
 				 modeloR.setModelo(rs.getString("modelo"));
 				 modeloR.setExistencias(rs.getInt("existencias"));
 				 modeloR.setEstado(rs.getString("estado"));
+				 modeloR.setImagen(rs.getString("foto"));
 				 lista_modelo.add(modeloR);
 				
 			}
@@ -239,12 +241,13 @@ public class Modelo_model {
 				modelo.setModelo(rs.getString("modelo"));
 				modelo.setExistencias(rs.getInt("existencias"));
 				modelo.setEstado(rs.getString("estado"));
+				modelo.setImagen(rs.getString("foto"));
 				lista_modelo.add(modelo);
 			}
 			
 		} catch (SQLException sqle) {
-		System.out.println(sqle.getMessage());
-		System.out.println(sqle.toString());
+			System.out.println(sqle.getMessage());
+			System.out.println(sqle.toString());
 		}
 		return lista_modelo;
 	}
@@ -314,7 +317,30 @@ public class Modelo_model {
 	 * @return <b>true</b> si el registro se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
 	 */
 	public boolean update_estado(int id_modelo, String estado){
-		String query = "UPDATE modelo SET estado="+estado+" WHERE id_modelo="+id_modelo;
+		String query = "UPDATE modelo SET estado='"+estado+"' WHERE id_modelo="+id_modelo;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public boolean update_imagen(int id_modelo, String imagen){
+		String query = "UPDATE modelo SET foto='"+imagen+"' WHERE id_modelo="+id_modelo;
 		try {
 			
 			connection = MySQLConnection.getConnection();

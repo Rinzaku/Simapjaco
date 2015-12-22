@@ -111,12 +111,69 @@ public class Empleados_model {
 		return empleado;
 	}
 	
-	public boolean update_empleado(){
-		return false;
+	public boolean update_direccion_empleado(int id_empleado, String direccion){
+		String query = "UPDATE empleados SET direccion='"+direccion+"' WHERE id_empleado="+id_empleado;
+		try {
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+		} catch (SQLException sqle)  {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
-	public boolean delete_empleado(){
-		return false;
+	public boolean update_telefono_empleado(int id_empleado, String telefono){
+		String query = "UPDATE empleados SET telefono='"+telefono+"' WHERE id_empleado="+id_empleado;
+		try {
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+		} catch (SQLException sqle)  {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public boolean delete_empleado(int id_empleado){
+		String query = "DELETE FROM empleados WHERE id_empleado="+id_empleado;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 	/*
