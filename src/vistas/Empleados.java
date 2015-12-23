@@ -30,18 +30,18 @@ public class Empleados extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Empleados frame = new Empleados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Empleados frame = new Empleados();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -102,7 +102,7 @@ public class Empleados extends JFrame {
 		JLabel labelImage = new JLabel("");
 		labelImage.setBounds(349, 32, 280, 256);
 		labelImage.setHorizontalAlignment(SwingConstants.CENTER);
-		labelImage.setIcon(new ImageIcon("C:\\Users\\FER\\Downloads\\media5 (4).png"));
+		labelImage.setIcon(new ImageIcon(Empleados.class.getResource("/imagenes/Empleado.png")));
 		contentPane.add(labelImage);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
