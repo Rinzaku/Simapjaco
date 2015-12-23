@@ -134,6 +134,8 @@ public class Administrador extends JFrame {
 		
 		JMenuItem mntmReporteDelMes = new JMenuItem("Reporte del mes");
 		mnMenu.add(mntmReporteDelMes);
+		JMenuItem mntmEmpleados = new JMenuItem("Empleados");
+		mnMenu.add(mntmEmpleados);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

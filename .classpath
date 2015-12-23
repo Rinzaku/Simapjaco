@@ -5,5 +5,6 @@
 	<classpathentry exported="true" kind="lib" path="src/jars/itextpdf-5.4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="src/jars/mysql-connector-java-5.1.17-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
+	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
