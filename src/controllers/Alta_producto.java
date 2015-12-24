@@ -72,9 +72,22 @@ public class Alta_producto {
 	public boolean altaProducto(String modelo,String nombreP,String descripcion,String talla,String color,double existencia, double precio, String pathImagen ){
 
 		Modelo_model modeloM=new Modelo_model();
+		Ropa_model rmodel = new Ropa_model();
 		int idColor=Color(color);
 		int idTalla=Talla(talla);
-		int idRopa= Ropa(nombreP, descripcion,(int) existencia, precio);
+		ArrayList<Modelo> models = modeloM.find_modelo(modelo);
+		int idRopa=-1;
+		int existencias =0;
+		if(models.size() == 0){
+			idRopa= Ropa(nombreP, descripcion,(int) existencia, precio);
+		}else{
+			for (Modelo m : models) {
+				existencias += m.getExistencias();
+			}
+			existencias += existencia;
+			rmodel.update_ropa(models.get(0).getId_ropa(), existencias);
+		}
+//		int idRopa= Ropa(nombreP, descripcion,(int) existencia, precio);
 		
 		Modelo modeloI=new Modelo();
 		modeloI.setExistencias((int)existencia);

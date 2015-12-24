@@ -158,6 +158,14 @@ public class Ventas_C {
 		return recibido-total;
 	}
 	
+	public boolean exite_empleado(int id_empleado){
+		ArrayList<Empleado> empleados = new Empleados_model().get_empleados();
+		for (Empleado e : empleados) {
+			if(e.getId_empleado()==id_empleado) return true;
+		}
+		return false;
+	}
+	
 	private String[][] busca_modelo_color(String modelo, String color) {
 		lista = mmodel.find_modelo(modelo);
 		

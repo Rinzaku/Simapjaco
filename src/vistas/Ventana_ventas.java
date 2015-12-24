@@ -1,5 +1,6 @@
 package vistas;
 
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -48,6 +49,7 @@ import java.awt.Dimension;
 
 
 
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -66,6 +68,7 @@ import java.awt.SystemColor;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+
 
 
 
@@ -174,7 +177,7 @@ public class Ventana_ventas extends JFrame {
 	
 	private int numero_prendas=0;
 	private JTextField textTotal;
-	  
+	
 	/**
 	 * Launch the application.
 	 */
@@ -634,20 +637,24 @@ public class Ventana_ventas extends JFrame {
 					
 				}
 				if(!textFieldEmpleado.getText().isEmpty()){
-					id_ventas = controlador_ventas.creaVenta(etiquetaFecha.getText(), total_articulos, Double.parseDouble(txtSubTotal.getText()),Integer.parseInt(textFieldEmpleado.getText()),Double.parseDouble(comboDescuento.getSelectedItem().toString()),Double.parseDouble(textTotal.getText()));
-					if(id_ventas>0){
-						for (int i = 0; i < tableVentas.getRowCount(); i++) {
-							exito=controlador_ventas.creaDetalleVenta(id_ventas, ids_modelos.get(i), ids_ropas.get(i), Integer.parseInt(modelVentas.getValueAt(i, 4).toString()), Double.parseDouble((modelVentas.getValueAt(i, 5).toString())));
-							if(!exito) break;
-						}
-						if(exito)
-							JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
-						else
+					if(controlador_ventas.exite_empleado(Integer.parseInt(textFieldEmpleado.getText()))){
+						id_ventas = controlador_ventas.creaVenta(etiquetaFecha.getText(), total_articulos, Double.parseDouble(txtSubTotal.getText()),Integer.parseInt(textFieldEmpleado.getText()),Double.parseDouble(comboDescuento.getSelectedItem().toString()),Double.parseDouble(textTotal.getText()));
+						if(id_ventas>0){
+							for (int i = 0; i < tableVentas.getRowCount(); i++) {
+								exito=controlador_ventas.creaDetalleVenta(id_ventas, ids_modelos.get(i), ids_ropas.get(i), Integer.parseInt(modelVentas.getValueAt(i, 4).toString()), Double.parseDouble((modelVentas.getValueAt(i, 5).toString())));
+								if(!exito) break;
+							}
+							if(exito)
+								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
+							else
+								JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
+						}else{
 							JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
+						}
+						limpiaVentana();
 					}else{
-						JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
+						JOptionPane.showMessageDialog(contentPane, "El empleado introducido no existe!!", "Empleado inexistente",JOptionPane.WARNING_MESSAGE);
 					}
-					limpiaVentana();
 				}else{
 					JOptionPane.showMessageDialog(contentPane, "Por favor introduce tu numero de empleado", "Error", JOptionPane.ERROR_MESSAGE);
 				}

@@ -58,6 +58,7 @@ public class Empleados_model {
 			rs = statement.executeQuery(query);
 			while(rs.next()){
 				empleado =new Empleado();
+				empleado.setId_empleado(rs.getInt("id_empleado"));
 				empleado.setNombre(rs.getString("nombre"));
 				empleado.setApellidos(rs.getString("apellidos"));
 				empleado.setFecha_inicio(rs.getString("fecha_inicio"));
@@ -90,6 +91,7 @@ public class Empleados_model {
 			rs = statement.executeQuery(query);
 			if(rs.next()){
 				empleado =new Empleado();
+				empleado.setId_empleado(rs.getInt("id_empleado"));
 				empleado.setNombre(rs.getString("nombre"));
 				empleado.setApellidos(rs.getString("apellidos"));
 				empleado.setFecha_inicio(rs.getString("fecha_inicio"));
