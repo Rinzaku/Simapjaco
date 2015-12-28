@@ -113,6 +113,40 @@ public class Empleados_model {
 		return empleado;
 	}
 	
+
+	public Empleado find_empleado(String nombre,String apellido){
+		Empleado empleado = null;
+		String query = "SELECT * FROM empleados WHERE nombre ='"+nombre+"' and apellidos='"+apellido+"'";
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if(rs.next()){
+				empleado =new Empleado();
+				empleado.setId_empleado(rs.getInt("id_empleado"));
+				empleado.setNombre(rs.getString("nombre"));
+				empleado.setApellidos(rs.getString("apellidos"));
+				empleado.setFecha_inicio(rs.getString("fecha_inicio"));
+				empleado.setDireccion(rs.getString("direccion"));
+				empleado.setTelefono(rs.getString("telefono")); 
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			System.out.println(sqle.getMessage());
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return empleado;
+	}
+	
 	public boolean update_direccion_empleado(int id_empleado, String direccion){
 		String query = "UPDATE empleados SET direccion='"+direccion+"' WHERE id_empleado="+id_empleado;
 		try {

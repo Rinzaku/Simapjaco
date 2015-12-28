@@ -19,19 +19,19 @@ import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
-import com.toedter.components.JLocaleChooser;
 import com.toedter.calendar.JDateChooser;
 
 import controllers.Empleados_c;
 
 import javax.swing.JButton;
 
-import models.Empleados_model;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
+import java.util.Calendar;
+
 
 public class Empleados extends JFrame {
 
@@ -39,26 +39,27 @@ public class Empleados extends JFrame {
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellido;
 	private JTextField textFieldTelefono;
-	private JButton buttonAlta;
 	private JTextArea txtDireccion;
-	private JDateChooser Calendario ;
 	private Empleados_c controlEmpleado;
+	private JDateChooser dateChooser;
+	private JButton buttonBuscar;
+	private JButton buttonAlta;
 
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Empleados frame = new Empleados();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Empleados frame = new Empleados();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -129,11 +130,7 @@ public class Empleados extends JFrame {
 		lblFecha.setForeground(Color.WHITE);
 		contentPane.add(lblFecha);
 		
-		Calendario = new JDateChooser();
-		Calendario.setBounds(107, 188, 186, 20);
-		contentPane.add(Calendario);
-		
-		JButton buttonBuscar = new JButton("");
+		buttonBuscar = new JButton("");
 		buttonBuscar.setBounds(12, 311, 187, 57);
 		buttonBuscar.setIcon(new ImageIcon(Empleados.class.getResource("/imagenes/search48.png")));
 		contentPane.add(buttonBuscar);
@@ -149,23 +146,34 @@ public class Empleados extends JFrame {
 		buttonBaja.setIcon(new ImageIcon(Empleados.class.getResource("/imagenes/error48.png")));
 		contentPane.add(buttonBaja);
 		
+		dateChooser = new JDateChooser();
+		dateChooser.setBounds(107, 187, 186, 20);
+		contentPane.add(dateChooser);
+		
 		buttonAlta.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent arg0) {
-
+	    		
+                
 	    		if(!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty() && !textFieldTelefono.getText().isEmpty() && !txtDireccion.getText().isEmpty()){
-	    			int clave=controlEmpleado.insertEmpleado(textFieldNombre.getText(),textFieldApellido.getText(),txtDireccion.getText(),textFieldTelefono.getText(),Calendario.getDateFormatString());  
-//	    			if (!formatoTel(textFieldTelefono.getText())) {
-//	    				JOptionPane.showMessageDialog(null, "El formato del telefono es incorrecto ");
-//
-//
-//	    			}else{
+		    		int dia=dateChooser.getCalendar().get(Calendar.DATE);
+		    		int mes=(dateChooser.getCalendar().get(Calendar.MONTH))+1;
+		    		int anio=dateChooser.getCalendar().get(Calendar.YEAR);
+	    			int clave=controlEmpleado.insertEmpleado(textFieldNombre.getText(),textFieldApellido.getText(),txtDireccion.getText(),textFieldTelefono.getText(),""+dia+"/"+mes+"/"+anio);  
+//	    			if (formatoTel(textFieldTelefono.getText())) {
+//	    				System.out.println(formatoTel(textFieldTelefono.getText()));
 //	    				JOptionPane.showMessageDialog(null, "El identificador del empleado  "+textFieldNombre.getText()+" "+textFieldApellido.getText()+"  es :"+"\n"+""+clave);
 //	    				limpiaCampos();
+//
+//	    			}else{
+//	    				JOptionPane.showMessageDialog(null, "El formato del telefono es incorrecto ");
+//
 //	    			}
 	    			if (clave>-1) {
 						JOptionPane.showMessageDialog(null, "empleado registrado con el identificador :"+clave);
+						limpiaCampos();
 					}else{
 						JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+						limpiaCampos();
 					}
 
 	    		}else{
@@ -173,6 +181,12 @@ public class Empleados extends JFrame {
 	    		}
 	    	}
 	    });
+		
+		buttonBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ejecutaBusqueda();
+			}
+		});
 	
 	}
 	
@@ -182,7 +196,7 @@ public class Empleados extends JFrame {
 		textFieldApellido.setText("");
 		textFieldTelefono.setText("");
 		txtDireccion.setText("");
-		Calendario.setDateFormatString("");
+		dateChooser.setDateFormatString("");
 			
 	}
 	
@@ -200,16 +214,22 @@ public class Empleados extends JFrame {
 				else
 					bandera= false;
 			}
-
 		}
-		else{
-			bandera =false;
-		}
+		
 		return bandera;
 	}
-
 	
-	
+	public void ejecutaBusqueda(){
+		if (txtDireccion.getText().isEmpty() && textFieldApellido.getText().isEmpty() && textFieldNombre.getText().isEmpty() && textFieldTelefono.getText().isEmpty() && txtDireccion.getText().isEmpty()) {
+			String [][] empl=controlEmpleado.Empleados();
+			System.out.println(Arrays.deepToString(empl));
+		}
+		
+		if (!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty() && textFieldTelefono.getText().isEmpty() && txtDireccion.getText().isEmpty() && dateChooser.getDateFormatString().isEmpty()){
+			String [] empleado=controlEmpleado.empleado(textFieldNombre.getText(),textFieldApellido.getText());
+			System.out.println(Arrays.deepToString(empleado));
+		}
+	}
 }//fin clase
 
 
