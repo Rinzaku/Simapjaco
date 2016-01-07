@@ -62,8 +62,9 @@ public class Empleados_c {
 	public String [] empleado(String nombre,String apellidos){
 		modelEmpleado=new Empleados_model();
 		empleadoN=modelEmpleado.find_empleado(nombre, apellidos);
-		String [] Empleado=new String [5];
+		String [] Empleado=new String [6];
 		if (empleadoN != null){
+			Empleado[5]=empleadoN.getId_empleado()+"";
 			Empleado[0]=empleadoN.getNombre();
 			Empleado[1]=empleadoN.getApellidos();
 			Empleado[2]=empleadoN.getTelefono();

@@ -156,25 +156,37 @@ public class Empleados extends JFrame {
                 
 	    		if(!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty() && !textFieldTelefono.getText().isEmpty() && !txtDireccion.getText().isEmpty()){
 		    		int dia=dateChooser.getCalendar().get(Calendar.DATE);
-		    		int mes=(dateChooser.getCalendar().get(Calendar.MONTH))+1;
-		    		int anio=dateChooser.getCalendar().get(Calendar.YEAR);
-	    			int clave=controlEmpleado.insertEmpleado(textFieldNombre.getText(),textFieldApellido.getText(),txtDireccion.getText(),textFieldTelefono.getText(),""+dia+"/"+mes+"/"+anio);  
-//	    			if (formatoTel(textFieldTelefono.getText())) {
-//	    				System.out.println(formatoTel(textFieldTelefono.getText()));
-//	    				JOptionPane.showMessageDialog(null, "El identificador del empleado  "+textFieldNombre.getText()+" "+textFieldApellido.getText()+"  es :"+"\n"+""+clave);
-//	    				limpiaCampos();
-//
-//	    			}else{
-//	    				JOptionPane.showMessageDialog(null, "El formato del telefono es incorrecto ");
-//
-//	    			}
-	    			if (clave>-1) {
-						JOptionPane.showMessageDialog(null, "empleado registrado con el identificador :"+clave);
-						limpiaCampos();
-					}else{
-						JOptionPane.showMessageDialog(null, "Error al insertar empleado");
-						limpiaCampos();
+		    		String day;
+		    		if (dia<10) {
+		    			day="0"+dia;
+						
 					}
+		    		else
+		    			day=""+dia;
+		    		int mes=(dateChooser.getCalendar().get(Calendar.MONTH))+1;
+		    		String month;
+		    		if (mes<10) {
+		    			 month="0"+mes;
+						
+					}
+		    		else
+		    			month=""+mes;
+		    		int anio=dateChooser.getCalendar().get(Calendar.YEAR);
+		    		if (formatoTel(textFieldTelefono.getText())) {
+		    			System.out.println(formatoTel(textFieldTelefono.getText()));
+		    			int clave=controlEmpleado.insertEmpleado(textFieldNombre.getText(),textFieldApellido.getText(),txtDireccion.getText(),textFieldTelefono.getText(),""+day+"/"+month+"/"+anio);  
+		    			if (clave>-1) {
+		    				JOptionPane.showMessageDialog(null, "empleado registrado con el identificador :"+clave);
+		    				limpiaCampos();
+		    			}else{
+		    				JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+		    				limpiaCampos();
+		    			}
+
+		    		}else{
+		    			JOptionPane.showMessageDialog(null, "El formato del telefono es incorrecto ");
+
+		    		}  			
 
 	    		}else{
 	    			JOptionPane.showMessageDialog(null, "Llena todos los campos");
@@ -207,7 +219,7 @@ public class Empleados extends JFrame {
 		
 		if (numero.length ==8 || numero.length==10) {
 			for (int i = 0; i < numero.length; i++) {
-				if (numero[i]==1 || numero[i]==2 || numero[i]==3 ||numero[i]== 4 || numero[i]==5 || numero[i]==6 || numero[i]==7 || numero[i]==8 || numero[i]==9 || numero[i]==0) {
+				if (numero[i]<58) {
 					System.out.println("true"+i);
 					bandera=true;
 				}
@@ -220,12 +232,12 @@ public class Empleados extends JFrame {
 	}
 	
 	public void ejecutaBusqueda(){
-		if (txtDireccion.getText().isEmpty() && textFieldApellido.getText().isEmpty() && textFieldNombre.getText().isEmpty() && textFieldTelefono.getText().isEmpty() && txtDireccion.getText().isEmpty()) {
+		if (txtDireccion.getText().isEmpty() && textFieldApellido.getText().isEmpty() && textFieldNombre.getText().isEmpty() && textFieldTelefono.getText().isEmpty()) {
 			String [][] empl=controlEmpleado.Empleados();
 			System.out.println(Arrays.deepToString(empl));
 		}
 		
-		if (!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty() && textFieldTelefono.getText().isEmpty() && txtDireccion.getText().isEmpty() && dateChooser.getDateFormatString().isEmpty()){
+		if (!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty()){
 			String [] empleado=controlEmpleado.empleado(textFieldNombre.getText(),textFieldApellido.getText());
 			System.out.println(Arrays.deepToString(empleado));
 		}
