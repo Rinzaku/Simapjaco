@@ -1,6 +1,8 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import models.Empleados_model;
 import instancias.Empleado;
@@ -48,9 +50,9 @@ public class Empleados_c {
 			emp[0]=""+empleado.getId_empleado();
 			emp[1]=empleado.getNombre();
 			emp[2]=empleado.getApellidos();
-			emp[3]=empleado.getTelefono();
-			emp[4]=empleado.getDireccion();
-			emp[5]=empleado.getFecha_inicio();
+			emp[3]=empleado.getFecha_inicio();
+			emp[4]=empleado.getTelefono();
+			emp[5]=empleado.getDireccion();
 			Empleados[i]=emp;
 			i++;
 			
@@ -59,23 +61,53 @@ public class Empleados_c {
 		return Empleados;
 	}
 	
-	public String [] empleado(String nombre,String apellidos){
+	public String [][] empleado(String nombre,String apellidos){
 		modelEmpleado=new Empleados_model();
 		empleadoN=modelEmpleado.find_empleado(nombre, apellidos);
+		String [][] emp=new String [1][];
 		String [] Empleado=new String [6];
+		int i=0;
 		if (empleadoN != null){
-			Empleado[5]=empleadoN.getId_empleado()+"";
-			Empleado[0]=empleadoN.getNombre();
-			Empleado[1]=empleadoN.getApellidos();
-			Empleado[2]=empleadoN.getTelefono();
-			Empleado[3]=empleadoN.getDireccion();
-			Empleado[4]=empleadoN.getFecha_inicio();
-			return Empleado;
+			Empleado[0]=empleadoN.getId_empleado()+"";
+			Empleado[1]=empleadoN.getNombre();
+			Empleado[2]=empleadoN.getApellidos();
+			Empleado[3]=empleadoN.getFecha_inicio();
+			Empleado[4]=empleadoN.getTelefono();
+			Empleado[5]=empleadoN.getDireccion();
+			emp[i]=Empleado;
+			i++;
+			return emp;
 		}else{
 
 			return null;
 		}
 			
+	}
+	
+	public String fecha(){
+		String dia;
+		String mes;
+		Calendar calendario = new GregorianCalendar();
+		int day =calendario.get(Calendar.DATE);
+		if (day<10) {
+			 dia="0"+day;
+			
+		}
+		else{
+			dia=""+day;
+		}
+		int month =(calendario.get(Calendar.MONTH)+1);
+		if (month<10) {
+			 mes="0"+month;
+			
+		}
+		else{
+			mes=""+month;
+		}
+		String year = Integer.toString(calendario.get(Calendar.YEAR));
+		
+		
+		return dia+"/"+mes+"/"+year;
 	}
 	
 	

@@ -234,11 +234,15 @@ public class Empleados extends JFrame {
 	public void ejecutaBusqueda(){
 		if (txtDireccion.getText().isEmpty() && textFieldApellido.getText().isEmpty() && textFieldNombre.getText().isEmpty() && textFieldTelefono.getText().isEmpty()) {
 			String [][] empl=controlEmpleado.Empleados();
+			TableEmpleados tabla=new TableEmpleados(controlEmpleado.Empleados());
+			tabla.setVisible(true);
 			System.out.println(Arrays.deepToString(empl));
 		}
 		
 		if (!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty()){
-			String [] empleado=controlEmpleado.empleado(textFieldNombre.getText(),textFieldApellido.getText());
+			String [][] empleado=controlEmpleado.empleado(textFieldNombre.getText(),textFieldApellido.getText());
+			TableEmpleados tabla=new TableEmpleados(empleado);
+			tabla.setVisible(true);
 			System.out.println(Arrays.deepToString(empleado));
 		}
 	}
