@@ -61,6 +61,13 @@ public class Empleados_c {
 		return Empleados;
 	}
 	
+	public boolean updateEmpleado(String telefono, String direccion){
+		modelEmpleado=new Empleados_model();
+		//modelEmpleado.update_direccion_empleado(id_empleado, direccion)
+		
+		return true;
+	}
+	
 	public String [][] empleado(String nombre,String apellidos){
 		modelEmpleado=new Empleados_model();
 		empleadoN=modelEmpleado.find_empleado(nombre, apellidos);
@@ -109,6 +116,8 @@ public class Empleados_c {
 		
 		return dia+"/"+mes+"/"+year;
 	}
+	
+	
 	
 	
 }//Fin clase

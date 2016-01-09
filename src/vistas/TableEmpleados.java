@@ -134,14 +134,25 @@ public class TableEmpleados extends JFrame {
 				if (click.getClickCount()==2) {
 					System.out.println("dos clicks");
 					
-					tablEmpleados.addKeyListener(new KeyAdapter() {
+//					tablEmpleados.addKeyListener(new KeyAdapter() {
+//						@Override
+//						public void keyPressed(KeyEvent arg0) {
+//							if(arg0.getKeyCode()==arg0.VK_ENTER){
+//								System.out.println("entre en el key");
+//							}
+//						}
+//					});
+					
+					tml=new TableModelListener() {
+						
 						@Override
-						public void keyPressed(KeyEvent arg0) {
-							if(arg0.getKeyCode()==arg0.VK_ENTER){
-								System.out.println("entre en el key");
-							}
+						public void tableChanged(TableModelEvent e) {
+							int col=e.getColumn();
+							int file=e.getFirstRow();
+							//Aqui solo queria observar si entraba pero no hace nada !.!
+							System.out.println("table "+col);
 						}
-					});
+					};
 			}
 		};
 		
@@ -153,9 +164,7 @@ public class TableEmpleados extends JFrame {
 	
 	
 
-}//fin clase 
-
-
+}//fin clase
 
 
 
