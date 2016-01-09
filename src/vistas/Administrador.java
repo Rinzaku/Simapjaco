@@ -19,6 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -53,6 +55,8 @@ import javax.swing.SpringLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -86,6 +90,7 @@ public class Administrador extends JFrame {
 //	private String [][] datos;
 	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio","Imagen"};
 	
+	private TableModelListener tml;
 	private boolean bandera=false;
 
 	/**
@@ -275,6 +280,27 @@ public class Administrador extends JFrame {
 		contentPane.add(ScrollAdministrador, "cell 0 5,grow");
 		ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
 		
+		tml = new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				int row = e.getFirstRow();
+				int col = e.getColumn();
+				
+				if(row == 0) return;
+				if(col == 2 || col == 1 || col == 6) return;
+				
+				String mod = tableAdministrador.getValueAt(row, 0).toString();
+				if(mod.compareTo(tableAdministrador.getValueAt(row - 1, 0).toString())==0){
+					model.setValueAt(tableAdministrador.getValueAt(row-1, 1), row, 1);
+					model.setValueAt(tableAdministrador.getValueAt(row-1, 2), row, 2);
+					model.setValueAt(tableAdministrador.getValueAt(row-1, 6), row, 6);
+				}
+				
+			}
+		};
+		
+		model.addTableModelListener(tml);
 		JComboBox comboBox = new JComboBox(altaProducto.tallas());
 		comboBox.setBackground(Color.darkGray);
 		comboBox.setEditable(true);
@@ -322,20 +348,28 @@ public class Administrador extends JFrame {
 				int existencia=0;
 				double precio=0.0;
 				for (int i = 0; i < filas; i++) {
+					if(tableAdministrador.getValueAt(i,0).toString().compareTo("")==0) break; // Corregir
 					modelo=(String) tableAdministrador.getValueAt(i,0);
 					nombreP=(String) tableAdministrador.getValueAt(i,1);
 					descripcion=(String)tableAdministrador.getValueAt(i,2);
 					talla=(String)tableAdministrador.getValueAt(i,3);
-					color=(String)tableAdministrador.getValueAt(i,4);
-					existencia=Integer.parseInt((String) tableAdministrador.getValueAt(i,5));
+					color=tableAdministrador.getValueAt(i,4).toString().toUpperCase();
+					existencia= Integer.parseInt((String) tableAdministrador.getValueAt(i,5));
 					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
-					imagen = tableAdministrador.getValueAt(i, 7).toString();
+					imagen = tableAdministrador.getValueAt(i, 7)==null ? "" : tableAdministrador.getValueAt(i, 7).toString();
 					hecho = altaProducto.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio, imagen);
 					if(!hecho) return;
 				}
 				
 				String msj = hecho ? "Los modelos han sido almacenados correctamente" : "A ocurrido un error al almacenar\n"+modelo+","+descripcion+","+talla+","+color+",existencias="+existencia;
 				JOptionPane.showMessageDialog(contentPane, msj,"Informacion",JOptionPane.INFORMATION_MESSAGE);
+				model.removeTableModelListener(tml);
+				for (int i = filas; i > 0; i--) {
+					model.removeRow(i-1);
+				}
+				String[] d = {"","","","","","","",""};
+				model.addRow(d);
+				model.addTableModelListener(tml);
 			}
 		});
 
@@ -343,13 +377,17 @@ public class Administrador extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent key) {
 				if ( key.getKeyCode() == KeyEvent.VK_ENTER) {
+					model.removeTableModelListener(tml);
 					model.addRow(new String[]{"","","","","",""});
 					tableAdministrador.setModel(model);
+					model.addTableModelListener(tml);
 				}
 				
 				if(key.getKeyCode() == KeyEvent.VK_BACK_SPACE){
 					if(tableAdministrador.getSelectedRow()!=0){
-						model.removeRow(tableAdministrador.getSelectedRow());	
+						model.removeTableModelListener(tml);
+						model.removeRow(tableAdministrador.getSelectedRow());
+						model.addTableModelListener(tml);
 					}
 				}
 			}

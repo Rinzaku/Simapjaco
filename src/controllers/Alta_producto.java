@@ -81,11 +81,9 @@ public class Alta_producto {
 		if(models.size() == 0){
 			idRopa= Ropa(nombreP, descripcion,(int) existencia, precio);
 		}else{
-			for (Modelo m : models) {
-				existencias += m.getExistencias();
-			}
-			existencias += existencia;
+			existencias = rmodel.find_ropa(models.get(0).getId_ropa()).getExistencias() + (int)existencia;
 			rmodel.update_ropa(models.get(0).getId_ropa(), existencias);
+			idRopa = models.get(0).getId_ropa();
 		}
 //		int idRopa= Ropa(nombreP, descripcion,(int) existencia, precio);
 		
