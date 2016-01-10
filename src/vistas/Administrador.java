@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -62,7 +63,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import controllers.Alta_producto;
+import controllers.Productos_admin;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -84,13 +85,14 @@ public class Administrador extends JFrame {
 	private JScrollPane ScrollAdministrador;
 	private JLabel lblNewBuscar;
 	DefaultTableModel model;
-	private Alta_producto altaProducto;
+	private Productos_admin productos;
 	private String [][] datos={{"","","","","","","",""},
 							  };
 //	private String [][] datos;
 	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio","Imagen"};
 	
 	private TableModelListener tml;
+	private TableModelListener tml_precio;
 	private boolean bandera=false;
 
 	/**
@@ -114,7 +116,7 @@ public class Administrador extends JFrame {
 	 */
 	public Administrador() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagenes/Shopping48.png")));
-		altaProducto=new Alta_producto();
+		productos=new Productos_admin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1027, 480);
 		
@@ -202,6 +204,14 @@ public class Administrador extends JFrame {
 		panel.add(textFieldModelo, gbc_textFieldModelo);
 		textFieldModelo.setColumns(10);
 		
+		textFieldModelo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n'){
+					buscar();
+				}
+			}
+		});
 		JLabel lblColor = new JLabel("Color :");
 		lblColor.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblColor.setForeground(Color.WHITE);
@@ -222,6 +232,15 @@ public class Administrador extends JFrame {
 		gbc_textFieldColor.gridx = 6;
 		gbc_textFieldColor.gridy = 1;
 		panel.add(textFieldColor, gbc_textFieldColor);
+		
+		textFieldColor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n'){
+					buscar();
+				}
+			}
+		});
 		
 		JLabel lblTalla = new JLabel("Talla :");
 		lblTalla.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -245,6 +264,15 @@ public class Administrador extends JFrame {
 		gbc_textFieldTalla.gridy = 1;
 		panel.add(textFieldTalla, gbc_textFieldTalla);
 		
+		textFieldTalla.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar() == '\n'){
+					buscar();
+				}
+			}
+		});
+		
 		lblNewBuscar = new JLabel("");
 		
 		lblNewBuscar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -257,8 +285,15 @@ public class Administrador extends JFrame {
 		gbc_lblNewBuscar.gridx = 16;
 		gbc_lblNewBuscar.gridy = 1;
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
+
+		lblNewBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				buscar();
+			}
+		});
 		
-		JLabel etiquetaFecha = new JLabel(altaProducto.fecha());
+		JLabel etiquetaFecha = new JLabel(productos.fecha());
 		etiquetaFecha.setEnabled(false);
 		etiquetaFecha.setForeground(Color.WHITE);
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -289,19 +324,49 @@ public class Administrador extends JFrame {
 				
 				if(row == 0) return;
 				if(col == 2 || col == 1 || col == 6) return;
-				
-				String mod = tableAdministrador.getValueAt(row, 0).toString();
-				if(mod.compareTo(tableAdministrador.getValueAt(row - 1, 0).toString())==0){
-					model.setValueAt(tableAdministrador.getValueAt(row-1, 1), row, 1);
-					model.setValueAt(tableAdministrador.getValueAt(row-1, 2), row, 2);
-					model.setValueAt(tableAdministrador.getValueAt(row-1, 6), row, 6);
+				if(col == 0){
+					String mod = tableAdministrador.getValueAt(row, 0).toString();
+					if(mod.compareTo(tableAdministrador.getValueAt(row - 1, 0).toString())==0){
+						model.setValueAt(tableAdministrador.getValueAt(row-1, 1), row, 1);
+						model.setValueAt(tableAdministrador.getValueAt(row-1, 2), row, 2);
+						model.setValueAt(tableAdministrador.getValueAt(row-1, 6), row, 6);
+					}
 				}
+				
 				
 			}
 		};
 		
 		model.addTableModelListener(tml);
-		JComboBox comboBox = new JComboBox(altaProducto.tallas());
+		
+		tml_precio = new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				int row = e.getFirstRow();
+				int col = e.getColumn();
+				switch(col){
+				case 3: // update talla 
+					break;
+				case 4: // update color  
+					break;
+				case 5: // update existencias
+					String modelo = tableAdministrador.getValueAt(row, 0).toString();
+					int existencias = Integer.parseInt(tableAdministrador.getValueAt(row, col).toString());
+					String msj = "";
+					boolean hecho = productos.update_existencias(modelo, existencias, row);
+					msj = hecho ? "Existencias actualizadas del modelo "+modelo : "A ocurrido un error";
+					JOptionPane.showMessageDialog(contentPane, msj);
+					break;
+				case 6: // update precio
+					break;
+				}
+
+
+			}
+		};
+		
+		JComboBox comboBox = new JComboBox(productos.tallas());
 		comboBox.setBackground(Color.darkGray);
 		comboBox.setEditable(true);
 		comboBox.setForeground(Color.white);
@@ -339,6 +404,14 @@ public class Administrador extends JFrame {
 		btnSelectImage.setBackground(new Color(0, 51, 153));
 		contentPane.add(btnSelectImage, "cell 0 10,alignx center");
 		
+		JButton btnLimpiar = new JButton("Limpiar");
+		btnLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(contentPane, "este boton debe limpiar la tabla");
+			}
+		});
+		contentPane.add(btnLimpiar, "cell 0 10,alignx center");
+		
 		
 		btnAltaProd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -357,7 +430,7 @@ public class Administrador extends JFrame {
 					existencia= Integer.parseInt((String) tableAdministrador.getValueAt(i,5));
 					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
 					imagen = tableAdministrador.getValueAt(i, 7)==null ? "" : tableAdministrador.getValueAt(i, 7).toString();
-					hecho = altaProducto.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio, imagen);
+					hecho = productos.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio, imagen);
 					if(!hecho) return;
 				}
 				
@@ -392,51 +465,42 @@ public class Administrador extends JFrame {
 				}
 			}
 		});
-		
-		lblNewBuscar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				if (!textFieldModelo.getText().isEmpty() && !textFieldColor.getText().isEmpty() && !textFieldTalla.getText().isEmpty()){
-					String [][] busqueda;
-					busqueda=altaProducto.buscarModel(textFieldModelo.getText(),textFieldTalla.getText(), textFieldColor.getText());
-					System.out.println(Arrays.deepToString(busqueda));
-					for (int i = 0; i < busqueda[0].length; i++) {
-						tableAdministrador.setValueAt(busqueda[0][i ],0, i);
-					}
-					
-				}
-				else if(!textFieldModelo.getText().isEmpty() && textFieldColor.getText().isEmpty() && !textFieldTalla.getText().isEmpty()){
-					
-					datos=altaProducto.buscarModeloMT(textFieldModelo.getText(),textFieldTalla.getText());
-//					if(bandera) 
-					contentPane.remove(ScrollAdministrador);
-					model = new DefaultTableModel(datos, cabecera);
-					tableAdministrador = new JTable(model);
-					
-					tableAdministrador.setBackground(new Color(176, 224, 226));
-					tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-					tableAdministrador.isCellEditable(0, 4);
-					ScrollAdministrador=new JScrollPane (tableAdministrador);
-					contentPane.add(ScrollAdministrador, "cell 0 5,grow");
-					ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
-					
-					JComboBox comboBox = new JComboBox(altaProducto.tallas());
-					comboBox.setBackground(Color.darkGray);
-					comboBox.setEditable(true);
-					comboBox.setForeground(Color.white);
-					DefaultCellEditor defaultCellEditor=new DefaultCellEditor(comboBox);
-					tableAdministrador.getColumnModel().getColumn(3).setCellEditor(defaultCellEditor);
-					
-					contentPane.updateUI();
-					bandera=true;
-				}
-				
-			}
-		});
 
 	}//fin constructor
 	
+	private void buscar(){
+		if (!textFieldModelo.getText().isEmpty()){
+			contentPane.remove(ScrollAdministrador);
+			
+			String modelo = textFieldModelo.getText();
+			String talla = textFieldTalla.getText().isEmpty() ? "" : textFieldTalla.getText();
+			String color = textFieldColor.getText().isEmpty() ? "" : textFieldColor.getText();
+
+			datos = productos.buscar(modelo, talla, color);
+
+			model=new DefaultTableModel(datos,cabecera){
+				 @Override
+				 public boolean isCellEditable(int row, int col){
+					 return col==7 ? false : true;
+				 }
+			 };
+
+			 tableAdministrador = new JTable(model);
+			 tableAdministrador.setBackground(new Color(176, 224, 226));
+			 tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+			 tableAdministrador.isCellEditable(0, 4);
+			 ScrollAdministrador=new JScrollPane (tableAdministrador);
+			 contentPane.add(ScrollAdministrador, "cell 0 5,grow");
+			 ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
+			 
+			 model.addTableModelListener(tml_precio);
+			 
+			 contentPane.updateUI();
+		}else{
+			JOptionPane.showMessageDialog(contentPane, "Ingresa el modelo a buscar","Sin modelo",JOptionPane.ERROR_MESSAGE);
+			
+		}
+	}
 }
 
 
