@@ -238,27 +238,19 @@ public class Productos_admin {
 		return productos;
 	}
 	
-	public boolean update_existencias(String modelo, int existencias, int pos_articulo){
+	public boolean update_existencias(int existencias, int pos_articulo){
 		Modelo_model mmodel = new Modelo_model();
 		return mmodel.update_modelo(modelos.get(pos_articulo).getId_modelo(), existencias);
 	}
 	
-	/*
-	 * Pendientes
-	 */
-	public boolean update_talla(String modelo, String talla, int pos_articulo){
-		
-		Modelo_model mmodel = new Modelo_model();
-		
-		return false;
-	}
-
-	public boolean update_color(String modelo, String color, int pos_articulo){
-		return false;
+	public boolean update_precio(double precio, int pos_articulo){
+		Ropa_model rmodel = new Ropa_model();
+		return rmodel.update_ropa(modelos.get(pos_articulo).getId_ropa(), precio);
 	}
 	
-	public boolean update_precio(String modelo, double precio, int pos_articulo){
-		return false;
+	public boolean delete_producto(int pos_articulo){
+		Modelo_model mmodel = new Modelo_model();
+		return mmodel.update_estado(modelos.get(pos_articulo).getId_modelo(), "ELIMINADO");
 	}
 }//fin clase
 

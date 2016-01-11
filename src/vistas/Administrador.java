@@ -8,8 +8,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+
+
 
 
 
@@ -30,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -94,6 +99,8 @@ public class Administrador extends JFrame {
 	private TableModelListener tml;
 	private TableModelListener tml_precio;
 	private boolean bandera=false;
+	
+	private JMenuItem mnEliminar;
 
 	/**
 	 * Launch the application.
@@ -203,7 +210,7 @@ public class Administrador extends JFrame {
 		gbc_textFieldModelo.gridy = 1;
 		panel.add(textFieldModelo, gbc_textFieldModelo);
 		textFieldModelo.setColumns(10);
-		
+		textFieldModelo.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFieldModelo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -224,6 +231,7 @@ public class Administrador extends JFrame {
 		
 		textFieldColor = new JTextField();
 		textFieldColor.setColumns(10);
+		textFieldColor.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_textFieldColor = new GridBagConstraints();
 		gbc_textFieldColor.gridheight = 2;
 		gbc_textFieldColor.gridwidth = 3;
@@ -255,6 +263,7 @@ public class Administrador extends JFrame {
 		
 		textFieldTalla = new JTextField();
 		textFieldTalla.setColumns(10);
+		textFieldTalla.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_textFieldTalla = new GridBagConstraints();
 		gbc_textFieldTalla.gridheight = 2;
 		gbc_textFieldTalla.gridwidth = 4;
@@ -345,20 +354,21 @@ public class Administrador extends JFrame {
 			public void tableChanged(TableModelEvent e) {
 				int row = e.getFirstRow();
 				int col = e.getColumn();
+				String modelo=tableAdministrador.getValueAt(row, 0).toString();
+				String msj = "";
+				boolean hecho = false;
 				switch(col){
-				case 3: // update talla 
-					break;
-				case 4: // update color  
-					break;
 				case 5: // update existencias
-					String modelo = tableAdministrador.getValueAt(row, 0).toString();
 					int existencias = Integer.parseInt(tableAdministrador.getValueAt(row, col).toString());
-					String msj = "";
-					boolean hecho = productos.update_existencias(modelo, existencias, row);
+					hecho = productos.update_existencias(existencias, row);
 					msj = hecho ? "Existencias actualizadas del modelo "+modelo : "A ocurrido un error";
 					JOptionPane.showMessageDialog(contentPane, msj);
 					break;
 				case 6: // update precio
+					double precio = Double.parseDouble(tableAdministrador.getValueAt(row, col).toString());
+					hecho = productos.update_precio(precio, row);
+					msj = hecho ? "Precio actualizado del modelo "+modelo : "A ocurrido un error";
+					JOptionPane.showMessageDialog(contentPane, msj);
 					break;
 				}
 
@@ -404,12 +414,22 @@ public class Administrador extends JFrame {
 		btnSelectImage.setBackground(new Color(0, 51, 153));
 		contentPane.add(btnSelectImage, "cell 0 10,alignx center");
 		
-		JButton btnLimpiar = new JButton("Limpiar");
+		JButton btnLimpiar = new JButton("");
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(contentPane, "este boton debe limpiar la tabla");
+//				JOptionPane.showMessageDialog(contentPane, "este boton debe limpiar la tabla");
+				int filas = tableAdministrador.getRowCount();
+				model.removeTableModelListener(tml_precio);
+				for (int i = filas; i > 0; i--) {
+					model.removeRow(i-1);
+				}
+				String[] d = {"","","","","","","",""};
+				model.addRow(d);
+				model.addTableModelListener(tml);
 			}
 		});
+		btnLimpiar.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/limpia.png")));
+		btnLimpiar.setBackground(new Color(0, 51, 153));
 		contentPane.add(btnLimpiar, "cell 0 10,alignx center");
 		
 		
@@ -477,7 +497,11 @@ public class Administrador extends JFrame {
 			String color = textFieldColor.getText().isEmpty() ? "" : textFieldColor.getText();
 
 			datos = productos.buscar(modelo, talla, color);
-
+			
+			if(datos.length == 0){
+				JOptionPane.showMessageDialog(contentPane, "Este modelo no existe", "Modelo error",JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
 			model=new DefaultTableModel(datos,cabecera){
 				 @Override
 				 public boolean isCellEditable(int row, int col){
@@ -494,12 +518,59 @@ public class Administrador extends JFrame {
 			 ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
 			 
 			 model.addTableModelListener(tml_precio);
+			 agregaMenu();
 			 
 			 contentPane.updateUI();
 		}else{
 			JOptionPane.showMessageDialog(contentPane, "Ingresa el modelo a buscar","Sin modelo",JOptionPane.ERROR_MESSAGE);
 			
 		}
+	}
+	
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+	
+	private void agregaMenu(){
+		JPopupMenu menuTabla = new JPopupMenu();
+		menuTabla.setBackground(SystemColor.inactiveCaptionBorder);
+		menuTabla.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		menuTabla.setForeground(Color.BLACK);
+		addPopup(tableAdministrador, menuTabla);
+		
+		mnEliminar = new JMenuItem("Eliminar producto");
+		mnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int fila = tableAdministrador.getSelectedRow();
+				if(fila==-1){
+					JOptionPane.showMessageDialog(null, "Selecciona una fila");
+				}else{
+					String modelo = tableAdministrador.getValueAt(fila, 0).toString();
+					String msj = "";
+					boolean hecho = productos.delete_producto(tableAdministrador.getSelectedRow());
+					msj = hecho ? "Este producto a sido eliminado exitosamente" : "A ocurrido un error";
+					JOptionPane.showMessageDialog(contentPane, msj);
+				}
+				
+			}
+		});
+		
+		menuTabla.add(mnEliminar);
 	}
 }
 
