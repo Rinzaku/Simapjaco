@@ -1,9 +1,14 @@
 package vistas;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.SystemColor;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -39,7 +44,7 @@ public class TableEmpleados extends JFrame {
 	private JPanel contentPane;
 	private JTable tablEmpleados;
 	private JScrollPane scrollEmpleados;
-	private String [][] datosEmpleados={{"xcvfd","sdvdfgfd","xcbdf","xcbxh","vbbgfngfn","fdgdfhdf"}};
+	private String [][] datosEmpleados;//={{"xcvfd","sdvdfgfd","xcbdf","xcbxh","vbbgfngfn","fdgdfhdf"}};
 	private String [] cabeceraEmpleados={"N° Empleado","Nombre","Apellidos","Fecha de inicio","Teléfono","Dirección"};
 	private JLabel lblFecha;
 	private JLabel etiquetaFecha;
@@ -48,6 +53,8 @@ public class TableEmpleados extends JFrame {
 	private JLabel lblNewLabel;
 	private TableModelListener tml;
 	private DefaultTableModel modelEmpleado;
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmEliminar;
 
 
 	/**
@@ -103,6 +110,7 @@ public class TableEmpleados extends JFrame {
 
 		tablEmpleados.setBackground(new Color(176, 224, 230));
 		tablEmpleados.isCellEditable(0,	0);
+		tablEmpleados.setSelectionBackground(Color.cyan);
 
 		lblFecha = new JLabel("Fecha:");
 		lblFecha.setForeground(Color.LIGHT_GRAY);
@@ -121,6 +129,7 @@ public class TableEmpleados extends JFrame {
 		contentPane.add(lblNewLabel, "cell 8 3,alignx center,aligny center");
 
 		scrollEmpleados = new JScrollPane(tablEmpleados);
+		
 		scrollEmpleados.setPreferredSize(new Dimension(1000, 150));
 
 		contentPane.add(scrollEmpleados, "cell 0 5 9 1,grow");
@@ -130,7 +139,6 @@ public class TableEmpleados extends JFrame {
 		etiquetaFecha.setForeground(Color.GRAY);
 		contentPane.add(etiquetaFecha, "cell 8 1");
 		scrollEmpleados.setVisible(true);
-
 		
 		//Aqui el TableModelListener debe ir fuera de cualquier otro metodo, ya que es un objeto aparte
 		tml=new TableModelListener() {
@@ -165,9 +173,6 @@ public class TableEmpleados extends JFrame {
 
 
 	}//constructor
-
-
-
 
 }//fin clase
 
