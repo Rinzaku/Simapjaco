@@ -61,11 +61,19 @@ public class Empleados_c {
 		return Empleados;
 	}
 	
-	public boolean updateEmpleado(String telefono, String direccion){
+	public boolean updateEmpleado(String idEmpleado,String telefono, String direccion){
 		modelEmpleado=new Empleados_model();
-		//modelEmpleado.update_direccion_empleado(id_empleado, direccion)
+		boolean bandera=false;
+		if (telefono==null){
+			bandera=modelEmpleado.update_direccion_empleado(Integer.parseInt(idEmpleado), direccion);
+
+		}
+		if (direccion==null){
+			bandera=modelEmpleado.update_telefono_empleado(Integer.parseInt(idEmpleado), telefono);
+
+		}
 		
-		return true;
+		return bandera;
 	}
 	
 	public String [][] empleado(String nombre,String apellidos){

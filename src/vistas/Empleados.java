@@ -2,6 +2,7 @@ package vistas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Frame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -36,6 +37,7 @@ import java.util.Calendar;
 public class Empleados extends JFrame {
 
 	private JPanel contentPane;
+	private Frame windowEmpleado;
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellido;
 	private JTextField textFieldTelefono;
@@ -65,9 +67,10 @@ public class Empleados extends JFrame {
 	 * Create the frame.
 	 */
 	public Empleados() {
+		windowEmpleado=this;
 		controlEmpleado=new Empleados_c();
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 657, 418);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
@@ -131,17 +134,29 @@ public class Empleados extends JFrame {
 		contentPane.add(lblFecha);
 		
 		buttonBuscar = new JButton("");
+		buttonBuscar.setBackground(new Color(0, 51, 153));
 		buttonBuscar.setBounds(12, 311, 187, 57);
 		buttonBuscar.setIcon(new ImageIcon(Empleados.class.getResource("/imagenes/search48.png")));
 		contentPane.add(buttonBuscar);
 		
 	    buttonAlta = new JButton("");
+	    buttonAlta.setBackground(new Color(0, 51, 153));
 	    
 		buttonAlta.setBounds(229, 311, 187, 57);
 		buttonAlta.setIcon(new ImageIcon(Empleados.class.getResource("/imagenes/ok48.png")));
 		contentPane.add(buttonAlta);
 		
 		JButton buttonBaja = new JButton("");
+		buttonBaja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(textFieldApellido.getText().isEmpty() && textFieldNombre.getText().isEmpty() && textFieldTelefono.getText().isEmpty()){
+					windowEmpleado.dispose();
+					
+				}else
+					limpiaCampos();
+			}
+		});
+		buttonBaja.setBackground(new Color(0, 51, 153));
 		buttonBaja.setBounds(442, 311, 187, 57);
 		buttonBaja.setIcon(new ImageIcon(Empleados.class.getResource("/imagenes/error48.png")));
 		contentPane.add(buttonBaja);
@@ -236,6 +251,7 @@ public class Empleados extends JFrame {
 			String [][] empl=controlEmpleado.Empleados();
 			TableEmpleados tabla=new TableEmpleados(controlEmpleado.Empleados());
 			tabla.setVisible(true);
+			tabla.setLocationRelativeTo(null);
 			System.out.println(Arrays.deepToString(empl));
 		}
 		
@@ -243,6 +259,7 @@ public class Empleados extends JFrame {
 			String [][] empleado=controlEmpleado.empleado(textFieldNombre.getText(),textFieldApellido.getText());
 			TableEmpleados tabla=new TableEmpleados(empleado);
 			tabla.setVisible(true);
+			tabla.setLocationRelativeTo(null);
 			System.out.println(Arrays.deepToString(empleado));
 		}
 	}

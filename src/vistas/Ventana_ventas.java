@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +29,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
+
 
 
 
@@ -90,6 +92,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -124,15 +127,23 @@ import javax.swing.DefaultComboBoxModel;
 
 public class Ventana_ventas extends JFrame {
 
-	private class ImageV extends JFrame{
-		private JPanel panel;
+	private class ImageV extends JDialog{
+		//private JPanel panel;
+		private JLabel labelImage;
 		
 		
 		private ImageV(){
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 450, 300);
-			panel=new JPanel();
+			getContentPane().setLayout(null);
+			labelImage = new JLabel("");
+			labelImage.setHorizontalAlignment(SwingConstants.CENTER);
+			labelImage.setIcon(new ImageIcon("123.jpg"));
+			labelImage.setBounds(10, 11, 414, 240);
+			getContentPane().add(labelImage);
 			
+			
+	
 			
 		}
 	}

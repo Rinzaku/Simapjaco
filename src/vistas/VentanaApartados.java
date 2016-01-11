@@ -48,13 +48,13 @@ public class VentanaApartados extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaApartados() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaApartados.class.getResource("/imagenes/Shopping48.png")));
 		ventanAparatdos=this;
 		apat=new Apartar();
 		setTitle("Apartados");
 		setResizable(false);
 		setAutoRequestFocus(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 505, 309);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
