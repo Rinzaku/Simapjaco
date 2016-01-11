@@ -99,6 +99,13 @@ public class Empleados_c {
 			
 	}
 	
+	public boolean deleteEmpleado(int idEmpleado){
+		modelEmpleado=new Empleados_model();
+		boolean confirmar=modelEmpleado.delete_empleado(idEmpleado);
+		return  confirmar? true : false;
+		
+	}
+	
 	public String fecha(){
 		String dia;
 		String mes;
