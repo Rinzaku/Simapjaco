@@ -132,13 +132,13 @@ public class Ventana_ventas extends JFrame {
 		private JLabel labelImage;
 		
 		
-		private ImageV(){
+		private ImageV(String imagen){
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 450, 300);
 			getContentPane().setLayout(null);
 			labelImage = new JLabel("");
 			labelImage.setHorizontalAlignment(SwingConstants.CENTER);
-			labelImage.setIcon(new ImageIcon("123.jpg"));
+			labelImage.setIcon(new ImageIcon(imagen));
 			labelImage.setBounds(10, 11, 414, 240);
 			getContentPane().add(labelImage);
 			
@@ -591,6 +591,7 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnBotonAdmin = new JButton("");
+		btnBotonAdmin.setToolTipText("Administrador");
 		btnBotonAdmin.setBackground(new Color(0, 51, 153));
 		btnBotonAdmin.setForeground(Color.WHITE);
 		btnBotonAdmin.addActionListener(new ActionListener() {
@@ -604,6 +605,7 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.add(btnBotonAdmin);
 		
 		JButton btnCambiarProd = new JButton("");
+		btnCambiarProd.setToolTipText("Cambio de producto");
 		btnCambiarProd.setBackground(new Color(0, 51, 153));
 		btnCambiarProd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -613,6 +615,7 @@ public class Ventana_ventas extends JFrame {
 		});
 		
 		JButton buttonApartar = new JButton("");
+		buttonApartar.setToolTipText("Apartar producto");
 		buttonApartar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				VentanaApartados vtnApartados =new VentanaApartados();
@@ -626,6 +629,7 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.add(btnCambiarProd);
 		
 		JButton btnFinalizar = new JButton("");
+		btnFinalizar.setToolTipText("Finalizar venta");
 		btnFinalizar.setBackground(new Color(0, 51, 153));
 		btnFinalizar.addActionListener(new ActionListener() {
 			
@@ -678,7 +682,19 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.add(btnFinalizar);
 		
 		JButton btnCancelar = new JButton("");
+		btnCancelar.setToolTipText("Cancelar venta");
 		btnCancelar.setBackground(new Color(0, 51, 153));
+		btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!textFieldEmpleado.getText().isEmpty()) {
+					limpiaVentana();
+				}
+				else
+					ventasV.dispose();
+			}
+		});
 		btnCancelar.setIcon(new ImageIcon(Ventana_ventas.class.getResource("/imagenes/error32.png")));
 		panelBoton.add(btnCancelar);
 		
@@ -818,13 +834,16 @@ public class Ventana_ventas extends JFrame {
 			if(bandera){
 				contentPane.remove(scrollBusqueda);
 			}
-			ImageV ventanaImage=new ImageV();
-			ventanaImage.setVisible(true);
+//			ImageV ventanaImage=new ImageV();
+//			ventanaImage.setVisible(true);
 			String modelo = textFieldModelo.getText();
 			textFieldModelo.setText("");
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo);
+			System.out.println(datosBusqueda[0][6]);
+			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.setVisible(true);
 			
 			
 		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()) {
@@ -885,6 +904,7 @@ public class Ventana_ventas extends JFrame {
 		};
 		tableBusqueda = new JTable(modelBusqueda);	
 		tableBusqueda.setBackground(new Color(176, 224, 230));
+		tableBusqueda.setSelectionBackground(Color.cyan);
 		tableBusqueda.isCellEditable(0,	0);
 		
 		scrollBusqueda= new JScrollPane(tableBusqueda);

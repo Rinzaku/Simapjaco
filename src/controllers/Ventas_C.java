@@ -35,13 +35,14 @@ public class Ventas_C {
 		int i = 0;
 		
 		for (Modelo m : lista) {
-			String[] p = new String[6];
+			String[] p = new String[7];
 			p[0] = modelo;
 			p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
 			p[2] = tmodel.find_talla(m.getId_talla()).getTalla();
 			p[3] = cmodel.find_color(m.getId_color()).getColor();
 			p[4] = ""+m.getExistencias();
 			p[5] = m.getEstado();
+			p[6]=m.getImagen();
 			productos[i]= p;
 			precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 			identificadores[i][0]=m.getId_modelo();
