@@ -453,7 +453,7 @@ public class Administrador extends JFrame {
 					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
 					imagen = tableAdministrador.getValueAt(i, 7)==null ? "" : tableAdministrador.getValueAt(i, 7).toString();
 					System.out.println(imagen);
-					hecho = productos.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio,rutaCorregida(imagen, "\\", "\\\\") );
+					hecho = productos.altaProducto(modelo, nombreP.toUpperCase(), descripcion.toUpperCase(), talla.toUpperCase(), color.toUpperCase(), existencia, precio,rutaCorregida(imagen, "\\", "\\\\") );
 					if(!hecho) return;
 				}
 				
