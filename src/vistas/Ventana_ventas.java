@@ -855,8 +855,8 @@ public class Ventana_ventas extends JFrame {
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla, "");
 //			System.out.println(datosBusqueda);
-//			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
-//			ventanaImage.setVisible(true);
+			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.setVisible(true);
 			
 		}else if (!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
 			if(bandera){
@@ -868,8 +868,9 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color);
-//			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
-//			ventanaImage.setVisible(true);
+			System.out.println(datosBusqueda[0][6]);
+			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.setVisible(true);
 			
 			
 		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
@@ -883,8 +884,8 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla, color);
-//			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
-//			ventanaImage.setVisible(true);
+			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.setVisible(true);
 			
 		}else{
 			JOptionPane.showMessageDialog(null, "Ingresa un modelo");

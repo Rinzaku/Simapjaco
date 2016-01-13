@@ -186,13 +186,14 @@ public class Ventas_C {
 		for (Modelo m : lista) {
 			String color_model = cmodel.find_color(m.getId_color()).getColor();
 			if (color.compareTo(color_model)==0) {
-				String[] p = new String[6];
+				String[] p = new String[7];
 				p[0] = modelo;
 				p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
 				p[2] = tmodel.find_talla(m.getId_talla()).getTalla();
 				p[3] = color_model;
 				p[4] = ""+m.getExistencias();
 				p[5] = m.getEstado();
+				p[6]=m.getImagen();
 				productos[i]= p;
 				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 				identificadores[i][0]=m.getId_modelo();
@@ -225,13 +226,14 @@ public class Ventas_C {
 		for (Modelo m : lista) {
 			String talla_model = tmodel.find_talla(m.getId_talla()).getTalla();
 			if (talla.compareTo(talla_model)==0) {
-				String[] p = new String[6];
+				String[] p = new String[7];
 				p[0] = modelo;
 				p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
 				p[2] = talla_model;
 				p[3] = cmodel.find_color(m.getId_color()).getColor();
 				p[4] = ""+m.getExistencias();
 				p[5] = m.getEstado();
+				p[6]=m.getImagen();
 				productos[i]= p;
 				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 				identificadores[i][0]=m.getId_modelo();
@@ -268,13 +270,14 @@ public class Ventas_C {
 			String color_model = cmodel.find_color(m.getId_color()).getColor();
 			String talla_model = tmodel.find_talla(m.getId_talla()).getTalla();
 			if (color.compareTo(color_model)==0 && talla.compareTo(talla_model)==0) {
-				String[] p = new String[6];
+				String[] p = new String[7];
 				p[0] = modelo;
 				p[1] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
 				p[2] = talla_model;
 				p[3] = color_model;
 				p[4] = ""+m.getExistencias();
 				p[5] = m.getEstado();
+				p[6]=m.getImagen();
 				productos[i]= p;
 				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 				identificadores[i][0]=m.getId_modelo();
