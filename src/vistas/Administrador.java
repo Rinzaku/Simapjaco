@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -75,6 +76,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 import javax.swing.JComboBox;
 
@@ -450,7 +452,8 @@ public class Administrador extends JFrame {
 					existencia= Integer.parseInt((String) tableAdministrador.getValueAt(i,5));
 					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
 					imagen = tableAdministrador.getValueAt(i, 7)==null ? "" : tableAdministrador.getValueAt(i, 7).toString();
-					hecho = productos.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio, imagen);
+					System.out.println(imagen);
+					hecho = productos.altaProducto(modelo, nombreP, descripcion, talla, color, existencia, precio,rutaCorregida(imagen, "\\", "\\\\") );
 					if(!hecho) return;
 				}
 				
@@ -571,6 +574,23 @@ public class Administrador extends JFrame {
 		});
 		
 		menuTabla.add(mnEliminar);
+	}
+	
+	public String rutaCorregida(String ruta,String slash,String slashNueva){
+		StringTokenizer tokens=new StringTokenizer(ruta, slash);
+		
+		String rutaCorregida = new String();
+		
+		int noTokens = tokens.countTokens();
+		int i = 1;
+		do
+		{      //Agregar el nuevo separador
+			rutaCorregida += tokens.nextToken()+slashNueva;
+			i++;
+		}while(i<noTokens);
+		rutaCorregida += tokens.nextToken();       
+		
+		return rutaCorregida;
 	}
 }
 
