@@ -131,8 +131,7 @@ public class Ventana_ventas extends JFrame {
 		//private JPanel panel;
 		private JLabel labelImage;
 		
-		
-		private ImageV(String imagen){
+		public void pintaVentana(String imagen){
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 450, 300);
 			getContentPane().setLayout(null);
@@ -141,13 +140,11 @@ public class Ventana_ventas extends JFrame {
 			labelImage.setIcon(new ImageIcon(imagen));
 			labelImage.setBounds(10, 11, 414, 240);
 			getContentPane().add(labelImage);
-			
-			
-	
-			
+			labelImage.updateUI();			
 		}
 	}
 
+	private ImageV ventanaImage;
 	private JPanel contentPane;
 	private JTextField textFieldModelo;
 	private JTextField textFieldColor;
@@ -210,6 +207,7 @@ public class Ventana_ventas extends JFrame {
 	 */
 	public Ventana_ventas() {
 		
+		ventanaImage=new ImageV();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
 		Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
@@ -509,7 +507,7 @@ public class Ventana_ventas extends JFrame {
 					String Color =(String) tableVentas.getValueAt(pos, 3);
 					String precio=(String) tableVentas.getValueAt(pos,5);
 
-					ApartarProducto apartarProd =new ApartarProducto(modelo,descripcion,talla,Color,precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV);
+					ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV);
 					apartarProd.setVisible(true);
 
 				}
@@ -840,7 +838,8 @@ public class Ventana_ventas extends JFrame {
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo);
 			System.out.println("ventana ventas "+datosBusqueda[0][6]);
-			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			//ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.pintaVentana(datosBusqueda[0][6]);
 			ventanaImage.setVisible(true);
 			
 			
@@ -853,9 +852,11 @@ public class Ventana_ventas extends JFrame {
 			textFieldModelo.setText("");
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla, "");
+			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla.toUpperCase(), "");
 //			System.out.println(datosBusqueda);
-			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			//ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.pintaVentana(datosBusqueda[0][6]);
+			ventanaImage.update(ventanaImage.getGraphics());
 			ventanaImage.setVisible(true);
 			
 		}else if (!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
@@ -867,9 +868,10 @@ public class Ventana_ventas extends JFrame {
 			textFieldModelo.setText("");
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color);
+			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color.toUpperCase());
 			System.out.println(datosBusqueda[0][6]);
-			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			ventanaImage.pintaVentana(datosBusqueda[0][6]);
+			ventanaImage.update(ventanaImage.getGraphics());
 			ventanaImage.setVisible(true);
 			
 			
@@ -883,9 +885,11 @@ public class Ventana_ventas extends JFrame {
 			textFieldModelo.setText("");
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla, color);
-			ImageV ventanaImage=new ImageV(datosBusqueda[0][6]);
+			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla.toUpperCase(), color.toUpperCase());
+			ventanaImage.pintaVentana(datosBusqueda[0][6]);
+			ventanaImage.update(ventanaImage.getGraphics());
 			ventanaImage.setVisible(true);
+			
 			
 		}else{
 			JOptionPane.showMessageDialog(null, "Ingresa un modelo");
