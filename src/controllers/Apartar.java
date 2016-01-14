@@ -1,5 +1,7 @@
 package controllers;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,8 +18,10 @@ import instancias.Ventas;
 public class Apartar {
 	
 	Detalle_Venta detalleVtn;
+	private Calendar calendario;
+
 	
-	private int creaVenta(String fecha,double Abono,double precio) {
+	private int creaVenta(String fecha,double Abono,double precio,int empleado) {
 		int id=0;
 		Ventas_model VentasModel = new Ventas_model();
 		Ventas venta = new Ventas();
@@ -27,17 +31,18 @@ public class Apartar {
 		venta.setAbono(Abono);
 		venta.setEstado("APARTADO");
 		venta.setTotal_venta(precio);
+		venta.setNo_empleado(empleado);
 		id=VentasModel.insert_venta(venta);
 		
 		return id;
 	}
 
-	public boolean apartarProducto(String modelo, String Descripcion, String Talla, String Color,String Precio,String Fecha,Double Abono,int idModelo,int ropa){
+	public boolean apartarProducto(String modelo, String Descripcion, String Talla, String Color,String Precio,String Fecha,Double Abono,int idModelo,int ropa, int empleado){
 		int id_venta=0;
 		System.out.println("idModelo :"+idModelo);
 		System.out.println("id ropa :"+ropa);
 		Detalle_Venta_model detalleModel=new Detalle_Venta_model();
-		id_venta =creaVenta(Fecha,Abono,Double.parseDouble(Precio));
+		id_venta =creaVenta(Fecha,Abono,Double.parseDouble(Precio),empleado);
 		if (id_venta<0) {
 			return false;
 		}
@@ -87,28 +92,45 @@ public class Apartar {
 			return false;
 	}
 	
+	public boolean validaFecha(String fechaventa){
+		calendario = new GregorianCalendar();
+		Calendar calendarioVenta = new GregorianCalendar();
+		calendarioVenta.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaventa, new ParsePosition(0)));
+		if (calendario.get(Calendar.MONTH)==calendarioVenta.get(Calendar.MONTH)) {
+			int dias = calendario.get(Calendar.DATE) - calendarioVenta.get(Calendar.DATE);
+			if(dias<=1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public String  buscaModelo (int folio){
 		Ventas venta;
 		Ventas_model vtnModel=new Ventas_model();
 		venta =vtnModel.find_venta(folio);
-		
+
+
 		if (venta!=null) {
-		
-			String abono =""+venta.getAbono();
-			return (abono);
-			
+			if(validaFecha(venta.getFecha())){
+				String abono =""+venta.getAbono();
+				return (abono);
+			}
+			else{
+				return null;
+			}
 		}
 		else{
 			return null;
 		}
-		
+
 	}
 	
 	
 	
 
-}
+}//fin clase
 
 
 

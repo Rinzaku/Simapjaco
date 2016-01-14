@@ -512,7 +512,7 @@ public class Ventana_ventas extends JFrame {
 					String Color =(String) tableVentas.getValueAt(pos, 3);
 					String precio=(String) tableVentas.getValueAt(pos,5);
 
-					ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV);
+					ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV,Integer.parseInt(textFieldEmpleado.getText()));
 					apartarProd.setVisible(true);
 
 				}

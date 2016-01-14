@@ -70,7 +70,7 @@ public class ApartarProducto extends JFrame {
 	 * @param descripcion 
 	 * @param modelo 
 	 */
-	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa,Ventana_ventas ventas) {
+	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa,Ventana_ventas ventas,int empleado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ApartarProducto.class.getResource("/imagenes/Shopping48.png")));
 		ventanApartar=this;
 		apartar = new Apartar();
@@ -208,7 +208,7 @@ public class ApartarProducto extends JFrame {
 				if (textCuenta.getText().isEmpty() && textResta.getText().isEmpty()){
 					JOptionPane.showMessageDialog(null, "Ingrese la cantidad para apartar el producto");
 				}
-				bdn=apartar.apartarProducto(modelo, descripcion, talla, color, precio,etiquetaFecha.getText(), Double.parseDouble(textResta.getText()),idModelo,ropa);
+				bdn=apartar.apartarProducto(modelo, descripcion, talla, color, precio,etiquetaFecha.getText(),Double.parseDouble(textResta.getText()),idModelo,ropa,empleado);
 				if (bdn) {
 					JOptionPane.showMessageDialog(null, "Apartado exitoso");
 					ventanApartar.dispose();

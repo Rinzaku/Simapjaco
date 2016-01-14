@@ -142,7 +142,13 @@ public class VentanaApartados extends JFrame {
 				if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 					if(!textFolio.getText().isEmpty()){
 						String resta =apat.buscaModelo(Integer.parseInt(textFolio.getText()));
-						textResta.setText(resta);
+						if (resta!=null) {
+							textResta.setText(resta);
+						}else{
+							JOptionPane.showMessageDialog(null, "Lo sentimos la fecha a expirado");
+							textAbono.setEditable(false);
+						}
+						
 					}
 				}
 				
