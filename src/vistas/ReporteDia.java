@@ -35,7 +35,7 @@ public class ReporteDia extends JFrame {
 	public ReporteDia() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ReporteDia.class.getResource("/imagenes/Shopping48.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 1178, 497);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(245, 255, 250));
 		contentPane.setForeground(new Color(245, 245, 245));

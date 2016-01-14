@@ -384,15 +384,10 @@ public class Administrador extends JFrame {
 		comboBox.setForeground(Color.white);
 		DefaultCellEditor defaultCellEditor=new DefaultCellEditor(comboBox);
 		tableAdministrador.getColumnModel().getColumn(3).setCellEditor(defaultCellEditor);
-		
-		JButton btnUpdate = new JButton("");
-		btnUpdate.setBackground(new Color(0,51, 153));
-		btnUpdate.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/update.png")));
-		contentPane.add(btnUpdate, "flowx,cell 0 10,alignx center");
-		
 				
 		JButton btnAltaProd = new JButton("");
 		btnAltaProd.setBackground(new Color(0, 51, 153));
+		btnAltaProd.setToolTipText("Agrega a la base de datos el(los) producto(s)");
 		btnAltaProd.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/addProducto.png")));
 		contentPane.add(btnAltaProd, "cell 0 10,alignx center");
 		
@@ -412,6 +407,7 @@ public class Administrador extends JFrame {
 				}
 			}
 		});
+		btnSelectImage.setToolTipText("Agrega una imagen al(los) producto(s)");
 		btnSelectImage.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/selectImage.png")));
 		btnSelectImage.setBackground(new Color(0, 51, 153));
 		contentPane.add(btnSelectImage, "cell 0 10,alignx center");
@@ -430,6 +426,7 @@ public class Administrador extends JFrame {
 				model.addTableModelListener(tml);
 			}
 		});
+		btnLimpiar.setToolTipText("Limpia la tabla para agregar un(os) nuevo(s) producto(s)");
 		btnLimpiar.setIcon(new ImageIcon(Administrador.class.getResource("/imagenes/limpia.png")));
 		btnLimpiar.setBackground(new Color(0, 51, 153));
 		contentPane.add(btnLimpiar, "cell 0 10,alignx center");
@@ -453,7 +450,7 @@ public class Administrador extends JFrame {
 					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
 					imagen = tableAdministrador.getValueAt(i, 7)==null ? "" : tableAdministrador.getValueAt(i, 7).toString();
 					System.out.println(imagen);
-					hecho = productos.altaProducto(modelo, nombreP.toUpperCase(), descripcion.toUpperCase(), talla.toUpperCase(), color.toUpperCase(), existencia, precio,rutaCorregida(imagen, "\\", "\\\\") );
+					hecho = productos.altaProducto(modelo.toUpperCase(), nombreP.toUpperCase(), descripcion.toUpperCase(), talla.toUpperCase(), color.toUpperCase(), existencia, precio,rutaCorregida(imagen, "\\", "\\\\") );
 					if(!hecho) return;
 				}
 				
