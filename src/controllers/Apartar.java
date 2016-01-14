@@ -92,18 +92,62 @@ public class Apartar {
 			return false;
 	}
 	
-	public boolean validaFecha(String fechaventa){
-		calendario = new GregorianCalendar();
-		Calendar calendarioVenta = new GregorianCalendar();
-		calendarioVenta.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaventa, new ParsePosition(0)));
-		if (calendario.get(Calendar.MONTH)==calendarioVenta.get(Calendar.MONTH)) {
-			int dias = calendario.get(Calendar.DATE) - calendarioVenta.get(Calendar.DATE);
-			if(dias<=1){
-				return true;
-			}
-		}
-		return false;
-	}
+	private static int get_last_day_of_month(int month, int year){
+	    System.out.println("Mes -> " + month);
+	    int last_day = 0;
+	    switch(month){
+	    case 1:
+	    case 3:
+	    case 5:
+	    case 7:
+	    case 8:
+	    case 10:
+	    case 12:
+	      last_day = 31;
+	      break;
+	    case 2:
+	      last_day = new GregorianCalendar().isLeapYear(year) ? 29 : 28;
+	      break;
+	    case 4:
+	    case 6:
+	    case 9:
+	    case 11:
+	      last_day = 30;
+	      break;
+	    }
+	    return last_day;
+	  }
+
+	  private boolean validaFecha(String fechaventa){
+	    calendario = new GregorianCalendar();
+	    Calendar calendarioVenta = new GregorianCalendar();
+	    calendarioVenta.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaventa, new ParsePosition(0)));
+	    if (calendario.get(Calendar.MONTH)==calendarioVenta.get(Calendar.MONTH)) {
+	      int dias = calendario.get(Calendar.DATE) - calendarioVenta.get(Calendar.DATE);
+	      if(dias<=7){
+	        return true;
+	      }
+	    }else if (calendario.get(Calendar.YEAR)==calendarioVenta.get(Calendar.YEAR)){
+	      if((calendario.get(Calendar.MONTH)-calendarioVenta.get(Calendar.MONTH)) == 1){
+	        int sell_last_day = get_last_day_of_month(calendarioVenta.get(Calendar.MONTH)+1, calendarioVenta.get(Calendar.YEAR));
+	        int day_diff = sell_last_day - calendarioVenta.get(Calendar.DATE);
+	        if((day_diff + calendario.get(Calendar.DATE)) <=7){
+	          return true;
+	        }
+	      }
+	    }else {
+	      if((calendario.get(Calendar.YEAR)-calendarioVenta.get(Calendar.YEAR)) == 1){
+	        if((calendario.get(Calendar.MONTH)+1)== 1 && (calendarioVenta.get(Calendar.MONTH)+1)==12){
+	          int sell_last_day = get_last_day_of_month(calendarioVenta.get(Calendar.MONTH)+1, calendarioVenta.get(Calendar.YEAR));
+	          int day_diff = sell_last_day - calendarioVenta.get(Calendar.DATE);
+	          if((day_diff + calendario.get(Calendar.DATE)) <=7){
+	            return true;
+	          }
+	        }
+	      }
+	    }
+	    return false;
+	  }
 	
 	
 	public String  buscaModelo (int folio){

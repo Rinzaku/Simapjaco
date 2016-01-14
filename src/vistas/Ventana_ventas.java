@@ -52,6 +52,9 @@ import java.awt.Dimension;
 
 
 
+
+
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -59,6 +62,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -67,6 +73,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.Window;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
@@ -93,6 +100,11 @@ import javax.swing.border.TitledBorder;
 
 
 
+
+
+
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -131,22 +143,47 @@ public class Ventana_ventas extends JFrame {
 		//private JPanel panel;
 		private JLabel labelImage;
 		
+		
+		public ImageV() {
+			super();
+			JDialog ventanaImage=this;
+			ventanaImage.setUndecorated(true);
+			ventanaImage.addFocusListener(new FocusListener() {
+				
+				@Override
+				public void focusLost(FocusEvent e) {
+					ventanaImage.dispose();
+				}
+				
+				@Override
+				public void focusGained(FocusEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+
+		
 		public void pintaVentana(String imagen){
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(100, 100, 450, 300);
+			setBounds(0, 0, 300, 250);
 			getContentPane().setLayout(null);
 			labelImage = new JLabel("");
 			labelImage.setHorizontalAlignment(SwingConstants.CENTER);
 			labelImage.setIcon(new ImageIcon(imagen));
-			labelImage.setBounds(10, 11, 414, 240);
+			labelImage.setBounds(0, 0, 300, 250);
 			getContentPane().add(labelImage);
-			labelImage.updateUI();			
+			bndImage=true;
+						
 		}
 		
 		public void refreshV(){
-			labelImage.removeAll();
-			labelImage.updateUI();
+			if (bndImage) {
+				getContentPane().remove(labelImage);
+			}
+			
 		}
+		
 	}
 
 	private ImageV ventanaImage;
@@ -164,6 +201,7 @@ public class Ventana_ventas extends JFrame {
 	JScrollPane scrollVentas;
 	Ventas_C controlador_ventas;
 	
+	boolean bndImage=false;
 	boolean bandera = false;
 	int renglon = 0;
 	ArrayList<Integer> ids_modelos;
@@ -691,7 +729,7 @@ public class Ventana_ventas extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!textFieldEmpleado.getText().isEmpty()) {
+				if (!textFieldEmpleado.getText().isEmpty() || modelBusqueda.getRowCount()!=0) {
 					limpiaVentana();
 				}
 				else
@@ -744,7 +782,10 @@ public class Ventana_ventas extends JFrame {
 			public void mousePressed(MouseEvent click) {
 			
 				if (click.getClickCount()==2) {
-					
+					if (modelBusqueda.getValueAt(tableBusqueda.getSelectedRow(), 5).toString().compareTo("ELIMINADO")==0) {
+						JOptionPane.showMessageDialog(contentPane, "Producto fuera de sistema","Eliminado",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					int existencias = Integer.parseInt(modelBusqueda.getValueAt(tableBusqueda.getSelectedRow(), 4).toString());
 					if(existencias == 0){
 						JOptionPane.showMessageDialog(contentPane, "Ya no hay existencias\nde este modelo","Agotado",JOptionPane.WARNING_MESSAGE);
@@ -842,7 +883,7 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo);
-			System.out.println("ventana ventas "+datosBusqueda[0][6]);
+			ventanaImage.refreshV();
 			ventanaImage.pintaVentana(datosBusqueda[0][6]);
 			ventanaImage.setVisible(true);
 			
@@ -859,7 +900,6 @@ public class Ventana_ventas extends JFrame {
 			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla.toUpperCase(), "");
 			ventanaImage.refreshV();
 			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.update(ventanaImage.getGraphics());
 			ventanaImage.setVisible(true);
 			
 		}else if (!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
@@ -874,7 +914,6 @@ public class Ventana_ventas extends JFrame {
 			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color.toUpperCase());
 			ventanaImage.refreshV();
 			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.update(ventanaImage.getGraphics());
 			ventanaImage.setVisible(true);
 			
 			
@@ -891,7 +930,6 @@ public class Ventana_ventas extends JFrame {
 			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla.toUpperCase(), color.toUpperCase());
 			ventanaImage.refreshV();
 			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.update(ventanaImage.getGraphics());
 			ventanaImage.setVisible(true);
 			
 			
