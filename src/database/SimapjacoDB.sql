@@ -29,6 +29,19 @@ CREATE TABLE IF NOT EXISTS `Ropa` (
   PRIMARY KEY (`id_ropa`)  COMMENT '')
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `Cuenta`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Cuenta` ;
+
+CREATE TABLE IF NOT EXISTS `Cuenta` (
+  `id_cuenta` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `fecha` VARCHAR(45) NOT NULL COMMENT '',
+  `cuenta` DOUBLE NOT NULL COMMENT '',
+  PRIMARY KEY (`id_cuenta`)  COMMENT '')
+ENGINE = InnoDB;
+
+
 
 -- -----------------------------------------------------
 -- Table `Catalogo_color`
