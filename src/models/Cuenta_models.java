@@ -85,9 +85,9 @@ public class Cuenta_models {
 	
 	
 	/**
-	 * Metodo para buscar una talla en la base de datos.
-	 * @param id_talla
-	 * @return id_talla
+	 * Metodo para buscar una cuenta en la base de datos.
+	 * @param fecha
+	 * @return cuenta
 	 */
 	public Cuenta find_cuenta(String fecha){
 		Cuenta cuenta=null;

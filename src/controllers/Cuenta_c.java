@@ -3,7 +3,11 @@ package controllers;
 import instancias.Cuenta;
 import models.Cuenta_models;
 
-
+/**
+ * Clase que se encarga de la logica de la cuenta *.^/
+ * @author Cecilia Hernandez Vasquez
+ *
+ */
 
 public class Cuenta_c {
 	Cuenta_models cuentaModels;
