@@ -55,6 +55,7 @@ import java.awt.Dimension;
 
 
 
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -77,6 +78,7 @@ import java.awt.Window;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+
 
 
 
@@ -136,6 +138,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+import ticket.Ticket;
 
 public class Ventana_ventas extends JFrame {
 
@@ -228,6 +232,7 @@ public class Ventana_ventas extends JFrame {
 	
 	private int numero_prendas=0;
 	private JTextField textTotal;
+	private Ticket ticket;
 	
 	/**
 	 * Launch the application.
@@ -249,7 +254,7 @@ public class Ventana_ventas extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
-		
+		ticket=new Ticket();
 		ventanaImage=new ImageV();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
 		Ventana_ventas ventasV=this;
@@ -700,8 +705,13 @@ public class Ventana_ventas extends JFrame {
 								exito=controlador_ventas.creaDetalleVenta(id_ventas, ids_modelos.get(i), ids_ropas.get(i), Integer.parseInt(modelVentas.getValueAt(i, 4).toString()), Double.parseDouble((modelVentas.getValueAt(i, 5).toString())));
 								if(!exito) break;
 							}
-							if(exito)
-								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
+							if(exito){
+							ticket.cabecera(txtFolio.getText(),textFieldEmpleado.getText());
+							ticket.Items(datosVentas);
+							ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
+							ticket.piePagina();
+							ticket.ImprimirDocumento();
+								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);}
 							else
 								JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
 						}else{
