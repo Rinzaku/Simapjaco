@@ -711,7 +711,8 @@ public class Ventana_ventas extends JFrame {
 							ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
 							ticket.piePagina();
 							ticket.ImprimirDocumento();
-								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);}
+								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
+								}
 							else
 								JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
 						}else{
