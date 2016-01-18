@@ -400,7 +400,7 @@ public class CambiarProducto extends JFrame {
 				textAreaDatosVenta.setText("***************************************Descripcion de la venta*************************************");
 				textDiferencia.setText("");
 				btnAceptar.setEnabled(false);
-				
+				dispose();
 			}
 		});
 

@@ -104,13 +104,25 @@ public class Productos_admin {
 
 	public String fecha(){
 		Calendar calendario = new GregorianCalendar();
-		String day = Integer.toString(calendario.get(Calendar.DATE));
-		String month = Integer.toString(calendario.get(Calendar.MONTH)+1);
+		int d = calendario.get(Calendar.DATE);
+		int m = calendario.get(Calendar.MONTH)+1;
+		String day = d<=9 ? "0"+Integer.toString(d): Integer.toString(d);
+		String month = m<=9 ? "0"+Integer.toString(m) : Integer.toString(m);
 		String year = Integer.toString(calendario.get(Calendar.YEAR));
-
+		
 		return day+"/"+month+"/"+year;
 	}
-
+	
+	public int get_mes(){
+		Calendar calendario = new GregorianCalendar();
+		return calendario.get(Calendar.MONTH);
+	}
+	
+	public int get_anio(){
+		Calendar calendario = new GregorianCalendar();
+		return calendario.get(Calendar.YEAR);
+	}
+	
 	public String [] tallas(){
 		Talla_model tallaModel=new Talla_model();
 		ArrayList<Talla> tallaI=tallaModel.get_tallas();

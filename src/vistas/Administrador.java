@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -126,8 +127,9 @@ public class Administrador extends JFrame {
 	public Administrador() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagenes/Shopping48.png")));
 		productos=new Productos_admin();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1027, 480);
+		setTitle("Ventana Administrador");
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -138,18 +140,40 @@ public class Administrador extends JFrame {
 		JMenuItem mntmInventario = new JMenuItem("Inventario");
 		mntmInventario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ReporteDia reporteDia=new ReporteDia();
-				reporteDia.setVisible(true);
+				ReporteDia inventario=new ReporteDia("Inventario",1,"");
+				inventario.setVisible(true);
 			}
 		});
 		
 		mnMenu.add(mntmInventario);
 		
 		JMenuItem mntmReporteDelDia = new JMenuItem("Reporte del dia");
+		mntmReporteDelDia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteDia reporteDia=new ReporteDia("Reporte del dia",2,"");
+				reporteDia.setVisible(true);
+			}
+		});
 		mnMenu.add(mntmReporteDelDia);
 		
 		JMenuItem mntmReporteDelMes = new JMenuItem("Reporte del mes");
+		mntmReporteDelMes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+				int mes_actual= productos.get_mes();
+				String mes =(String)JOptionPane.showInputDialog(contentPane, "Reporte del mes ..", "Elige un mes", JOptionPane.PLAIN_MESSAGE, null, options, options[mes_actual]);
+				if(mes!=null){
+					int anio_actual = productos.get_anio();
+//					String año=JOptionPane.showInputDialog(contentPane, "Introduce el año");
+					String anio = (String) JOptionPane.showInputDialog(contentPane, "Introduce el año","Elige año",JOptionPane.PLAIN_MESSAGE,null,null, ""+anio_actual);
+					String mes_anio = "%/"+obten_mes(mes)+"/"+anio;
+					ReporteDia reporteMes=new ReporteDia("Reporte del mes",3,mes_anio);
+					reporteMes.setVisible(true);
+				}
+			}
+		});
 		mnMenu.add(mntmReporteDelMes);
+		
 		JMenuItem mntmEmpleados = new JMenuItem("Empleados");
 		mntmEmpleados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -588,6 +612,36 @@ public class Administrador extends JFrame {
 		rutaCorregida += tokens.nextToken();       
 		
 		return rutaCorregida;
+	}
+	
+	private String obten_mes(String mes_letra){
+		String mes_numero="";
+		if(mes_letra.compareTo("Enero")==0){
+			mes_numero = "01";
+		}else if(mes_letra.compareTo("Febrero")==0){
+			mes_numero = "02";
+		}else if(mes_letra.compareTo("Marzo")==0){
+			mes_numero = "03";
+		}else if(mes_letra.compareTo("Abril")==0){
+			mes_numero = "04";
+		}else if(mes_letra.compareTo("Mayo")==0){
+			mes_numero = "05";
+		}else if(mes_letra.compareTo("Junio")==0){
+			mes_numero = "06";
+		}else if(mes_letra.compareTo("Julio")==0){
+			mes_numero = "07";
+		}else if(mes_letra.compareTo("Agosto")==0){
+			mes_numero = "08";
+		}else if(mes_letra.compareTo("Septiembre")==0){
+			mes_numero = "09";
+		}else if(mes_letra.compareTo("Octubre")==0){
+			mes_numero = "10";
+		}else if(mes_letra.compareTo("Noviembre")==0){
+			mes_numero = "11";
+		}else if(mes_letra.compareTo("Diciembre")==0){
+			mes_numero = "12";
+		}
+		return mes_numero;
 	}
 }
 

@@ -142,6 +142,41 @@ public class Ventas_model {
 		return venta;
 	}
 	
+	public ArrayList<Ventas> find_ventas(String fecha){
+		String query = "SELECT * FROM ventas WHERE fecha LIKE '"+fecha+"'";
+		Ventas venta;
+		lista_ventas = new ArrayList<Ventas>();
+		try {
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while(rs.next()){
+				venta = new Ventas();
+				venta.setId_venta(rs.getInt("id_ventas"));
+				venta.setNo_empleado(rs.getInt("id_empleado"));
+				venta.setFecha(rs.getString("fecha"));
+				venta.setNo_articulos(rs.getInt("no_articulos"));
+				venta.setSub_total(rs.getDouble("sub_total"));
+				venta.setDescuento(rs.getDouble("descuento"));
+				venta.setTotal_venta(rs.getDouble("total"));
+				venta.setAbono(rs.getDouble("abono"));
+				venta.setEstado(rs.getString("estado"));
+				lista_ventas.add(venta);
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar la consulta a la base de datos");
+		}finally{
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lista_ventas;
+	}
 	/**
 	 * Actualiza el numero de articulos y el precio de una venta
 	 * @param id_venta El identificador de la venta a modificar

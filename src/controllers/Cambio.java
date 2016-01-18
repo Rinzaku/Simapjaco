@@ -144,10 +144,10 @@ public class Cambio {
 	public String fecha(){
 		Calendar calendario = new GregorianCalendar();
 		int d = calendario.get(Calendar.DATE);
-		
-		String month = Integer.toString(calendario.get(Calendar.MONTH)+1);
-		String year = Integer.toString(calendario.get(Calendar.YEAR));
+		int m = calendario.get(Calendar.MONTH)+1;
 		String day = d<=9 ? "0"+Integer.toString(d): Integer.toString(d);
+		String month = m<=9 ? "0"+Integer.toString(m) : Integer.toString(m);
+		String year = Integer.toString(calendario.get(Calendar.YEAR));
 		
 		return day+"/"+month+"/"+year;
 	}
