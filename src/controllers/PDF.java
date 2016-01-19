@@ -92,10 +92,37 @@ public class PDF {
 
 	public void addContent_Inventario(ArrayList<Modelo> productos) throws DocumentException {
 		
+		createTableInventario(productos);
 
 	}
 
-	public void addContent_Ventas(ArrayList<Ventas> ventas) throws DocumentException {
+	public void addContent_Ventas_dia(ArrayList<Ventas> ventas, String cuenta) throws DocumentException {
+		Paragraph paragraph = null;
+		String msj = "";
+		double totalVenta = 0;
+		for (Ventas v : ventas) {
+			totalVenta += v.getTotal_venta(); 
+			createTableVentas(v);
+			paragraph = new Paragraph();
+			addEmptyLine(paragraph, 2);
+			document.add(paragraph);
+		}
+		double cuenta_dia = cuenta.length() == 0 ? 0.0 : Double.parseDouble(cuenta);
+		msj = "Subtotal de venta : $"+(totalVenta + cuenta_dia);
+		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
+		paragraph.setAlignment(Element.ALIGN_RIGHT);
+		document.add(paragraph);
+		msj = "Cuenta del dia de hoy : $"+cuenta;
+		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
+		paragraph.setAlignment(Element.ALIGN_RIGHT);
+		document.add(paragraph);
+		msj = "Total de venta para el dia de hoy : $" + totalVenta;
+		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
+		paragraph.setAlignment(Element.ALIGN_RIGHT);
+		document.add(paragraph);
+	}
+	
+	public void addContent_Ventas_mes(ArrayList<Ventas> ventas) throws DocumentException {
 		
 		for (Ventas v : ventas) {
 			createTableVentas(v);
@@ -106,32 +133,43 @@ public class PDF {
 		
 
 	}
-	
-	public void createTableInventario(Paragraph subCatPart, ArrayList<Modelo> productos)
-			throws BadElementException {
-		PdfPTable table = new PdfPTable(9);
-		PdfPCell c1 = new PdfPCell(new Phrase(""));
-		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table.addCell(c1);
-
-		c1 = new PdfPCell(new Phrase(""));
-		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table.addCell(c1);
-
-		c1 = new PdfPCell(new Phrase(""));
-		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table.addCell(c1);
+	public void createTableInventario(ArrayList<Modelo> productos)
+			throws DocumentException {
+		float[] columWidths = {2,2,4,2,2,1.5f,2,2};
+		PdfPTable table = new PdfPTable(columWidths);
+		table.setWidthPercentage(100);
+		table.getDefaultCell().setUseAscender(true);
+        table.getDefaultCell().setUseDescender(true);
+        table.getDefaultCell().setBackgroundColor(new GrayColor(0.75f));
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+        
+        Font f = new Font(FontFamily.HELVETICA, 10, Font.NORMAL, GrayColor.BLACK);
+        Font ft = new Font(FontFamily.HELVETICA, 10, Font.BOLDITALIC, GrayColor.BLACK);
+        
+		table.addCell(new Phrase("Modelo",ft));
+		table.addCell(new Phrase("Producto",ft));
+		table.addCell(new Phrase("Descripción",ft));
+		table.addCell(new Phrase("Talla",ft));
+		table.addCell(new Phrase("Color",ft));
+		table.addCell(new Phrase("Cant.",ft));
+		table.addCell(new Phrase("Precio",ft));
+		table.addCell(new Phrase("Estado",ft));
 		table.setHeaderRows(1);
-
-		table.addCell("1.0");
-		table.addCell("1.1");
-		table.addCell("1.2");
-		table.addCell("2.1");
-		table.addCell("2.2");
-		table.addCell("2.3");
-
-		subCatPart.add(table);
-
+		table.getDefaultCell().setBackgroundColor(GrayColor.GRAYWHITE);
+		for (Modelo m : productos) {
+			Ropa r = new Ropa_model().find_ropa(m.getId_ropa());
+			table.addCell(new Phrase(m.getModelo(),f));
+			table.addCell(new Phrase(r.getPrenda(),f));
+			table.addCell(new Phrase(r.getDescricion(),f));
+			table.addCell(new Phrase(new Talla_model().find_talla(m.getId_talla()).getTalla(),f));
+			table.addCell(new Phrase(new Color_model().find_color(m.getId_color()).getColor(),f));
+			table.addCell(new Phrase(""+m.getExistencias(),f));
+			table.addCell(new Phrase(""+r.getPrecio(),f));
+			table.addCell(new Phrase(m.getEstado(),f));
+		}
+		
+		document.add(table);
+        
 	}
 
 	public void createTableVentas(Ventas venta)

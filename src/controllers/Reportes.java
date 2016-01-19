@@ -36,7 +36,7 @@ public class Reportes {
 		String[][] productos = new String[modelos.size()][];
 		int i=0;
 		for (Modelo m : modelos) {
-			String[] p = new String[9];
+			String[] p = new String[8];
 			p[0] = m.getModelo();
 			p[1] = rmodel.find_ropa(m.getId_ropa()).getPrenda();
 			p[2] = rmodel.find_ropa(m.getId_ropa()).getDescricion();
@@ -44,8 +44,7 @@ public class Reportes {
 			p[4] = cmodel.find_color(m.getId_color()).getColor();
 			p[5] = ""+m.getExistencias();
 			p[6] = ""+rmodel.find_ropa(m.getId_ropa()).getPrecio();
-			p[7] = m.getImagen();
-			p[8] = m.getEstado();
+			p[7] = m.getEstado();
 			productos[i] = p;
 			i++;
 		}
@@ -81,8 +80,8 @@ public class Reportes {
 		return venta;
 	}
 	
-	public void crearPDF(String file_name, int tipo_reporte, String mes){
-		String titulo = tipo_reporte == 1 ? "Reporte de inventario" : "Reporte de ventas";
+	public boolean crearPDF(String file_name, int tipo_reporte, String mes){
+		String titulo = tipo_reporte == 1 ? "INVENTARIO" : "REPORTE DE VENTAS";
 		String subtitulo = "Reporte correspondiente a la fecha: "+fecha();
 		String autor = "Arturo Gonzalez Hernandez";
 		String desc = "";
@@ -99,10 +98,12 @@ public class Reportes {
 			pdf.addCabecera();
 			pdf.addTitlePage(titulo, fecha(), autor, desc);
 			if(tipo_reporte == 1) pdf.addContent_Inventario(modelos);
-			else pdf.addContent_Ventas(ventas);
+			else if(tipo_reporte == 2) pdf.addContent_Ventas_dia(ventas,mes);//Aqui agregamos lo de la cuenta
+			else pdf.addContent_Ventas_mes(ventas);
 			pdf.cerrar_doc();
+			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			return false;
 		}
 		
 	}

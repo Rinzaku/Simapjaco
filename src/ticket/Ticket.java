@@ -24,12 +24,22 @@ public class Ticket{
 	private PrintWriter pw;
 	private String cadena;
 	
-	static ArrayList<String> CabezaLineas=new ArrayList<String>(); 
-	static ArrayList<String> subCabezaLineas=new ArrayList<String>(); 
-	static ArrayList<String> items=new ArrayList<String>(); 
-	static ArrayList<String> totales=new ArrayList<String>(); 
-	static ArrayList<String> LineasPie=new ArrayList<String>(); 
+	static ArrayList<String> CabezaLineas; 
+	static ArrayList<String> subCabezaLineas; 
+	static ArrayList<String> items; 
+	static ArrayList<String> totales; 
+	static ArrayList<String> LineasPie; 
+	
+	public Ticket(){
+		CabezaLineas=new ArrayList<String>();
+		subCabezaLineas=new ArrayList<String>();
+		items=new ArrayList<String>();
+		totales=new ArrayList<String>();
+		LineasPie=new ArrayList<String>();
+	}
+	
 	public static void AddCabecera(String line){CabezaLineas.add(line);} 
+	
 	public static void AddSubCabecera(String line){subCabezaLineas.add(line);} 
 	
 	public static void AddItem(String cantidad,String item,String price){ 
@@ -198,17 +208,4 @@ public class Ticket{
 //}
 //
 	
-} 
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

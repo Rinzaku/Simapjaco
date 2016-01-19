@@ -57,7 +57,6 @@ import java.awt.Dimension;
 
 
 
-
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -80,7 +79,6 @@ import java.awt.Window;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-
 
 
 
@@ -258,7 +256,7 @@ public class Ventana_ventas extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
-		ticket=new Ticket();
+		
 		ventanaImage=new ImageV();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
 		Ventana_ventas ventasV=this;
@@ -716,15 +714,15 @@ public class Ventana_ventas extends JFrame {
 								if(!exito) break;
 							}
 							if(exito){
-							ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())));
-							ticket.Items(venta());
-							ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
-							ticket.piePagina();
-							ticket.ImprimirDocumento();
-							//System.out.println("VEntas :"+Arrays.deepToString(venta()));
+								ticket=new Ticket();
+								ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())));
+								ticket.Items(venta());
+								ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
+								ticket.piePagina();
+								ticket.ImprimirDocumento();
+								//System.out.println("VEntas :"+Arrays.deepToString(venta()));
 								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
-								}
-							else
+							}else
 								JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
 						}else{
 							JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
@@ -896,83 +894,7 @@ public class Ventana_ventas extends JFrame {
 	}
 	
 	private void ejecuta_busqueda(){
-		if(!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()){
-			if(bandera){
-				contentPane.remove(scrollBusqueda);
-			}
-			String modelo = textFieldModelo.getText();
-			textFieldModelo.setText("");
-			textFieldColor.setText("");
-			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo);
-			if (datosBusqueda.length==0) {
-				JOptionPane.showMessageDialog(null, "Ingrese bien los datos");
-			}
-			else{
-				ventanaImage.refreshV();
-				ventanaImage.pintaVentana(datosBusqueda[0][6]);
-				ventanaImage.setVisible(true);
-			}
-			
-			
-			
-		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()) {
-			if(bandera){
-				contentPane.remove(scrollBusqueda);
-			}
-			String modelo = textFieldModelo.getText();
-			String talla = textFieldTalla.getText();
-			textFieldModelo.setText("");
-			textFieldColor.setText("");
-			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla.toUpperCase(), "");
-			if (datosBusqueda.length==0) {
-				JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
-			}else{
-				ventanaImage.refreshV();
-				ventanaImage.pintaVentana(datosBusqueda[0][6]);
-				ventanaImage.setVisible(true);
-			}
-			
-		}else if (!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
-			if(bandera){
-				contentPane.remove(scrollBusqueda);
-			}
-			String modelo = textFieldModelo.getText();
-			String color = textFieldColor.getText();
-			textFieldModelo.setText("");
-			textFieldColor.setText("");
-			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color.toUpperCase());
-			if (datosBusqueda.length==0) {
-				JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
-			}else{
-				ventanaImage.refreshV();
-				ventanaImage.pintaVentana(datosBusqueda[0][6]);
-				ventanaImage.setVisible(true);
-			}
-			
-			
-			
-		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
-			if(bandera){
-				contentPane.remove(scrollBusqueda);
-			}
-			String modelo = textFieldModelo.getText();
-			String color = textFieldColor.getText();
-			String talla =textFieldTalla.getText();
-			textFieldModelo.setText("");
-			textFieldColor.setText("");
-			textFieldTalla.setText("");
-			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla.toUpperCase(), color.toUpperCase());
-			if (datosBusqueda.length==0) {
-				JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
-			}else{
-				ventanaImage.refreshV();
-				ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			}
-
-		}else{
+		if(textFieldModelo.getText().isEmpty()){
 			JOptionPane.showMessageDialog(null, "Ingresa un modelo");
 			if(bandera){
 				contentPane.remove(scrollBusqueda);
@@ -981,11 +903,27 @@ public class Ventana_ventas extends JFrame {
 			}
 			return;
 		}
-		System.out.println(Arrays.deepToString(datosBusqueda));
-		if (datosBusqueda.length>0) {
+		String modelo = textFieldModelo.getText().isEmpty() ? "" : textFieldModelo.getText();
+		String talla = textFieldTalla.getText().isEmpty() ? "" : textFieldTalla.getText();
+		String color = textFieldColor.getText().isEmpty() ? "" : textFieldColor.getText();
+		if(bandera){
+			contentPane.remove(scrollBusqueda);
+		}
+		textFieldModelo.setText("");
+		textFieldColor.setText("");
+		textFieldTalla.setText("");
+		datosBusqueda = controlador_ventas.busca_modelo(modelo,talla,color);
+		if (datosBusqueda.length==0) {
+			JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
+		}else{
+			ventanaImage.refreshV();
+			ventanaImage.pintaVentana(datosBusqueda[0][6]);
+			ventanaImage.setVisible(true);
 			pinta_productos();
 			addMouseClick();
 		}
+		System.out.println(Arrays.deepToString(datosBusqueda));
+		
 		
 	}
 	
@@ -1030,15 +968,3 @@ public class Ventana_ventas extends JFrame {
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-

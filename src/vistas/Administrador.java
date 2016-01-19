@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -104,7 +105,8 @@ public class Administrador extends JFrame {
 	private boolean bandera=false;
 	
 	private JMenuItem mnEliminar;
-
+	
+	private String cuentaDia = "";
 	/**
 	 * Launch the application.
 	 */
@@ -150,7 +152,7 @@ public class Administrador extends JFrame {
 		JMenuItem mntmReporteDelDia = new JMenuItem("Reporte del dia");
 		mntmReporteDelDia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ReporteDia reporteDia=new ReporteDia("Reporte del dia",2,"");
+				ReporteDia reporteDia=new ReporteDia("Reporte del dia",2,cuentaDia);//Usamos el campo del mes(que este reporte no usa) para ingresar lo que se deja a cuenta
 				reporteDia.setVisible(true);
 			}
 		});
@@ -182,6 +184,16 @@ public class Administrador extends JFrame {
 			}
 		});
 		mnMenu.add(mntmEmpleados);
+		
+		JMenuItem mntmCuenta = new JMenuItem("Cuenta");
+		mntmCuenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cuentaDia = (String) JOptionPane.showInputDialog(contentPane, "Introduce la cuenta para el dia de hoy", "Cuenta",JOptionPane.PLAIN_MESSAGE,null,null,"");
+				mntmCuenta.setEnabled(false);
+			}
+		});
+		mnMenu.add(mntmCuenta);
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

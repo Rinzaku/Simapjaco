@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -82,7 +83,7 @@ public class ReporteDia extends JFrame {
 		setContentPane(contentPane);
 		switch(tipo_reporte){
 		case 1:
-			String[] cadena1 = {"Modelo","Nombre Producto","Descripcion","Talla","Color","Existencias","Precio","Imagen","Estado"};
+			String[] cadena1 = {"Modelo","Nombre Producto","Descripcion","Talla","Color","Existencias","Precio","Estado"};
 			cabecera =cadena1;
 			datos = reporte.get_inventario();
 			break;
@@ -130,7 +131,9 @@ public class ReporteDia extends JFrame {
 				int returnval = chooser.showSaveDialog(contentPane);
 				if(returnval == JFileChooser.APPROVE_OPTION){
 					
-					reporte.crearPDF(chooser.getSelectedFile().getPath(),tipo_reporte, mes_anio);
+					String msj = reporte.crearPDF(chooser.getSelectedFile().getPath(),tipo_reporte, mes_anio) ? "Reporte elaborado" : "A ocurrido un error";
+					JOptionPane.showMessageDialog(contentPane, msj);
+					dispose();
 				}
 			}
 		});
