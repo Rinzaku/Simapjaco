@@ -1,7 +1,5 @@
 package vistas;
 
-import java.awt.Color;
-
 import javax.swing.JProgressBar;
 
 public class Progress extends Thread{

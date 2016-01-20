@@ -6,7 +6,6 @@ import models.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font.FontFamily;
@@ -18,29 +17,11 @@ public class PDF {
 	private static String FILE = "";
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
 			Font.BOLD);
-	private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-			Font.NORMAL, BaseColor.RED);
-	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-			Font.BOLD);
-	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-			Font.BOLD);
 
-	//	  public static void main(String[] args) {
-	//	    try {
-	//	      Document document = new Document();
-	//	      PdfWriter.getInstance(document, new FileOutputStream(FILE));
-	//	      document.open();
-	//	      addMetaData(document);
-	//	      addTitlePage(document);
-	//	      addContent(document);
-	//	      document.close();
-	//	    } catch (Exception e) {
-	//	      e.printStackTrace();
-	//	    }
-	//	  }
-
+	
 	public PDF(String file_name) throws FileNotFoundException, DocumentException{
-		FILE = file_name+".pdf";
+		String pdf = file_name.substring(file_name.length()-4, file_name.length());
+		FILE = pdf.compareTo(".pdf")==0 ? file_name : file_name+".pdf";
 		//		  System.out.println(FILE);
 		document = new Document(PageSize.LETTER);
 		PdfWriter.getInstance(document, new FileOutputStream(FILE));
@@ -108,7 +89,8 @@ public class PDF {
 			document.add(paragraph);
 		}
 		double cuenta_dia = cuenta.length() == 0 ? 0.0 : Double.parseDouble(cuenta);
-		msj = "Subtotal de venta : $"+(totalVenta + cuenta_dia);
+		double subt = Math.floor((totalVenta + cuenta_dia) * 100) / 100;
+		msj = "Subtotal de venta : $"+(subt);
 		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
 		paragraph.setAlignment(Element.ALIGN_RIGHT);
 		document.add(paragraph);
@@ -116,7 +98,7 @@ public class PDF {
 		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
 		paragraph.setAlignment(Element.ALIGN_RIGHT);
 		document.add(paragraph);
-		msj = "Total de venta para el dia de hoy : $" + totalVenta;
+		msj = "Total de venta para el dia de hoy : $" + Math.floor(totalVenta * 100) / 100;
 		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
 		paragraph.setAlignment(Element.ALIGN_RIGHT);
 		document.add(paragraph);
@@ -133,7 +115,7 @@ public class PDF {
 			addEmptyLine(paragraph, 2);
 			document.add(paragraph);
 		}
-		msj = "Total de ventas para este mes : $" + total_venta_mes;
+		msj = "Total de ventas para este mes : $" + Math.floor(total_venta_mes * 100) / 100;
 		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
 		paragraph.setAlignment(Element.ALIGN_RIGHT);
 		document.add(paragraph);

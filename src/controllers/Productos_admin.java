@@ -2,7 +2,6 @@ package controllers;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -258,6 +257,11 @@ public class Productos_admin {
 	public boolean update_precio(double precio, int pos_articulo){
 		Ropa_model rmodel = new Ropa_model();
 		return rmodel.update_ropa(modelos.get(pos_articulo).getId_ropa(), precio);
+	}
+	
+	public boolean update_image(String image, int pos_articulo){
+		Modelo_model mmodel = new Modelo_model();
+		return mmodel.update_imagen(modelos.get(pos_articulo).getId_modelo(), image);
 	}
 	
 	public boolean delete_producto(int pos_articulo){

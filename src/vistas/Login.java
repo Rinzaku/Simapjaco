@@ -1,9 +1,5 @@
 package vistas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -11,6 +7,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -25,10 +22,12 @@ import javax.swing.JPasswordField;
 
 public class Login extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
 	private JPasswordField passwordFieldContrasena;
-
+	private String[][] users= {{"KingSimapjaco","1s1m4pj4c0"},{"Cecilia","fer2402"},{"Gilberto","illrmmbrLaura"}};
+	private int intentos=0;
 	/**
 	 * Launch the application.
 	 */
@@ -80,9 +79,30 @@ public class Login extends JDialog {
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/imagenes/ok32.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Administrador admin =new Administrador();
-				admin.setVisible(true);
-				admin.setLocationRelativeTo(null);
+				boolean acceso = false;
+				String usuario = textFieldNombre.getText();
+				char[] arraypass = passwordFieldContrasena.getPassword();
+				String password = new String(arraypass);
+				for (String[] user : users) {
+					if(usuario.compareTo(user[0])==0 && password.compareTo(user[1])==0){
+						acceso = true;
+						break;
+					}
+				}
+				if(acceso){
+					Administrador admin =new Administrador();
+					admin.setVisible(true);
+					admin.setLocationRelativeTo(null);
+				}else{
+					JOptionPane.showMessageDialog(contentPane, "Nombre o contraseña inválidos\nFavor de verificar", "Error", JOptionPane.ERROR_MESSAGE);
+					intentos++;
+					
+				}
+				if(intentos == 3){
+					JOptionPane.showMessageDialog(contentPane, "Demasiados intentos,\nfavor de intentar mas tarde", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				intentos=0;
+				dispose();
 			}
 		});
 		

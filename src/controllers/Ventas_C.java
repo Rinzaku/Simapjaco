@@ -2,11 +2,9 @@ package controllers;
 
 import instancias.*;
 import models.*;
-import vistas.*;
 
 import java.util.*;
 
-import javax.swing.JFrame;
 
 public class Ventas_C {
 	

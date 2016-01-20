@@ -1,14 +1,10 @@
 package vistas;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.SystemColor;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -20,20 +16,14 @@ import java.awt.Color;
 
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import controllers.Empleados_c;
 
 import java.awt.Font;
-import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class TableEmpleados extends JFrame {
 
@@ -53,8 +43,6 @@ public class TableEmpleados extends JFrame {
 	private JLabel lblNewLabel;
 	private TableModelListener tml;
 	private DefaultTableModel modelEmpleado;
-	private JPopupMenu popupMenu;
-	private JMenuItem mntmEliminar;
 
 
 	/**
@@ -90,6 +78,8 @@ public class TableEmpleados extends JFrame {
 		setContentPane(contentPane);
 
 		modelEmpleado = new DefaultTableModel(datosEmpleados,cabeceraEmpleados){
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public boolean isCellEditable(int row, int col){
@@ -148,18 +138,19 @@ public class TableEmpleados extends JFrame {
 
 				int col=e.getColumn();
 				int file=e.getFirstRow();
-				if (e.UPDATE==e.getType() ) {
+				if (TableModelEvent.UPDATE==e.getType() ) {
 					if (col==4){
 						String idEmpleado=modelEmpleado.getValueAt(file,0).toString();
 						String telefono=modelEmpleado.getValueAt(file,4).toString();
-						controlEmp.updateEmpleado(idEmpleado,telefono,null);
-						
+						String msj = controlEmp.updateEmpleado(idEmpleado,telefono,null) ? "Telefono del empleado actualizado" : "A ocurrido un error";
+						JOptionPane.showMessageDialog(contentPane, msj, "Actualizacion exitosa", JOptionPane.INFORMATION_MESSAGE);
 
 					}
 					if (col==5){
 						String idEmpleado=modelEmpleado.getValueAt(file,0).toString();
 						String direccion=modelEmpleado.getValueAt(file, 5).toString();
-						controlEmp.updateEmpleado(idEmpleado, null, direccion);
+						String msj =controlEmp.updateEmpleado(idEmpleado, null, direccion) ? "Dirección del emleado actualizada" : "A ocurrido un error";
+						JOptionPane.showMessageDialog(contentPane, msj, "Actualizacion exitosa", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}

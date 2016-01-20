@@ -1,11 +1,9 @@
 package controllers;
 
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import models.*;
@@ -67,8 +65,8 @@ public class Cambio {
 		ArrayList<Modelo> lista = mmodel.find_modelo(modelo);
 		String[][] productos = new String[lista.size()][];
 		
-		String[] precios= new String[lista.size()];
-		int[][] identificadores = new int[lista.size()][2];
+//		String[] precios= new String[lista.size()];
+//		int[][] identificadores = new int[lista.size()][2];
 		
 		int i = 0;
 		

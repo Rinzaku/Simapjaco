@@ -1,33 +1,21 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Frame;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.Color;
-
 import javax.swing.JLabel;
-
 import java.awt.Font;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-
 import com.toedter.calendar.JDateChooser;
-
 import controllers.Empleados_c;
-
 import javax.swing.JButton;
-
-import net.miginfocom.swing.MigLayout;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
@@ -36,6 +24,7 @@ import java.util.Calendar;
 
 public class Empleados extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Frame windowEmpleado;
 	private JTextField textFieldNombre;

@@ -2,23 +2,12 @@ package controllers;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.itextpdf.text.log.SysoCounter;
 
-import models.Detalle_Venta_model;
-import models.Empleados_model;
-import models.Modelo_model;
-import models.Ropa_model;
-import models.Talla_model;
-import models.Ventas_model;
-import instancias.Detalle_Venta;
-import instancias.Empleado;
-import instancias.Modelo;
-import instancias.Ropa;
-import instancias.Talla;
+import models.*;
+import instancias.*;
 import instancias.Ventas;
 
 public class Apartar {
@@ -27,7 +16,6 @@ public class Apartar {
 	private Modelo_model modelo;
 	private Calendar calendario;
 	private Ventas_model ventaModel;
-	private Ventas ventaIns;
 	private Detalle_Venta_model ventsDetallemodel;
 	private Modelo modelIns;
 	

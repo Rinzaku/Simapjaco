@@ -1,9 +1,6 @@
 package ticket;
 
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
 import java.util.Date;
@@ -14,14 +11,13 @@ import javax.print.DocPrintJob;
 import javax.print.PrintService; 
 import javax.print.PrintServiceLookup; 
 import javax.print.SimpleDoc; 
-import javax.swing.JOptionPane; 
+//import javax.swing.JOptionPane; 
 
 public class Ticket{ 
 	
 	Date date=new Date(); 
 	SimpleDateFormat fecha=new SimpleDateFormat("dd/MM/yyyy"); 
 	SimpleDateFormat hora=new SimpleDateFormat("hh:mm:ss aa"); 
-	private PrintWriter pw;
 	private String cadena;
 	
 	static ArrayList<String> CabezaLineas; 
@@ -31,6 +27,12 @@ public class Ticket{
 	static ArrayList<String> LineasPie; 
 	
 	public Ticket(){
+//		try {
+//			pw = new PrintWriter(new BufferedWriter (new FileWriter("USB001")));
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
 		CabezaLineas=new ArrayList<String>();
 		subCabezaLineas=new ArrayList<String>();
 		items=new ArrayList<String>();
@@ -191,21 +193,21 @@ public class Ticket{
 	}
 	
 //	public void corta(){
-//	char[] CORTAR_PAPEL=new char[]  {(char)27+(char)105}; // codigo q corta el papel
-//	pw.write(CORTAR_PAPEL); // mando a la impresora
-//}
-//
-//public  void cortar( ) {
-//	try{
-//		
-//		char[] ESC_CUT_PAPER = new char[] { 0x1B, 'm'};
-//			pw.write(ESC_CUT_PAPER);
-//		
-//
-//	}catch(Exception e){
-//		System.out.print(e);
+//		char[] CORTAR_PAPEL=new char[]  {(char)27+(char)105}; // codigo q corta el papel
+//		pw.write(CORTAR_PAPEL); // mando a la impresora
 //	}
-//}
+//
+//	public  void cortar( ) {
+//		try{
+//
+//			char[] ESC_CUT_PAPER = new char[] { 0x1B, 'm'};
+//			pw.write(ESC_CUT_PAPER);
+//
+//
+//		}catch(Exception e){
+//			System.out.print(e);
+//		}
+//	}
 //
 	
 }

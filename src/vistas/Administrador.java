@@ -1,6 +1,5 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.DefaultCellEditor;
@@ -12,27 +11,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -52,18 +31,10 @@ import javax.swing.ImageIcon;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.CardLayout;
-
-import javax.swing.JSplitPane;
-
 import java.awt.Insets;
 import java.awt.SystemColor;
 
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.SpringLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -79,7 +50,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import javax.swing.JComboBox;
@@ -88,6 +58,10 @@ import java.awt.Toolkit;
 
 public class Administrador extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldModelo;
 	private JTextField textFieldColor;
@@ -99,12 +73,10 @@ public class Administrador extends JFrame {
 	private Productos_admin productos;
 	private String [][] datos={{"","","","","","","",""},
 							  };
-//	private String [][] datos;
 	private String [] cabecera={"Modelo","Nombre Producto","Descripcion","Talla","Color","Cantidad","Precio","Imagen"};
 	
 	private TableModelListener tml;
-	private TableModelListener tml_precio;
-	private boolean bandera=false;
+	private TableModelListener tml_updates;
 	
 	private JMenuItem mnEliminar;
 	
@@ -352,9 +324,11 @@ public class Administrador extends JFrame {
 		contentPane.add(etiquetaFecha, "cell 0 0");
 		
 		model=new DefaultTableModel(datos,cabecera){
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int col){
-				return col==7 ? false : true;
+				return col == 7 ? false : true;
 			}
 		};
 		
@@ -391,7 +365,7 @@ public class Administrador extends JFrame {
 		
 		model.addTableModelListener(tml);
 		
-		tml_precio = new TableModelListener() {
+		tml_updates = new TableModelListener() {
 
 			@Override
 			public void tableChanged(TableModelEvent e) {
@@ -413,13 +387,18 @@ public class Administrador extends JFrame {
 					msj = hecho ? "Precio actualizado del modelo "+modelo : "A ocurrido un error";
 					JOptionPane.showMessageDialog(contentPane, msj);
 					break;
+				case 7:
+					String url_image = tableAdministrador.getValueAt(row, col).toString();
+					hecho = productos.update_image(rutaCorregida(url_image, "\\", "\\\\"), row);
+					msj = hecho ? "Imagen actualizada para el modelo "+modelo : "A ocurrido un error";
+					JOptionPane.showMessageDialog(contentPane, msj);
+					break;
 				}
-
 
 			}
 		};
 		
-		JComboBox comboBox = new JComboBox(productos.tallas());
+		JComboBox<Object> comboBox = new JComboBox<Object>(productos.tallas());
 		comboBox.setBackground(Color.darkGray);
 		comboBox.setEditable(true);
 		comboBox.setForeground(Color.white);
@@ -458,7 +437,7 @@ public class Administrador extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 //				JOptionPane.showMessageDialog(contentPane, "este boton debe limpiar la tabla");
 				int filas = tableAdministrador.getRowCount();
-				model.removeTableModelListener(tml_precio);
+				model.removeTableModelListener(tml_updates);
 				for (int i = filas; i > 0; i--) {
 					model.removeRow(i-1);
 				}
@@ -544,9 +523,11 @@ public class Administrador extends JFrame {
 				return;
 			}
 			model=new DefaultTableModel(datos,cabecera){
-				 @Override
+				private static final long serialVersionUID = 1L;
+
+				@Override
 				 public boolean isCellEditable(int row, int col){
-					 return col==7 ? false : true;
+					 return col < 5 || col == 7 ? false : true;
 				 }
 			 };
 
@@ -558,7 +539,7 @@ public class Administrador extends JFrame {
 			 contentPane.add(ScrollAdministrador, "cell 0 5,grow");
 			 ScrollAdministrador.setPreferredSize(new Dimension(400, 250));
 			 
-			 model.addTableModelListener(tml_precio);
+			 model.addTableModelListener(tml_updates);
 			 agregaMenu();
 			 
 			 contentPane.updateUI();
@@ -601,7 +582,6 @@ public class Administrador extends JFrame {
 				if(fila==-1){
 					JOptionPane.showMessageDialog(null, "Selecciona una fila");
 				}else{
-					String modelo = tableAdministrador.getValueAt(fila, 0).toString();
 					String msj = "";
 					boolean hecho = productos.delete_producto(tableAdministrador.getSelectedRow());
 					msj = hecho ? "Este producto a sido eliminado exitosamente" : "A ocurrido un error";

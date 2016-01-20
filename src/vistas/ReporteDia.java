@@ -1,9 +1,6 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -14,26 +11,19 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-
 import net.miginfocom.swing.MigLayout;
-
 import java.awt.Color;
 import java.awt.Toolkit;
-
 import javax.swing.JLabel;
-
-import controllers.PDF;
 import controllers.Reportes;
-
 import java.awt.Font;
-
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ReporteDia extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private Reportes reporte;
 	private JPanel contentPane;
 	private DefaultTableModel model;
@@ -101,6 +91,8 @@ public class ReporteDia extends JFrame {
 		}
 		
 		model=new DefaultTableModel(datos,cabecera){
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int col){
 				return false;

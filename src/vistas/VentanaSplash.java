@@ -1,21 +1,17 @@
 package vistas;
 
-import java.awt.AWTEvent;
 import java.awt.Color;
-
-import javax.print.attribute.AttributeSetUtilities;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import javax.swing.JProgressBar;
 import javax.swing.event.ChangeListener;
 
 public class VentanaSplash extends JFrame{
+	private static final long serialVersionUID = 1L;
 	JProgressBar progressBar;
 	Progress hilo;
 	JFrame vn;

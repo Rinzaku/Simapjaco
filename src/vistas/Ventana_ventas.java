@@ -1,21 +1,13 @@
 package vistas;
 
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -30,34 +22,6 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -65,49 +29,13 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-
-
-
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
-import java.awt.Window;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -121,21 +49,11 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 
 import javax.swing.JMenuItem;
-import javax.swing.event.MenuKeyListener;
-import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.swing.event.PopupMenuListener;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
 
 import controllers.Ventas_C;
 
@@ -148,7 +66,10 @@ import ticket.Ticket;
 
 public class Ventana_ventas extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	private class ImageV extends JDialog{
+		private static final long serialVersionUID = 1L;
 		//private JPanel panel;
 		private JLabel labelImage;
 		
@@ -232,7 +153,7 @@ public class Ventana_ventas extends JFrame {
 	private JTextField textFieldRecibido;
 	private JTextField textFieldCambio;
 	private JTextField textFieldEmpleado;
-	private JComboBox comboDescuento;
+	private JComboBox<Object> comboDescuento;
 	private TableModelListener tml;
 	
 	private int numero_prendas=0;
@@ -261,6 +182,7 @@ public class Ventana_ventas extends JFrame {
 	public Ventana_ventas() {
 		
 		ventanaImage=new ImageV();
+		setTitle("BOUTIQUE SIMAPJACO");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
 		Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
@@ -450,6 +372,8 @@ public class Ventana_ventas extends JFrame {
 		panel.add(lblNewBuscar, gbc_lblNewBuscar);
 		
 		modelVentas = new DefaultTableModel(datosVentas,cabeceraVentas){
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int col){
 				if(col==4) return true;
@@ -722,6 +646,8 @@ public class Ventana_ventas extends JFrame {
 								ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
 								ticket.piePagina();
 								ticket.ImprimirDocumento();
+//								ticket.corta();
+//								ticket.cortar();
 								//System.out.println("VEntas :"+Arrays.deepToString(venta()));
 								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
 							}else
@@ -766,11 +692,11 @@ public class Ventana_ventas extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblNewLabel_1, "flowx,cell 0 6,alignx right");
 		
-		comboDescuento = new JComboBox();
+		comboDescuento = new JComboBox<Object>();
 		comboDescuento.setFont(new Font("Tahoma", Font.BOLD, 11));
 		comboDescuento.setBackground(Color.WHITE);
 		comboDescuento.setForeground(Color.BLACK);
-		comboDescuento.setModel(new DefaultComboBoxModel(new String[] {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"}));
+		comboDescuento.setModel(new DefaultComboBoxModel<Object>(new String[] {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"}));
 		comboDescuento.setSelectedIndex(0);
 		contentPane.add(comboDescuento, "cell 0 6,alignx right");
 		
@@ -932,6 +858,8 @@ public class Ventana_ventas extends JFrame {
 	
 	private void pinta_productos() {
 		modelBusqueda = new DefaultTableModel(datosBusqueda,cabeceraBusqueda){
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int col){
 				return false;

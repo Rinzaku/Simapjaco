@@ -1,8 +1,5 @@
 package vistas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,63 +12,36 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.swing.SwingUtilities;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
-
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.Font;
-
 import net.miginfocom.swing.MigLayout;
-
 import javax.swing.JTextArea;
-
 import java.awt.SystemColor;
-
 import javax.swing.JScrollPane;
-import javax.swing.DropMode;
-
 import controllers.Cambio;
-
 import javax.swing.JTable;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
 
 public class CambiarProducto extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
+
 	private class Vista extends JFrame {
 
+		private static final long serialVersionUID = 1L;
 		private JPanel contentPane;
 		private JTextField textField;
 		private JScrollPane scrollPane;
@@ -115,6 +85,8 @@ public class CambiarProducto extends JFrame {
 							
 							datos = cambios.busca_modelo(textField.getText());
 							model = new DefaultTableModel(datos, cabecera){
+								private static final long serialVersionUID = 1L;
+
 								@Override
 								public boolean isCellEditable(int row, int col){
 									return false;
@@ -169,6 +141,8 @@ public class CambiarProducto extends JFrame {
 						}else if(bandera2==0){
 							datosTablaCambio = datos;
 							modeloCambio = new DefaultTableModel(datosTablaCambio,cabeceraCambio){
+								private static final long serialVersionUID = 1L;
+
 								@Override
 								public boolean isCellEditable(int row, int col){
 									return col==2 ? true:false;
@@ -312,6 +286,8 @@ public class CambiarProducto extends JFrame {
 						textAreaDatosVenta.setText("Folio \t Fecha \t\t Total artículos\tSubtotal \t Descuento \t Total Ventas \n"+datos);
 						datostable = cambios.obten_detalles_venta(folio);
 						modelCambios = new DefaultTableModel(datostable,cabecera){
+							private static final long serialVersionUID = 1L;
+
 							@Override
 							public boolean isCellEditable(int row, int col){
 								return false;
