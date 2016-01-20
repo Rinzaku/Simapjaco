@@ -79,36 +79,46 @@ public class Login extends JDialog {
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/imagenes/ok32.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean acceso = false;
-				String usuario = textFieldNombre.getText();
-				char[] arraypass = passwordFieldContrasena.getPassword();
-				String password = new String(arraypass);
-				for (String[] user : users) {
-					if(usuario.compareTo(user[0])==0 && password.compareTo(user[1])==0){
-						acceso = true;
-						break;
-					}
-				}
-				if(acceso){
-					Administrador admin =new Administrador();
-					admin.setVisible(true);
-					admin.setLocationRelativeTo(null);
-				}else{
-					JOptionPane.showMessageDialog(contentPane, "Nombre o contraseña inválidos\nFavor de verificar", "Error", JOptionPane.ERROR_MESSAGE);
-					intentos++;
-					
-				}
-				if(intentos == 3){
-					JOptionPane.showMessageDialog(contentPane, "Demasiados intentos,\nfavor de intentar mas tarde", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				intentos=0;
-				dispose();
+				accesar();
 			}
 		});
 		
 		passwordFieldContrasena = new JPasswordField();
+		passwordFieldContrasena.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				accesar();
+			}
+		});
 		contentPane.add(passwordFieldContrasena, "cell 2 2,growx");
 		contentPane.add(btnNewButton, "cell 0 4 3 1,grow");
 	}
 
+	private void accesar(){
+		boolean acceso = false;
+		String usuario = textFieldNombre.getText();
+		char[] arraypass = passwordFieldContrasena.getPassword();
+		String password = new String(arraypass);
+		for (String[] user : users) {
+			if(usuario.compareTo(user[0])==0 && password.compareTo(user[1])==0){
+				acceso = true;
+				break;
+			}
+		}
+		if(acceso){
+			Administrador admin =new Administrador();
+			admin.setVisible(true);
+			admin.setLocationRelativeTo(null);
+			intentos=0;
+			dispose();
+		}else{
+			JOptionPane.showMessageDialog(contentPane, "Nombre o contraseña inválidos\nFavor de verificar", "Error", JOptionPane.ERROR_MESSAGE);
+			intentos++;
+			
+		}
+		if(intentos == 3){
+			JOptionPane.showMessageDialog(contentPane, "Demasiados intentos,\nfavor de intentar mas tarde", "Error", JOptionPane.ERROR_MESSAGE);
+			intentos=0;
+			dispose();
+		}
+	}
 }
