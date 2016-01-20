@@ -91,6 +91,7 @@ public class ReporteDia extends JFrame {
 			String[] cadena2 = {"No de Venta","Empleado","Total articulos","Sub_total","Descuento","Total","Abono","Estado","Fecha"};
 			cabecera =cadena2;
 			datos = reporte.get_ventas(2,"");
+			
 			break;
 		case 3:
 			String[] cadena3 = {"No de Venta","Empleado","Total articulos","Sub_total","Descuento","Total","Abono","Estado","Fecha"};

@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 import database.MySQLConnection;
 /**
@@ -16,7 +16,7 @@ import database.MySQLConnection;
  */
 public class Cuenta_models {
 
-	private ArrayList<Cuenta_models> lista_cuentas;
+//	private ArrayList<Cuenta_models> lista_cuentas;
 	private ResultSet rs;
 	private Connection connection;
 	private Statement statement;

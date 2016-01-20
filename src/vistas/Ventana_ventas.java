@@ -57,6 +57,7 @@ import java.awt.Dimension;
 
 
 
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -107,6 +108,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -126,6 +128,7 @@ import javax.swing.event.TableModelListener;
 
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -615,10 +618,9 @@ public class Ventana_ventas extends JFrame {
 					if (!textFieldRecibido.getText().isEmpty()) {
 						double recibido = Double.parseDouble(textFieldRecibido.getText());
 						double cambio =controlador_ventas.cambio(recibido, Double.parseDouble(textTotal.getText()));
+						cambio = Math.floor(cambio * 100) / 100;
 						textFieldCambio.setText(""+cambio);
 						textFieldRecibido.setText(""+recibido);
-						//						JOptionPane.showMessageDialog(null,"Venta realizada\n cambio :"+cambio);
-						//						limpiaVentana();
 						contentPane.remove(scrollBusqueda);
 						contentPane.updateUI();
 					}
@@ -863,6 +865,7 @@ public class Ventana_ventas extends JFrame {
 					if(!textFieldRecibido.getText().isEmpty()){
 						double recibido = Double.parseDouble(textFieldRecibido.getText());
 						double cambio =controlador_ventas.cambio(recibido, Double.parseDouble(textTotal.getText()));
+						cambio = Math.floor(cambio * 100) / 100;
 						textFieldCambio.setText(""+cambio);
 						textFieldRecibido.setText(""+recibido);
 					}
@@ -885,7 +888,7 @@ public class Ventana_ventas extends JFrame {
 		textFieldColor.setText("");
 		textFieldTalla.setText("");
 		textTotal.setText("");
-
+		comboDescuento.setSelectedIndex(0);
 		contentPane.remove(scrollBusqueda);
 		contentPane.updateUI();
 

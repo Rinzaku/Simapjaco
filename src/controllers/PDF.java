@@ -123,15 +123,20 @@ public class PDF {
 	}
 	
 	public void addContent_Ventas_mes(ArrayList<Ventas> ventas) throws DocumentException {
-		
+		double total_venta_mes = 0;
+		String msj = "";
+		Paragraph paragraph = null;
 		for (Ventas v : ventas) {
+			total_venta_mes += v.getTotal_venta();
 			createTableVentas(v);
-			Paragraph paragraph = new Paragraph();
+			paragraph = new Paragraph();
 			addEmptyLine(paragraph, 2);
 			document.add(paragraph);
 		}
-		
-
+		msj = "Total de ventas para este mes : $" + total_venta_mes;
+		paragraph = new Paragraph(msj,new Font(FontFamily.HELVETICA, 13, Font.NORMAL, GrayColor.BLACK));
+		paragraph.setAlignment(Element.ALIGN_RIGHT);
+		document.add(paragraph);
 	}
 	public void createTableInventario(ArrayList<Modelo> productos)
 			throws DocumentException {

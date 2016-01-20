@@ -98,7 +98,9 @@ public class Reportes {
 			pdf.addCabecera();
 			pdf.addTitlePage(titulo, fecha(), autor, desc);
 			if(tipo_reporte == 1) pdf.addContent_Inventario(modelos);
-			else if(tipo_reporte == 2) pdf.addContent_Ventas_dia(ventas,mes);//Aqui agregamos lo de la cuenta
+			else if(tipo_reporte == 2){
+				pdf.addContent_Ventas_dia(ventas,mes);//Aqui agregamos lo de la cuenta
+			}
 			else pdf.addContent_Ventas_mes(ventas);
 			pdf.cerrar_doc();
 			return true;
@@ -107,7 +109,6 @@ public class Reportes {
 		}
 		
 	}
-	
 	private String fecha(){
 		Calendar calendario = new GregorianCalendar();
 		int d = calendario.get(Calendar.DATE);

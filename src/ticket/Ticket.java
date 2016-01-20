@@ -79,12 +79,12 @@ public class Ticket{
 	public void total(String total,String subtotal,String descuento,String recibido,String cambio){
 		AddTotal("",DibujarLinea(47)); 
 		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\tTOTAL\t:","\t\t$"+total); 
+		AddTotal("\t\t\tSUBTOTAL\t:","\t\t$"+total); 
 		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t\t DESCUENTO","\t"+descuento+"%");
 		AddTotal("",DarEspacio()); 
 		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\t SUBTOTAL:","\t$"+subtotal); 
+		AddTotal("\t\t\t TOTAL:","\t$"+subtotal); 
 		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t\t EFECTIVO","\t$"+recibido); 
 		AddTotal("",DarEspacio()); 

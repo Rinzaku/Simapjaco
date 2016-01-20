@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.FlowLayout;
@@ -71,6 +72,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import controllers.Cuenta_c;
 import controllers.Productos_admin;
 
 import java.awt.event.MouseAdapter;
@@ -189,6 +191,9 @@ public class Administrador extends JFrame {
 		mntmCuenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cuentaDia = (String) JOptionPane.showInputDialog(contentPane, "Introduce la cuenta para el dia de hoy", "Cuenta",JOptionPane.PLAIN_MESSAGE,null,null,"");
+				boolean listo = new Cuenta_c().insertaCuenta(productos.fecha(), Double.parseDouble(cuentaDia))== -1 ? false : true;
+				String msj = listo ? "Cuenta almacenada en la base de datos" : "A ocurrido un error";
+				JOptionPane.showMessageDialog(contentPane, msj, "Hecho", JOptionPane.INFORMATION_MESSAGE);
 				mntmCuenta.setEnabled(false);
 			}
 		});
