@@ -185,80 +185,80 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 /* ------------------      DATOS DE PRUEBA      ----------------*/
 /*==============================================================*/
 
-/*==============================================================*/
-/* INSERTS ROPA                                                 */
-/*==============================================================*/
+-- /*==============================================================*/
+-- /* INSERTS ROPA                                                 */
+-- /*==============================================================*/
 
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('pantalon','pantalon de mezclilla para caballero', 50,floor(RAND()*(500-1)+100));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('falda','falda de vestir para dama', 50,floor(RAND()*(500-1)+100));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('blusa','blusa para dama', 50,floor(RAND()*(500-1)+1));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('vestido','vestido de vestir par dama', 50,floor(RAND()*(500-1)+100));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera polo para caballero', 50,floor(RAND()*(500-1)+100));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera sport para caballero', 50,floor(RAND()*(500-1)+100));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('chamarra','chamarra de piel caballero', 50,floor(RAND()*(500-1)+100));
-INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('zapatos','zapatos para dama', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('pantalon','pantalon de mezclilla para caballero', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('falda','falda de vestir para dama', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('blusa','blusa para dama', 50,floor(RAND()*(500-1)+1));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('vestido','vestido de vestir par dama', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera polo para caballero', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('playera','playera sport para caballero', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('chamarra','chamarra de piel caballero', 50,floor(RAND()*(500-1)+100));
+-- INSERT INTO ropa(nombre_prenda,descripcion, existencias, precio) VALUES ('zapatos','zapatos para dama', 50,floor(RAND()*(500-1)+100));
 
-/*==============================================================*/
-/* INSERTS CATALOGO COLOR                                       */
-/*==============================================================*/
+-- /*==============================================================*/
+-- /* INSERTS CATALOGO COLOR                                       */
+-- /*==============================================================*/
 
-INSERT INTO catalogo_color(color) VALUES ('BLANCO');
-INSERT INTO catalogo_color(color) VALUES ('AZUL');
-INSERT INTO catalogo_color(color) VALUES ('NEGRO');
-INSERT INTO catalogo_color(color) VALUES ('CAFE');
-INSERT INTO catalogo_color(color) VALUES ('FIUSHA');
-INSERT INTO catalogo_color(color) VALUES ('ROSA');
-INSERT INTO catalogo_color(color) VALUES ('MORADO');
-INSERT INTO catalogo_color(color) VALUES ('AZUL CIELO');
-INSERT INTO catalogo_color(color) VALUES ('VERDE');
-INSERT INTO catalogo_color(color) VALUES ('PLATEADO');
-INSERT INTO catalogo_color(color) VALUES ('DURAZNO');
+-- INSERT INTO catalogo_color(color) VALUES ('BLANCO');
+-- INSERT INTO catalogo_color(color) VALUES ('AZUL');
+-- INSERT INTO catalogo_color(color) VALUES ('NEGRO');
+-- INSERT INTO catalogo_color(color) VALUES ('CAFE');
+-- INSERT INTO catalogo_color(color) VALUES ('FIUSHA');
+-- INSERT INTO catalogo_color(color) VALUES ('ROSA');
+-- INSERT INTO catalogo_color(color) VALUES ('MORADO');
+-- INSERT INTO catalogo_color(color) VALUES ('AZUL CIELO');
+-- INSERT INTO catalogo_color(color) VALUES ('VERDE');
+-- INSERT INTO catalogo_color(color) VALUES ('PLATEADO');
+-- INSERT INTO catalogo_color(color) VALUES ('DURAZNO');
 
-/*==============================================================*/
-/* INSERTS CATALOGO TALLA                                       */
-/*==============================================================*/
+-- /*==============================================================*/
+-- /* INSERTS CATALOGO TALLA                                       */
+-- /*==============================================================*/
 
-INSERT INTO catalogo_talla(talla) VALUES ('UNITALLA');
-INSERT INTO catalogo_talla(talla) VALUES ('CH');
-INSERT INTO catalogo_talla(talla) VALUES ('M');
-INSERT INTO catalogo_talla(talla) VALUES ('G');
-INSERT INTO catalogo_talla(talla) VALUES ('XG');
-INSERT INTO catalogo_talla(talla) VALUES ('7-28');
-INSERT INTO catalogo_talla(talla) VALUES ('9-30');
-INSERT INTO catalogo_talla(talla) VALUES ('11-32');
-INSERT INTO catalogo_talla(talla) VALUES ('13-34');
-INSERT INTO catalogo_talla(talla) VALUES ('15-36');
-INSERT INTO catalogo_talla(talla) VALUES ('17-38');
+-- INSERT INTO catalogo_talla(talla) VALUES ('UNITALLA');
+-- INSERT INTO catalogo_talla(talla) VALUES ('CH');
+-- INSERT INTO catalogo_talla(talla) VALUES ('M');
+-- INSERT INTO catalogo_talla(talla) VALUES ('G');
+-- INSERT INTO catalogo_talla(talla) VALUES ('XG');
+-- INSERT INTO catalogo_talla(talla) VALUES ('7-28');
+-- INSERT INTO catalogo_talla(talla) VALUES ('9-30');
+-- INSERT INTO catalogo_talla(talla) VALUES ('11-32');
+-- INSERT INTO catalogo_talla(talla) VALUES ('13-34');
+-- INSERT INTO catalogo_talla(talla) VALUES ('15-36');
+-- INSERT INTO catalogo_talla(talla) VALUES ('17-38');
 
-/*==============================================================*/
-/* INSERTS EMPLEADO                                             */
-/*==============================================================*/
-INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Francisco','Del Mazo Jeis','04/12/2015','Por mi casa','5512326545');
-INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Rosa','Melcacho Justino','04/12/2015','Por la UAM','5598563214');
+-- /*==============================================================*/
+-- /* INSERTS EMPLEADO                                             */
+-- /*==============================================================*/
+-- INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Francisco','Del Mazo Jeis','04/12/2015','Por mi casa','5512326545');
+-- INSERT INTO empleados(nombre,apellidos,fecha_inicio,direccion,telefono) VALUES ('Rosa','Melcacho Justino','04/12/2015','Por la UAM','5598563214');
 
-/*==============================================================*/
-/* INSERTS MODELO                                               */
-/*==============================================================*/
--- DO $$
--- BEGIN
---  FOR i IN 1..100 LOOP
---    INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RANDOM() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RANDOM() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RANDOM() LIMIT 1),(SELECT ('123456'||(SELECT floor(RANDOM()*(50-1)+1)))), floor(random()*(50-1)+1)); 
---  END LOOP;
--- END$$;
--- La senetencia anterior solo funciona en PostgreSQL T-T
+-- /*==============================================================*/
+-- /* INSERTS MODELO                                               */
+-- /*==============================================================*/
+-- -- DO $$
+-- -- BEGIN
+-- --  FOR i IN 1..100 LOOP
+-- --    INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RANDOM() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RANDOM() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RANDOM() LIMIT 1),(SELECT ('123456'||(SELECT floor(RANDOM()*(50-1)+1)))), floor(random()*(50-1)+1)); 
+-- --  END LOOP;
+-- -- END$$;
+-- -- La senetencia anterior solo funciona en PostgreSQL T-T
 
-DELIMITER $$
-CREATE PROCEDURE insert_modelo()
+-- DELIMITER $$
+-- CREATE PROCEDURE insert_modelo()
 
-  BEGIN 
-    DECLARE a INT Default 1;
-    simple_loop:LOOP
-      INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado,foto) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+5),'ACTIVO','inserte direccion de foto aqui');  
-      SET a=a+1;
-      IF a=101 THEN
-        LEAVE simple_loop;
-      END IF;
-  END LOOP simple_loop;
-END $$
+--   BEGIN 
+--     DECLARE a INT Default 1;
+--     simple_loop:LOOP
+--       INSERT INTO modelo(id_ropa,id_color,id_talla,modelo,existencias, estado,foto) VALUES ((SELECT id_ropa FROM ropa  ORDER BY RAND() LIMIT 1),(SELECT id_color FROM catalogo_color  ORDER BY RAND() LIMIT 1),(SELECT id_talla FROM catalogo_talla  ORDER BY RAND() LIMIT 1),(SELECT CONCAT('12345',(SELECT floor(RAND()*(50-1)+1)))), floor(RAND()*(5-1)+5),'ACTIVO','inserte direccion de foto aqui');  
+--       SET a=a+1;
+--       IF a=101 THEN
+--         LEAVE simple_loop;
+--       END IF;
+--   END LOOP simple_loop;
+-- END $$
 
-CALL insert_modelo()
+-- CALL insert_modelo()
