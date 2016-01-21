@@ -1,13 +1,12 @@
 package vistas;
 
-import java.awt.EventQueue;
-import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -22,11 +21,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 
-public class Empleados extends JFrame {
+public class Empleados extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Frame windowEmpleado;
+	private JDialog windowEmpleado;
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellido;
 	private JTextField textFieldTelefono;
@@ -35,22 +34,6 @@ public class Empleados extends JFrame {
 	private JDateChooser dateChooser;
 	private JButton buttonBuscar;
 	private JButton buttonAlta;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Empleados frame = new Empleados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.

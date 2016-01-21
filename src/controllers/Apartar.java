@@ -2,13 +2,19 @@ package controllers;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
+
+
+
+
+
+
 import models.*;
 import instancias.*;
-import instancias.Ventas;
 
 public class Apartar {
 	
@@ -28,6 +34,7 @@ public class Apartar {
 		venta.setNo_articulos(1);
 		venta.setAbono(Abono);
 		venta.setEstado("APARTADO");
+		venta.setSub_total(precio);
 		venta.setTotal_venta(precio);
 		venta.setNo_empleado(empleado);
 		id=VentasModel.insert_venta(venta);
@@ -46,15 +53,15 @@ public class Apartar {
 		
 		if (detalleVtn!=null) {
 			modelIns=modelo.find_modelo(detalleVtn.getId_modelo());
-			modelo.update_modelo(detalleVtn.getId_modelo(),modelIns.getExistencias()+1);
+			modelo.update_modelo(detalleVtn.getId_modelo(),modelIns.getExistencias()+detalleVtn.getCantidad_articulos());
 			ventaModel.update_venta_estado(detalleVtn.getId_venta(), "APARTADO CANCELADO");
-			ropaModel.update_ropa(detalleVtn.getId_ropa(),ropaIns.getExistencias()+1);
+			ropaModel.update_ropa(detalleVtn.getId_ropa(),ropaIns.getExistencias()+detalleVtn.getCantidad_articulos());
 			return true;
 		}
 		return false;
 	}
 
-	public boolean apartarProducto(String modelo, String Descripcion, String Talla, String Color,String Precio,String Fecha,Double Abono,int idModelo,int ropa, int empleado){
+	public boolean apartarProducto(String modelo, String Descripcion, String Talla, String Color,String cant,String Precio,String Fecha,Double Abono,int idModelo,int ropa, int empleado){
 		int id_venta=0;
 		System.out.println("idModelo :"+idModelo);
 		System.out.println("id ropa :"+ropa);
@@ -66,7 +73,7 @@ public class Apartar {
 		
 		int existencias_ropa = ropaM.getExistencias();
 		int existencias_modelo = modeloM.getExistencias();
-		
+		int cantidad = Integer.parseInt(cant);
 		Detalle_Venta_model detalleModel=new Detalle_Venta_model();
 		id_venta =creaVenta(Fecha,Abono,Double.parseDouble(Precio),empleado);
 		if (id_venta<0) {
@@ -77,12 +84,12 @@ public class Apartar {
 			detalleVtn.setId_venta(id_venta);
 			detalleVtn.setId_modelo(idModelo);
 			detalleVtn.setId_ropa(ropa);
-			detalleVtn.setCantidad_articulos(1);
+			detalleVtn.setCantidad_articulos(cantidad);
 			detalleVtn.setEstado("APARTADO");
 			detalleVtn.setPrecio_unitario(Double.parseDouble(Precio));
 			int idDetalle= detalleModel.insert_detalle_venta(detalleVtn);
-			mmodel.update_modelo(idModelo, existencias_modelo-1);
-			rmodel.update_ropa(ropa, existencias_ropa-1);
+			mmodel.update_modelo(idModelo, existencias_modelo-cantidad);
+			rmodel.update_ropa(ropa, existencias_ropa-cantidad);
 			if (idDetalle<0){
 				return false;
 			}else{
@@ -95,13 +102,30 @@ public class Apartar {
 	
 	public String fecha(){
 		Calendar calendario = new GregorianCalendar();
-		String day = Integer.toString(calendario.get(Calendar.DATE));
-		String month = Integer.toString(calendario.get(Calendar.MONTH)+1);
+		int d = calendario.get(Calendar.DATE);
+		int m = calendario.get(Calendar.MONTH)+1;
+		String day = d<=9 ? "0"+Integer.toString(d): Integer.toString(d);
+		String month = m<=9 ? "0"+Integer.toString(m) : Integer.toString(m);
 		String year = Integer.toString(calendario.get(Calendar.YEAR));
 		
 		return day+"/"+month+"/"+year;
 	}
 	
+	public String[][] get_apartado(int folio){
+		ArrayList<Detalle_Venta> dv = new Detalle_Venta_model().find_detalle_venta(folio);
+		String[][] datos = new String[dv.size()][];
+		int i=0;
+		for (Detalle_Venta detalle_Venta : dv) {
+			String[] d = new String[4];
+			d[0] = new Modelo_model().find_modelo(detalle_Venta.getId_modelo()).getModelo();
+			d[1] = new Ropa_model().find_ropa(detalle_Venta.getId_ropa()).getDescricion();
+			d[2] = ""+detalle_Venta.getCantidad_articulos();
+			d[3] = ""+detalle_Venta.getPrecio_unitario();
+			datos[i] = d;
+			i++;
+		}
+		return datos;
+	}
 	public String diferencia(double precio,double Acuenta){
 	
 		double resta1=0.0;

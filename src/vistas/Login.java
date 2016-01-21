@@ -28,28 +28,14 @@ public class Login extends JDialog {
 	private JPasswordField passwordFieldContrasena;
 	private String[][] users= {{"KingSimapjaco","1s1m4pj4c0"},{"Cecilia","fer2402"},{"Gilberto","illrmmbrLaura"}};
 	private int intentos=0;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Login frame = new Login();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
+	
 	/**
 	 * Create the frame.
 	 */
 	public Login() {
 		setResizable(false);
 		setBounds(100, 100, 578, 180);
+		setTitle("Login");
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

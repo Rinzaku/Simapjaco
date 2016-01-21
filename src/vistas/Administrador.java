@@ -1,8 +1,7 @@
 package vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.DefaultCellEditor;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -56,7 +55,7 @@ import javax.swing.JComboBox;
 
 import java.awt.Toolkit;
 
-public class Administrador extends JFrame {
+public class Administrador extends JDialog {
 
 	/**
 	 * 
@@ -81,22 +80,7 @@ public class Administrador extends JFrame {
 	private JMenuItem mnEliminar;
 	
 	private String cuentaDia = "";
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Administrador frame = new Administrador();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -106,6 +90,11 @@ public class Administrador extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1027, 480);
 		setTitle("Ventana Administrador");
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][0.00][71px][-5.00][8.00][][][][][][][][grow]"));
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -164,18 +153,12 @@ public class Administrador extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				cuentaDia = (String) JOptionPane.showInputDialog(contentPane, "Introduce la cuenta para el dia de hoy", "Cuenta",JOptionPane.PLAIN_MESSAGE,null,null,"");
 				boolean listo = new Cuenta_c().insertaCuenta(productos.fecha(), Double.parseDouble(cuentaDia))== -1 ? false : true;
-				String msj = listo ? "Cuenta almacenada en la base de datos" : "A ocurrido un error";
+				String msj = listo ? "Cuenta almacenada en la base de datos" : "Ya has ingresado la cuenta de hoy";
 				JOptionPane.showMessageDialog(contentPane, msj, "Hecho", JOptionPane.INFORMATION_MESSAGE);
 				mntmCuenta.setEnabled(false);
 			}
 		});
 		mnMenu.add(mntmCuenta);
-		
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][0.00][71px][-5.00][8.00][][][][][][][][grow]"));
 		
 		JLabel lblFecha = new JLabel("Fecha :");
 		lblFecha.setForeground(Color.WHITE);

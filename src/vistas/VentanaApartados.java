@@ -3,16 +3,24 @@ package vistas;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+
+import ticket.Ticket;
 import controllers.Apartar;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -21,7 +29,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-public class VentanaApartados extends JFrame {
+public class VentanaApartados extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -33,8 +41,9 @@ public class VentanaApartados extends JFrame {
 	private JButton buttonCancelar;
 	private JLabel labelImage;
 	private Apartar apat;
-	private JFrame ventanAparatdos;
+	private JDialog ventanAparatdos;
 	private boolean bnd =false;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -187,7 +196,12 @@ public class VentanaApartados extends JFrame {
 				boolean bnd;
 				if (!textFolio.getText().isEmpty()){
 					bnd=apat.abono(Integer.parseInt(textFolio.getText()),Double.parseDouble(textTotal.getText()));
-
+					Ticket ticket = new Ticket();
+					ticket.cabecera(textFolio.getText(),"","ABONO");
+					ticket.Items_apartado(apat.get_apartado(Integer.parseInt(textFolio.getText())));
+					ticket.abono(textResta.getText(), textAbono.getText(), textTotal.getText());
+					ticket.piePaginaApartado();
+					ticket.ImprimirDocumento();
 					if (bnd) {
 						JOptionPane.showMessageDialog(null, "Abono actualizado");
 						ventanAparatdos.dispose();

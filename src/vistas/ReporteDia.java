@@ -1,7 +1,9 @@
 package vistas;
 
 import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -11,17 +13,24 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
 import net.miginfocom.swing.MigLayout;
+
 import java.awt.Color;
 import java.awt.Toolkit;
+
 import javax.swing.JLabel;
+
 import controllers.Reportes;
+
 import java.awt.Font;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ReporteDia extends JFrame {
+public class ReporteDia extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private Reportes reporte;
@@ -36,24 +45,7 @@ public class ReporteDia extends JFrame {
 	private JLabel lblTitulo;
 	private JButton btnPDF;
 	private JButton btnCancelar;
-
 	
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					ReporteDia frame = new ReporteDia();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -78,13 +70,13 @@ public class ReporteDia extends JFrame {
 			datos = reporte.get_inventario();
 			break;
 		case 2:
-			String[] cadena2 = {"No de Venta","Empleado","Total articulos","Sub_total","Descuento","Total","Abono","Estado","Fecha"};
+			String[] cadena2 = {"No de Venta","Empleado","Total articulos","Sub_total","Descuento","Total","Resta","Estado","Fecha"};
 			cabecera =cadena2;
 			datos = reporte.get_ventas(2,"");
 			
 			break;
 		case 3:
-			String[] cadena3 = {"No de Venta","Empleado","Total articulos","Sub_total","Descuento","Total","Abono","Estado","Fecha"};
+			String[] cadena3 = {"No de Venta","Empleado","Total articulos","Sub_total","Descuento","Total","Resta","Estado","Fecha"};
 			cabecera =cadena3;
 			datos = reporte.get_ventas(3,mes_anio);
 			break;

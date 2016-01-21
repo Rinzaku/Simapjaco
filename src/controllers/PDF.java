@@ -182,7 +182,7 @@ public class PDF {
 		table.addCell(new Phrase("SubTotal",ft));
 		table.addCell(new Phrase("Desc.",ft));
 		table.addCell(new Phrase("Total",ft));
-		table.addCell(new Phrase("Abono",ft));
+		table.addCell(new Phrase("Resta",ft));
 		table.addCell(new Phrase("Estado",ft));
 		table.addCell(new Phrase("Fecha",ft));
 		
@@ -250,13 +250,6 @@ public class PDF {
 	
 	public void cerrar_doc(){
 		document.close();
-	}
-	public void createList(Section subCatPart) {
-		List list = new List(true, false, 10);
-		list.add(new ListItem("First point"));
-		list.add(new ListItem("Second point"));
-		list.add(new ListItem("Third point"));
-		subCatPart.add(list);
 	}
 
 	private static void addEmptyLine(Paragraph paragraph, int number) {

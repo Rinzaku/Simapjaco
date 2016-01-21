@@ -138,10 +138,6 @@ public class Ventas_C {
 	}
 	
 	private String[][] busca_modelo(String modelo){
-//		mmodel = new Modelo_model();
-//		tmodel = new Talla_model();
-//		cmodel = new Color_model();
-//		rmodel =  new Ropa_model();
 		
 		lista = mmodel.find_modelo(modelo);
 		productos = new String[lista.size()][];

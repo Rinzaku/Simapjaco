@@ -1,8 +1,3 @@
-/controllers
-/database
-/imagenes
-/instancias
-/jars
-/models
-/ticket
 /vistas
+/controllers
+/ticket

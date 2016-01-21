@@ -27,12 +27,6 @@ public class Ticket{
 	static ArrayList<String> LineasPie; 
 	
 	public Ticket(){
-//		try {
-//			pw = new PrintWriter(new BufferedWriter (new FileWriter("USB001")));
-//			
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
 		CabezaLineas=new ArrayList<String>();
 		subCabezaLineas=new ArrayList<String>();
 		items=new ArrayList<String>();
@@ -40,7 +34,9 @@ public class Ticket{
 		LineasPie=new ArrayList<String>();
 	}
 	
-	public static void AddCabecera(String line){CabezaLineas.add(line);} 
+	public static void AddCabecera(String line){
+		CabezaLineas.add(line);
+	} 
 	
 	public static void AddSubCabecera(String line){subCabezaLineas.add(line);} 
 	
@@ -53,7 +49,7 @@ public class Ticket{
 		totales.add(newTotal.GeneraTotal(name, price)); 
 	} 
 	
-	public void cabecera(String folio,String empleado){
+	public void cabecera(String folio,String empleado, String tipo_venta){
 		AddCabecera("\t\tBOUTIQUE MODAS MARS\t\t"); 
 		AddCabecera(DarEspacio()); 
 		AddCabecera(" EXPEDIDO EN:"); 
@@ -68,6 +64,8 @@ public class Ticket{
 		AddSubCabecera(" LE ATENDIO: "+empleado.toUpperCase()); 
 		AddSubCabecera(DarEspacio()); 
 		AddSubCabecera(" Fecha: "+fecha.format(date) + "   Hora: " + hora.format(date)); 
+		AddSubCabecera(DarEspacio());
+		AddSubCabecera("\t\t "+tipo_venta+" \t\t");
 		AddSubCabecera(DarEspacio()); 
 		AddSubCabecera(DibujarLinea(48)); 
 		AddSubCabecera(DarEspacio()); 
@@ -79,9 +77,9 @@ public class Ticket{
 	}
 	
 	public void total(String total,String subtotal,String descuento,String recibido,String cambio){
-		AddTotal("",DibujarLinea(47)); 
+		AddTotal("",DibujarLinea(46)); 
 		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\tSUBTOTAL\t:","\t\t$"+total); 
+		AddTotal("\t\t\tSUBTOTAL :","\t\t$"+total); 
 		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t\t DESCUENTO","\t"+descuento+"%");
 		AddTotal("",DarEspacio()); 
@@ -97,9 +95,9 @@ public class Ticket{
 	}
 	
 	public void Apartado(String precio,String acuenta,String resta){
-		AddTotal("",DibujarLinea(47)); 
+		AddTotal("",DibujarLinea(46)); 
 		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\tTOTAL\t:","\t\t$"+precio); 
+		AddTotal("\t\t\t TOTAL :","\t\t$"+precio); 
 		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t\t A CUENTA:","\t"+acuenta+"");
 		AddTotal("",DarEspacio()); 
@@ -108,6 +106,19 @@ public class Ticket{
 		AddTotal("",DarEspacio()); 
 		AddTotal("",DarEspacio());
 		
+	}
+	
+	public void abono(String resta, String cuenta, String subtotal){
+		AddTotal("",DibujarLinea(46)); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\tTOTAL\t:","\t\t$"+resta); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\t ABONO :","\t"+cuenta+"");
+		AddTotal("",DarEspacio()); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\t RESTA :","\t$"+subtotal);  
+		AddTotal("",DarEspacio()); 
+		AddTotal("",DarEspacio());
 	}
 	
 	public void itemApartar(String modelo,String cantidad,String precio,String descripcion){
@@ -122,6 +133,13 @@ public class Ticket{
 				AddItem(strings[0],strings[1],strings[4]+"\t",strings[5]+"\t");
 				AddItem("","","", DarEspacio());
 			}
+	}
+	
+	public void Items_apartado(String[][] apartado){
+		for (String[] strings : apartado) {
+			AddItem(strings[0],strings[1],strings[2]+"\t",strings[3]+"\t");
+			AddItem("","","", DarEspacio());
+		}
 	}
 	
 	public void piePagina(){

@@ -161,22 +161,6 @@ public class Ventana_ventas extends JFrame {
 	private Ticket ticket;
 	
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Ventana_ventas frame = new Ventana_ventas();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Ventana_ventas() {
@@ -482,13 +466,14 @@ public class Ventana_ventas extends JFrame {
 					String  descripcion =(String) tableVentas.getValueAt(pos,1);
 					String talla =(String) tableVentas.getValueAt(pos,2);
 					String Color =(String) tableVentas.getValueAt(pos, 3);
-					String precio=(String) tableVentas.getValueAt(pos,5);
+					String cantidad = tableVentas.getValueAt(pos, 4).toString();
+					String precio=tableVentas.getValueAt(pos,5).toString();
 					if(textFieldEmpleado.getText().isEmpty()){
 						JOptionPane.showMessageDialog(null, "Ingresa tú identificador de empleado");
 						
 					}
 					else{
-						ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV,Integer.parseInt(textFieldEmpleado.getText()));
+						ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),cantidad,precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV,Integer.parseInt(textFieldEmpleado.getText()));
 						apartarProd.setVisible(true);
 					}
 					
@@ -641,7 +626,7 @@ public class Ventana_ventas extends JFrame {
 							}
 							if(exito){
 								ticket=new Ticket();
-								ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())));
+								ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())),"VENTA");
 								ticket.Items(venta());
 								ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
 								ticket.piePagina();
@@ -841,7 +826,7 @@ public class Ventana_ventas extends JFrame {
 		textFieldModelo.setText("");
 		textFieldColor.setText("");
 		textFieldTalla.setText("");
-		datosBusqueda = controlador_ventas.busca_modelo(modelo,talla,color);
+		datosBusqueda = controlador_ventas.busca_modelo(modelo.toUpperCase(),talla.toUpperCase(),color.toUpperCase());
 		if (datosBusqueda.length==0) {
 			JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
 		}else{

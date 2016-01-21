@@ -2,6 +2,7 @@ package vistas;
 
 import java.awt.Dimension;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,7 +26,7 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 
-public class TableEmpleados extends JFrame {
+public class TableEmpleados extends JDialog {
 
 	/**
 	 * 
@@ -43,24 +44,7 @@ public class TableEmpleados extends JFrame {
 	private JLabel lblNewLabel;
 	private TableModelListener tml;
 	private DefaultTableModel modelEmpleado;
-
-
-	/**
-	 * Launch the application.
-	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					TableEmpleados frame = new TableEmpleados();
-	//					frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
-
+	
 	/**
 	 * Create the frame.
 	 */

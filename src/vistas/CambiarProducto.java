@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -13,29 +14,39 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JTextArea;
+
 import java.awt.SystemColor;
+
 import javax.swing.JScrollPane;
+
 import controllers.Cambio;
+
 import javax.swing.JTable;
+
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 
-public class CambiarProducto extends JFrame {
+public class CambiarProducto extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 
