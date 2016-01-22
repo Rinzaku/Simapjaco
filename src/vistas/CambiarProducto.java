@@ -388,7 +388,7 @@ public class CambiarProducto extends JDialog {
 					ticket.cabecera(textFolio.getText(),cambios.nombreEmpleado(),"CAMBIO");
 					ticket.Item_a_cambiar(modelCambios.getValueAt(renglonCambio, 0).toString(), modelCambios.getValueAt(renglonCambio, 1).toString(),"1", modelCambios.getValueAt(renglonCambio, 3).toString());
 					ticket.items_a_cambio(obten_cambios());
-					ticket.cambio(""+cambios.get_total_venta(),""+ Double.parseDouble(textDiferencia.getText()),"" + (cambios.get_total_venta()+Double.parseDouble(textDiferencia.getText())));
+					ticket.cambio(""+ Double.parseDouble(textDiferencia.getText()));
 					ticket.piePagina();
 					ticket.ImprimirDocumento();
 				}
@@ -513,10 +513,10 @@ public class CambiarProducto extends JDialog {
 		int j=0;
 		for (int i = 0; i < rows; i++) {
 			String[] p = new String[4];
-			p[0] = modelCambios.getValueAt(i, 0).toString();
-			p[1] = modelCambios.getValueAt(i, 1).toString();
-			p[2] = modelCambios.getValueAt(i, 2).toString();
-			p[3] = modelCambios.getValueAt(i, 5).toString();
+			p[0] = modeloCambio.getValueAt(i, 0).toString();
+			p[1] = modeloCambio.getValueAt(i, 1).toString();
+			p[2] = modeloCambio.getValueAt(i, 2).toString();
+			p[3] = modeloCambio.getValueAt(i, 5).toString();
 			productos[j] = p;
 			j++;
 		}

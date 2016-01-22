@@ -161,10 +161,6 @@ public class Cambio {
 		return nombre;
 	}
 	
-	public double get_total_venta(){
-		return ventas.getTotal_venta();
-	}
-
 	private boolean validaFecha(String fechaventa){
 		calendario = new GregorianCalendar();
 		Calendar calendarioVenta = new GregorianCalendar();

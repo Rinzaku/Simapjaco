@@ -121,15 +121,9 @@ public class Ticket{
 		AddTotal("",DarEspacio());
 	}
 	
-	public void cambio(String subtotal, String diferencia, String total){
+	public void cambio(String diferencia){
 		AddTotal("",DibujarLinea(46)); 
-		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\tSUBTOTAL\t:","\t\t$"+subtotal); 
-		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t DIFERENCIA :","\t$"+diferencia+"");
-		AddTotal("",DarEspacio()); 
-		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\t TOTAL :","\t$"+total);  
 		AddTotal("",DarEspacio()); 
 		AddTotal("",DarEspacio());
 	}
@@ -161,11 +155,10 @@ public class Ticket{
 	}
 	
 	public void items_a_cambio(String[][] cambio){
-		AddSubCabecera("\t\t CAMBIO POR \t\t");
-		AddSubCabecera(DarEspacio());
-		AddItem("MODELO\t","DESCRIPCION", "CANTIDAD\t", "PRECIO\t");
+		AddItem("","", "\t\t CAMBIO POR \t\t", DarEspacio());
 		AddItem("","", "", DarEspacio());
-		AddItem("", "","", DarEspacio());
+		AddItem("MODELO","DESCRIPCION", "CANTIDAD\t", "PRECIO\t");
+		AddItem("","", "", DarEspacio());
 		for (String[] strings : cambio) {
 			AddItem(strings[0],strings[1],strings[2]+"\t",strings[3]+"\t");
 			AddItem("","","", DarEspacio());
