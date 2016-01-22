@@ -71,7 +71,7 @@ public class Ticket{
 		AddSubCabecera(DarEspacio()); 
 		AddItem("MODELO\t","DESCRIPCION", "CANTIDAD\t", "PRECIO\t");
 		AddItem("","", "", DarEspacio());
-		AddItem("", "","", DarEspacio());
+//		AddItem("", "","", DarEspacio());
 
 
 	}
