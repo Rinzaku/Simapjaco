@@ -149,6 +149,21 @@ public class Cambio {
 		
 		return day+"/"+month+"/"+year;
 	}
+	
+	public String nombreEmpleado(){
+		String nombre=null;
+		Empleados_model empModel =new Empleados_model();
+		Empleado empInstancia=empModel.find_empleado(ventas.getNo_empleado());
+		if (empInstancia!=null) {
+			nombre=empInstancia.getNombre();
+		}
+		
+		return nombre;
+	}
+	
+	public double get_total_venta(){
+		return ventas.getTotal_venta();
+	}
 
 	private boolean validaFecha(String fechaventa){
 		calendario = new GregorianCalendar();

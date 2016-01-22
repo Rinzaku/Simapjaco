@@ -43,6 +43,8 @@ import controllers.Cambio;
 
 import javax.swing.JTable;
 
+import ticket.Ticket;
+
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 
@@ -239,6 +241,7 @@ public class CambiarProducto extends JDialog {
 	
 	private double dif=0;
 	private JMenuItem mntmQuitar;
+	private Ticket ticket;
 	/**
 	 * Create the frame.
 	 */
@@ -380,7 +383,15 @@ public class CambiarProducto extends JDialog {
 				
 				String msj = hecho ? "Cambio efectuado exitosamente\nGracias por su compra" : "Ha ocurrido un error\nPor favor vuelva a intentarlo";
 				JOptionPane.showMessageDialog(getContentPane(), msj);
-				
+				if (hecho) {
+					ticket=new Ticket();
+					ticket.cabecera(textFolio.getText(),cambios.nombreEmpleado(),"CAMBIO");
+					ticket.Item_a_cambiar(modelCambios.getValueAt(renglonCambio, 0).toString(), modelCambios.getValueAt(renglonCambio, 1).toString(),"1", modelCambios.getValueAt(renglonCambio, 3).toString());
+					ticket.items_a_cambio(obten_cambios());
+					ticket.cambio(""+cambios.get_total_venta(),""+ Double.parseDouble(textDiferencia.getText()),"" + (cambios.get_total_venta()+Double.parseDouble(textDiferencia.getText())));
+					ticket.piePagina();
+					ticket.ImprimirDocumento();
+				}
 				getContentPane().remove(scrollCambios);
 				getContentPane().remove(scrollCambio);
 				textFolio.setText("");
@@ -494,6 +505,22 @@ public class CambiarProducto extends JDialog {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	
+	private String[][] obten_cambios(){
+		int rows = tablaCambio.getRowCount();
+		String[][] productos = new String[rows][];
+		int j=0;
+		for (int i = 0; i < rows; i++) {
+			String[] p = new String[4];
+			p[0] = modelCambios.getValueAt(i, 0).toString();
+			p[1] = modelCambios.getValueAt(i, 1).toString();
+			p[2] = modelCambios.getValueAt(i, 2).toString();
+			p[3] = modelCambios.getValueAt(i, 5).toString();
+			productos[j] = p;
+			j++;
+		}
+		return productos;
 	}
 }
 

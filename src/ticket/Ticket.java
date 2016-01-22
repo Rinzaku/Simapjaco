@@ -65,9 +65,9 @@ public class Ticket{
 		AddSubCabecera(DarEspacio()); 
 		AddSubCabecera(" Fecha: "+fecha.format(date) + "   Hora: " + hora.format(date)); 
 		AddSubCabecera(DarEspacio());
-		AddSubCabecera("\t\t "+tipo_venta+" \t\t");
-		AddSubCabecera(DarEspacio()); 
 		AddSubCabecera(DibujarLinea(48)); 
+		AddSubCabecera(DarEspacio()); 
+		AddSubCabecera("\t\t "+tipo_venta+" \t\t");
 		AddSubCabecera(DarEspacio()); 
 		AddItem("MODELO\t","DESCRIPCION", "CANTIDAD\t", "PRECIO\t");
 		AddItem("","", "", DarEspacio());
@@ -113,10 +113,23 @@ public class Ticket{
 		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t\tTOTAL\t:","\t\t$"+resta); 
 		AddTotal("",DarEspacio()); 
-		AddTotal("\t\t\t ABONO :","\t"+cuenta+"");
+		AddTotal("\t\t\t ABONO :","\t$"+cuenta+"");
 		AddTotal("",DarEspacio()); 
 		AddTotal("",DarEspacio()); 
 		AddTotal("\t\t\t RESTA :","\t$"+subtotal);  
+		AddTotal("",DarEspacio()); 
+		AddTotal("",DarEspacio());
+	}
+	
+	public void cambio(String subtotal, String diferencia, String total){
+		AddTotal("",DibujarLinea(46)); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\tSUBTOTAL\t:","\t\t$"+subtotal); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t DIFERENCIA :","\t$"+diferencia+"");
+		AddTotal("",DarEspacio()); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\t TOTAL :","\t$"+total);  
 		AddTotal("",DarEspacio()); 
 		AddTotal("",DarEspacio());
 	}
@@ -127,7 +140,7 @@ public class Ticket{
 	}
 	
 	
-	public  void Items(String venta [][]){
+	public void Items(String venta [][]){
 	
 			for (String[] strings : venta) {
 				AddItem(strings[0],strings[1],strings[4]+"\t",strings[5]+"\t");
@@ -137,6 +150,23 @@ public class Ticket{
 	
 	public void Items_apartado(String[][] apartado){
 		for (String[] strings : apartado) {
+			AddItem(strings[0],strings[1],strings[2]+"\t",strings[3]+"\t");
+			AddItem("","","", DarEspacio());
+		}
+	}
+	
+	public void Item_a_cambiar(String modelo, String descripcion,String cantidad, String precio){
+		AddItem(modelo,descripcion,cantidad+"\t",precio+"\t");
+		AddItem("","", "", DarEspacio());
+	}
+	
+	public void items_a_cambio(String[][] cambio){
+		AddSubCabecera("\t\t CAMBIO POR \t\t");
+		AddSubCabecera(DarEspacio());
+		AddItem("MODELO\t","DESCRIPCION", "CANTIDAD\t", "PRECIO\t");
+		AddItem("","", "", DarEspacio());
+		AddItem("", "","", DarEspacio());
+		for (String[] strings : cambio) {
 			AddItem(strings[0],strings[1],strings[2]+"\t",strings[3]+"\t");
 			AddItem("","","", DarEspacio());
 		}
