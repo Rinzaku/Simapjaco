@@ -50,7 +50,7 @@ public class Ticket{
 	} 
 	
 	public void cabecera(String folio,String empleado, String tipo_venta){
-		AddCabecera("\t\tBOUTIQUE MODAS MARS\t\t"); 
+		AddCabecera("\t\tBOUTIQUE SIMAPJACO\t\t"); 
 		AddCabecera(DarEspacio()); 
 		AddCabecera(" EXPEDIDO EN:"); 
 		AddCabecera("\n AV.MEXICO 178");
