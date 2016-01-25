@@ -49,7 +49,7 @@ public class ReporteDia extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public ReporteDia(String titulo, int tipo_reporte, String mes_anio) {
+	public ReporteDia(String titulo, final int tipo_reporte, final String mes_anio) {
 		
 		reporte = new Reportes();
 		

@@ -33,6 +33,7 @@ public class MySQLConnection {
             /*Establecemos la conexion Java MySQL*/
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
+        	System.out.println(e.getMessage());
             System.out.println("ERROR: Incapas de conectar con la BD.");
         }
         return connection;

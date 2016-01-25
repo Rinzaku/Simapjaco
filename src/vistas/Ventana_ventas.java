@@ -79,7 +79,7 @@ public class Ventana_ventas extends JFrame {
 		
 		public ImageV() {
 			super();
-			JDialog ventanaImage=this;
+			final JDialog ventanaImage=this;
 			ventanaImage.setUndecorated(true);
 			ventanaImage.addFocusListener(new FocusListener() {
 				
@@ -171,7 +171,7 @@ public class Ventana_ventas extends JFrame {
 		ventanaImage=new ImageV();
 		setTitle("BOUTIQUE SIMAPJACO");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
-		Ventana_ventas ventasV=this;
+		final Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
 		ids_modelos = new ArrayList<Integer>();
 		ids_ropas = new ArrayList<Integer>();

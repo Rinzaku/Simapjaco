@@ -140,7 +140,7 @@ public class CambiarProducto extends JDialog {
 							JOptionPane.showMessageDialog(contentPane, "Ya no hay existencias\nde este modelo","Agotado",JOptionPane.WARNING_MESSAGE);
 							return;
 						}
-						double precioProducto = Double.parseDouble(modelCambios.getValueAt(renglonCambio, 3).toString());
+						final double precioProducto = Double.parseDouble(modelCambios.getValueAt(renglonCambio, 3).toString());
 						double diferencia=0, precio;
 						String[][] datos = {{model.getValueAt(renglon, 0).toString(),model.getValueAt(renglon, 1).toString(),""+1,model.getValueAt(renglon, 2).toString(),model.getValueAt(renglon, 3).toString(),model.getValueAt(renglon, 5).toString()}};
 						
@@ -247,7 +247,7 @@ public class CambiarProducto extends JDialog {
 	 */
 	public CambiarProducto() {
 		cambios = new Cambio();
-		CambiarProducto cp = this;
+		final CambiarProducto cp = this;
 		cp.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
 				System.out.println("Ventana gano el enfoque");

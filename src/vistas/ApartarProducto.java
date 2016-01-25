@@ -56,7 +56,7 @@ public class ApartarProducto extends JDialog {
 	 * @param descripcion 
 	 * @param modelo 
 	 */
-	public ApartarProducto(String modelo, String descripcion, String talla, String color,String cantidad, String precio,String folio,int idModelo, int ropa,Ventana_ventas ventas,int empleado) {
+	public ApartarProducto(final String modelo, final String descripcion, final String talla, final String color,final String cantidad, final String precio,final String folio,final int idModelo, final int ropa,final Ventana_ventas ventas,final int empleado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ApartarProducto.class.getResource("/imagenes/Shopping48.png")));
 		ventanApartar=this;
 		ticket=new Ticket();
@@ -81,7 +81,7 @@ public class ApartarProducto extends JDialog {
 		lblFecha.setForeground(Color.WHITE);
 		contentPane.add(lblFecha, "cell 5 0");
 		
-		JLabel etiquetaFecha = new JLabel();
+		final JLabel etiquetaFecha = new JLabel();
 		etiquetaFecha.setText(apartar.fecha());
 		etiquetaFecha.setForeground(Color.WHITE);
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));

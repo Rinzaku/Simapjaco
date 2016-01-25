@@ -148,7 +148,7 @@ public class Administrador extends JDialog {
 		});
 		mnMenu.add(mntmEmpleados);
 		
-		JMenuItem mntmCuenta = new JMenuItem("Cuenta");
+		final JMenuItem mntmCuenta = new JMenuItem("Cuenta");
 		mntmCuenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cuentaDia = (String) JOptionPane.showInputDialog(contentPane, "Introduce la cuenta para el dia de hoy", "Cuenta",JOptionPane.PLAIN_MESSAGE,null,null,"");
