@@ -77,13 +77,13 @@ public class CambiarProducto extends JDialog {
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][29.00px][27.00px][grow][29.00][29.00][29.00,grow,top][21.00][grow][][grow]"));
-			contentPane.setBackground(Color.BLACK);
+			contentPane.setBackground(new Color(176, 224, 226));
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Vista.class.getResource("/imagenes/Shopping48.png")));
 			setTitle("Modelo a cambio");
 			setContentPane(contentPane);
 			
 			JLabel lblModelo = new JLabel("Modelo");
-			lblModelo.setForeground(Color.WHITE);
+			lblModelo.setForeground(new Color(0,51,153));
 			lblModelo.setFont(new Font("Tahoma", Font.BOLD, 15));
 			contentPane.add(lblModelo, "flowx,cell 0 1,alignx center");
 			
@@ -107,6 +107,7 @@ public class CambiarProducto extends JDialog {
 							};
 							tablaModelo = new JTable(model);
 							tablaModelo.setBackground(new Color(176, 224, 230));
+							tablaModelo.setSelectionBackground(Color.cyan);
 							
 							scrollPane = new JScrollPane(tablaModelo);
 							scrollPane.setPreferredSize(new Dimension(350, 100));
@@ -169,21 +170,23 @@ public class CambiarProducto extends JDialog {
 									int column = e.getColumn();
 									
 									if(column == 5) return;
-									
-									double costo = Double.parseDouble(modeloCambio.getValueAt(row, 5).toString())/numero_prendas;
-									int cantidad = Integer.parseInt(modeloCambio.getValueAt(row, column).toString());
-									double total = costo * cantidad;
-									
-									modeloCambio.setValueAt(total, row, 5);
-									double precio=0;
-									for (int i = 0; i < modeloCambio.getRowCount(); i++) {
-										precio += Double.parseDouble(modeloCambio.getValueAt(i, 5).toString());
+									if (TableModelEvent.UPDATE==e.getType() ) {
+										double costo = Double.parseDouble(modeloCambio.getValueAt(row, 5).toString())/numero_prendas;
+										int cantidad = Integer.parseInt(modeloCambio.getValueAt(row, column).toString());
+										double total = costo * cantidad;
+										
+										modeloCambio.setValueAt(total, row, 5);
+										double precio=0;
+										for (int i = 0; i < modeloCambio.getRowCount(); i++) {
+											precio += Double.parseDouble(modeloCambio.getValueAt(i, 5).toString());
+										}
+
+										double diferencia = precio - precioProducto;
+										dif = diferencia;
+										textDiferencia.setText(""+diferencia);
 									}
-									
-									double diferencia = precio - precioProducto;
-									dif = diferencia;
-									textDiferencia.setText(""+diferencia);
 								}
+
 							};
 							modeloCambio.addTableModelListener(tml);
 							
@@ -250,7 +253,6 @@ public class CambiarProducto extends JDialog {
 		final CambiarProducto cp = this;
 		cp.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				System.out.println("Ventana gano el enfoque");
 				if(bandera2==1){
 					
 					scrollCambio = new JScrollPane(tablaCambio);
@@ -273,14 +275,14 @@ public class CambiarProducto extends JDialog {
 		});
 		
 		setResizable(false);
-		getContentPane().setBackground(Color.BLACK);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(CambiarProducto.class.getResource("/imagenes/Shopping48.png")));
-		
+		getContentPane().setBackground(new Color(176, 224, 226));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CambiarProducto.class.getResource("/imagenes/SIMAP.png")));		
 		setTitle("Cambio de Producto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 810, 449);
 		
 		textFolio = new JTextField();
+		textFolio.setForeground(new Color(0,51,153));
 		textFolio.setHorizontalAlignment(SwingConstants.RIGHT);
 		textFolio.addKeyListener(new KeyAdapter() {
 			@Override
@@ -309,6 +311,7 @@ public class CambiarProducto extends JDialog {
 						};
 						tableCambios = new JTable(modelCambios);
 						tableCambios.setBackground(new Color(176, 224, 230));
+						tableCambios.setSelectionBackground(Color.cyan);
 						
 						tableCambios.addMouseListener(new MouseAdapter() {
 							@Override
@@ -336,14 +339,14 @@ public class CambiarProducto extends JDialog {
 		
 		
 		JLabel lblFolio = new JLabel("Folio :");
-		lblFolio.setForeground(Color.WHITE);
+		lblFolio.setForeground(new Color(0,51,153));
 		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		getContentPane().add(lblFolio, "cell 4 0,alignx left,aligny top");
 		getContentPane().add(textFolio, "cell 6 0,alignx right,aligny bottom");
 		textFolio.setColumns(10);
 		
 		JLabel lblFecha = new JLabel("Fecha : " + cambios.fecha());
-		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setForeground(new Color(0,51,153));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		getContentPane().add(lblFecha, "cell 8 0,alignx right,aligny top");
 		
@@ -402,7 +405,7 @@ public class CambiarProducto extends JDialog {
 			}
 		});
 
-		btnAceptar.setBackground(new Color(51, 0, 204));
+		btnAceptar.setBackground(new Color(0,51,153));
 		btnAceptar.setIcon(new ImageIcon(CambiarProducto.class.getResource("/imagenes/ok32.png")));
 		btnAceptar.setEnabled(false);
 		getContentPane().add(btnAceptar, "cell 0 11 3 1,growx,aligny bottom");
@@ -424,12 +427,12 @@ public class CambiarProducto extends JDialog {
 		getContentPane().add(btnBuscar, "cell 0 6,alignx left");
 		
 		JLabel lblModeloCambio = new JLabel("Cambia por :");
-		lblModeloCambio.setForeground(Color.WHITE);
+		lblModeloCambio.setForeground(new Color(0,51,153));
 		lblModeloCambio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		getContentPane().add(lblModeloCambio, "flowx,cell 0 7,alignx left,aligny center");
 		
 		JLabel lblDiferencia = new JLabel("Diferencia :");
-		lblDiferencia.setForeground(Color.WHITE);
+		lblDiferencia.setForeground(new Color(0,51,153));
 		lblDiferencia.setFont(new Font("Tahoma", Font.BOLD, 15));
 		getContentPane().add(lblDiferencia, "cell 6 10,alignx left,aligny top");
 		
@@ -439,7 +442,7 @@ public class CambiarProducto extends JDialog {
 		textDiferencia.setColumns(10);
 		
 		JButton btnCancelar = new JButton("");
-		btnCancelar.setBackground(new Color(51, 0, 204));
+		btnCancelar.setBackground(new Color(0,51,153));
 		btnCancelar.setIcon(new ImageIcon(CambiarProducto.class.getResource("/imagenes/error32.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -476,12 +479,12 @@ public class CambiarProducto extends JDialog {
 	}
 	
 	private void agregaEscuchaTablaCambio(){
-		
+		tablaCambio.setSelectionBackground(Color.cyan);
 		tablaCambio.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent click) {
-				if (click.getClickCount()==2) {
-					numero_prendas = Integer.parseInt(modeloCambio.getValueAt(tablaCambio.getSelectedRow(), tablaCambio.getSelectedColumn()).toString());
+			public void mouseReleased(MouseEvent click) {
+				if (click.getClickCount()==2 || click.getClickCount()==1) {
+					numero_prendas = Integer.parseInt(modeloCambio.getValueAt(tablaCambio.getSelectedRow(), 2).toString());
 				}
 			}
 		});

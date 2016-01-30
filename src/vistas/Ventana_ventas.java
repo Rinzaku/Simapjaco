@@ -54,7 +54,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import controllers.Ventas_C;
 
@@ -170,7 +169,7 @@ public class Ventana_ventas extends JFrame {
 		
 		ventanaImage=new ImageV();
 		setTitle("BOUTIQUE SIMAPJACO");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/Shopping48.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Ventana_ventas.class.getResource("/imagenes/SIMAP.png")));
 		final Ventana_ventas ventasV=this;
 		controlador_ventas = new Ventas_C();
 		ids_modelos = new ArrayList<Integer>();
@@ -179,13 +178,13 @@ public class Ventana_ventas extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1265, 642);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.black);
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][][76.00px][27.00px][][29.00][][][29.00][29.00,grow,top][21.00][grow][][grow]"));
 		
 		JLabel lblFolio = new JLabel("Folio:");
-		lblFolio.setForeground(Color.WHITE);
+		lblFolio.setForeground(new Color(0,51,153));
 		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblFolio, "flowx,cell 0 0,alignx right");
 		
@@ -198,18 +197,18 @@ public class Ventana_ventas extends JFrame {
 		txtFolio.setColumns(10);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
-		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setForeground(new Color(0,51,153));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblFecha, "cell 0 0,alignx right");
 		
 		etiquetaFecha = new JLabel(controlador_ventas.fecha());
-		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setForeground(new Color(0,51,153));
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 0 0,alignx right");
 		
 		JLabel lblNewLabel = new JLabel("N\u00B0 Empleado");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setForeground(new Color(0,51,153));
 		contentPane.add(lblNewLabel, "flowx,cell 0 1,alignx right");
 		
 		textFieldEmpleado = new JTextField();
@@ -220,7 +219,7 @@ public class Ventana_ventas extends JFrame {
 //		textFieldFecha.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 51, 153));
+		panel.setBackground(new Color(0,51,153));
 		contentPane.add(panel, "cell 0 2,alignx center,aligny bottom");
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -229,7 +228,7 @@ public class Ventana_ventas extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblVentasSimapjaco = new JLabel("Ventas  Simapjaco");
+		JLabel lblVentasSimapjaco = new JLabel("Boutique  Simapjaco");
 		lblVentasSimapjaco.setForeground(Color.WHITE);
 		lblVentasSimapjaco.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblVentasSimapjaco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -376,41 +375,33 @@ public class Ventana_ventas extends JFrame {
 				int col = e.getColumn();
 				
 				if (col == 5) return;
-				
-				double costo = Double.parseDouble(modelVentas.getValueAt(row, 5).toString())/numero_prendas;
-				int cantidad = Integer.parseInt(modelVentas.getValueAt(row, 4).toString());
-				double total = costo * cantidad;
-				
-				modelVentas.setValueAt(total, row, 5);
-				double newTot =0;
-				for (int i = 0; i < tableVentas.getRowCount(); i++) {
-					newTot += Double.parseDouble(modelVentas.getValueAt(i, 5).toString());
+				if (TableModelEvent.UPDATE==e.getType() ) {
+					double costo = Double.parseDouble(modelVentas.getValueAt(row, 5).toString())/numero_prendas;
+					int cantidad = Integer.parseInt(modelVentas.getValueAt(row, 4).toString());
+					double total = costo * cantidad;
+					
+					modelVentas.setValueAt(total, row, 5);
+					double newTot =0;
+					for (int i = 0; i < tableVentas.getRowCount(); i++) {
+						newTot += Double.parseDouble(modelVentas.getValueAt(i, 5).toString());
+					}
+					txtSubTotal.setText(""+newTot);
+					textTotal.setText(""+newTot);
 				}
-				txtSubTotal.setText(""+newTot);
-				textTotal.setText(""+newTot);
-			}
+				}
+				
 		};
 		
 		modelVentas.addTableModelListener(tml);
 		
 		tableVentas = new JTable(modelVentas);
 		
-		tableVentas.addKeyListener(new KeyAdapter() {
-
-			@Override
-			public void keyPressed(KeyEvent key) {
-				if (key.getKeyCode()==KeyEvent.VK_ENTER || key.getKeyCode() == KeyEvent.VK_TAB) {
-					modelVentas.addRow(new String[]{"","","","","",""});
-					tableVentas.setModel(modelVentas);
-				}
-			}
-		});
 		tableVentas.addMouseListener(new MouseAdapter() {
 			@Override
 			//evento para controlar  los clicks de la tabla ^.^/
 			public void mousePressed(MouseEvent click) {
 			
-				if (click.getClickCount()==2) {
+				if (click.getClickCount()==1 || click.getClickCount()==2) {
 					numero_prendas = Integer.parseInt(modelVentas.getValueAt(tableVentas.getSelectedRow(), 4).toString());
 				}
 			}
@@ -418,7 +409,7 @@ public class Ventana_ventas extends JFrame {
 		
 		scrollVentas=new JScrollPane (tableVentas);
 		
-		tableVentas.setBackground(new Color(176, 224, 226));
+		tableVentas.setBackground(new Color(176, 224, 230));
 		tableVentas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.BOTTOM, null, null));
 		tableVentas.setSelectionBackground(Color.cyan);
 		tableVentas.setRowHeight(17);		
@@ -437,7 +428,6 @@ public class Ventana_ventas extends JFrame {
 				if(tableVentas.getSelectedRow()==-1){
 					JOptionPane.showMessageDialog(null, "Selecciona una fila");
 				}else{
-					System.out.println("Fila -> "+tableVentas.getSelectedRow());
 					double total = Double.parseDouble(txtSubTotal.getText());
 					total -= Double.parseDouble(modelVentas.getValueAt(tableVentas.getSelectedRow(), 5).toString());
 					txtSubTotal.setText(""+total);
@@ -458,7 +448,6 @@ public class Ventana_ventas extends JFrame {
 		mntmApartar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//System.out.println("Apartar:"+" "+e.getClickCount());
 				if(tableVentas.getSelectedRow()==-1){
 					JOptionPane.showMessageDialog(null, "Selecciona una fila");
 				}else{
@@ -489,7 +478,7 @@ public class Ventana_ventas extends JFrame {
 		scrollVentas.setPreferredSize(new Dimension(350, 150));
 		
 		JLabel lblSubTotal = new JLabel("Subtotal:  $");
-		lblSubTotal.setForeground(Color.WHITE);
+		lblSubTotal.setForeground(new Color(0,51,153));
 		lblSubTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblSubTotal, "flowx,cell 0 5,alignx right");
 		
@@ -502,7 +491,7 @@ public class Ventana_ventas extends JFrame {
 		
 		JLabel lblTotal = new JLabel("Total: $");
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTotal.setForeground(Color.WHITE);
+		lblTotal.setForeground(new Color(0,51,153));
 		contentPane.add(lblTotal, "flowx,cell 0 7,alignx right");
 		
 		textTotal = new JTextField();
@@ -513,7 +502,7 @@ public class Ventana_ventas extends JFrame {
 		textTotal.setColumns(10);
 		
 		JLabel lbelRecibido = new JLabel("Recibido:  $");
-		lbelRecibido.setForeground(Color.WHITE);
+		lbelRecibido.setForeground(new Color(0,51,153));
 		lbelRecibido.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lbelRecibido, "flowx,cell 0 8,alignx right,aligny top");
 		
@@ -542,7 +531,7 @@ public class Ventana_ventas extends JFrame {
 		});
 		
 		JLabel lblCambio = new JLabel("Cambio:  $");
-		lblCambio.setForeground(Color.WHITE);
+		lblCambio.setForeground(new Color(0,51,153));
 		lblCambio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblCambio, "flowx,cell 0 9,alignx right");
 		
@@ -554,7 +543,7 @@ public class Ventana_ventas extends JFrame {
 
 		
 		JPanel panelBoton = new JPanel();
-		panelBoton.setBackground(SystemColor.black);
+		panelBoton.setBackground(new Color(176, 224, 226));
 		contentPane.add(panelBoton, "cell 0 12 1 2,growx,aligny bottom");
 		panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -634,9 +623,6 @@ public class Ventana_ventas extends JFrame {
 								ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
 								ticket.piePagina();
 								ticket.ImprimirDocumento();
-//								ticket.corta();
-//								ticket.cortar();
-								//System.out.println("VEntas :"+Arrays.deepToString(venta()));
 								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
 							}else
 								JOptionPane.showMessageDialog(contentPane, "A ourrido un error. No se ha podido crear la venta");
@@ -676,7 +662,7 @@ public class Ventana_ventas extends JFrame {
 		panelBoton.add(btnCancelar);
 		
 		JLabel lblNewLabel_1 = new JLabel("Descuento %:");
-		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setForeground(new Color(0, 51, 153));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblNewLabel_1, "flowx,cell 0 6,alignx right");
 		
@@ -839,9 +825,6 @@ public class Ventana_ventas extends JFrame {
 			pinta_productos();
 			addMouseClick();
 		}
-		System.out.println(Arrays.deepToString(datosBusqueda));
-		
-		
 	}
 	
 	private void pinta_productos() {
@@ -854,7 +837,7 @@ public class Ventana_ventas extends JFrame {
 			}
 		};
 		tableBusqueda = new JTable(modelBusqueda);	
-		tableBusqueda.setBackground(new Color(176, 224, 230));
+		tableBusqueda.setBackground(new Color(176,224,230));
 		tableBusqueda.setSelectionBackground(Color.cyan);
 		tableBusqueda.isCellEditable(0,	0);
 		

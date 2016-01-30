@@ -49,32 +49,32 @@ public class VentanaApartados extends JDialog {
 	 */
 	public VentanaApartados() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaApartados.class.getResource("/imagenes/Shopping48.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaApartados.class.getResource("/imagenes/SIMAP.png")));
 		ventanAparatdos=this;
 		apat=new Apartar();
-		setTitle("Apartados");
+		setTitle("APARTADOS");
 		setResizable(false);
 		setAutoRequestFocus(false);
 		setBounds(100, 100, 505, 309);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[57px][14px][142px][68px][18px][53px][8px][111px]", "[19px][48px][19.00px][18px][20px][18px][27px][41px]"));
 		
 		JLabel lblFecha = new JLabel("Fecha :");
-		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setForeground(new Color(0,51,153));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFecha.setBackground(Color.WHITE);
+		lblFecha.setBackground(new Color(0,51,153));
 		contentPane.add(lblFecha, "cell 5 0,alignx left,aligny top");
 		
 		JLabel etiquetaFecha = new JLabel(apat.fecha());
-		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setForeground(new Color(0,51,153));
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 7 0,alignx left,aligny top");
 		
 		JLabel lblModelo = new JLabel("Folio :");
-		lblModelo.setForeground(Color.WHITE);
+		lblModelo.setForeground(new Color(0,51,153));
 		lblModelo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblModelo, "cell 0 1,alignx right,aligny center");
 		
@@ -90,7 +90,7 @@ public class VentanaApartados extends JDialog {
 		
 		JLabel lblResta = new JLabel("Resta :");
 		lblResta.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblResta.setForeground(Color.WHITE);
+		lblResta.setForeground(new Color(0,51,153));
 		contentPane.add(lblResta, "cell 0 3,alignx right,aligny bottom");
 		
 		textResta = new JTextField();
@@ -100,7 +100,7 @@ public class VentanaApartados extends JDialog {
 		
 		JLabel lblAbono = new JLabel("Abono :");
 		lblAbono.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblAbono.setForeground(Color.WHITE);
+		lblAbono.setForeground(new Color(0,51,153));
 		contentPane.add(lblAbono, "cell 0 4,alignx right,aligny top");
 		
 		textAbono = new JTextField();
@@ -109,7 +109,7 @@ public class VentanaApartados extends JDialog {
 		
 		JLabel lblTotal = new JLabel("Total :");
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTotal.setForeground(Color.WHITE);
+		lblTotal.setForeground(new Color(0,51,153));
 		contentPane.add(lblTotal, "cell 0 5,alignx right,aligny top");
 		
 		textTotal = new JTextField();
@@ -123,14 +123,14 @@ public class VentanaApartados extends JDialog {
 		contentPane.add(labelImagen, "cell 5 1 3 6,growx,aligny top");
 		
 		buttonCancelar = new JButton("");
-		buttonCancelar.setBackground(new Color(51, 0, 204));
-		buttonCancelar.setForeground(new Color(51, 0, 204));
+		buttonCancelar.setBackground(new Color(0,51,153));
+		buttonCancelar.setForeground(new Color(0,51,153));
 		buttonCancelar.setIcon(new ImageIcon(VentanaApartados.class.getResource("/imagenes/error32.png")));
 		contentPane.add(buttonCancelar, "cell 0 7 3 1,growx,aligny top");
 		
 		buttonListo = new JButton("");
-		buttonListo.setBackground(new Color(51, 0, 204));
-		buttonListo.setForeground(new Color(51, 0, 204));
+		buttonListo.setBackground(new Color(0,51,153));
+		buttonListo.setForeground(new Color(0,51,153));
 		buttonListo.setIcon(new ImageIcon(VentanaApartados.class.getResource("/imagenes/ok32.png")));
 		
 		contentPane.add(buttonListo, "cell 3 7 5 1,growx,aligny top");
@@ -141,9 +141,17 @@ public class VentanaApartados extends JDialog {
 
 				if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 					if(!textFolio.getText().isEmpty()){
+						if (!apat.existeVenta(Integer.parseInt(textFolio.getText()))) {
+							JOptionPane.showMessageDialog(contentPane, "La venta no esta registrada");
+							buttonListo.setEnabled(false);
+							return;
+						}
 						String resta =apat.buscaModelo(Integer.parseInt(textFolio.getText()));
 						if (resta!=null) {
 							textResta.setText(resta);
+							if (resta.compareTo("0.0")==0) {
+								buttonListo.setEnabled(false);
+							}
 						}else{
 							JOptionPane.showMessageDialog(null, "Lo sentimos la fecha a expirado");
 							if (!bnd) {

@@ -85,13 +85,13 @@ public class Administrador extends JDialog {
 	 * Create the frame.
 	 */
 	public Administrador() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagenes/Shopping48.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Administrador.class.getResource("/imagenes/SIMAP.png")));
 		productos=new Productos_admin();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1027, 480);
-		setTitle("Ventana Administrador");
+		setTitle("ADMINISTRADOR");
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[][0.00][71px][-5.00][8.00][][][][][][][][grow]"));
@@ -161,7 +161,7 @@ public class Administrador extends JDialog {
 		mnMenu.add(mntmCuenta);
 		
 		JLabel lblFecha = new JLabel("Fecha :");
-		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setForeground(new Color(0,51,153));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblFecha, "flowx,cell 0 0,alignx right");
 		
@@ -301,8 +301,7 @@ public class Administrador extends JDialog {
 		});
 		
 		JLabel etiquetaFecha = new JLabel(productos.fecha());
-		etiquetaFecha.setEnabled(false);
-		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setForeground(new Color(0, 51, 153));
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 0 0");
 		
@@ -402,8 +401,6 @@ public class Administrador extends JDialog {
 					int returnval = chooser.showOpenDialog(contentPane);
 					if(returnval == JFileChooser.APPROVE_OPTION){
 						model.setValueAt(chooser.getSelectedFile(), tableAdministrador.getSelectedRow(), 7);
-						System.out.println("Name: "+ chooser.getSelectedFile().getName());
-						System.out.println("Path: "+ chooser.getSelectedFile());
 					}
 				}else{
 					JOptionPane.showMessageDialog(contentPane, "Por favor selecciona el articulo al que le\nasignaras una imagen","Articulo no seleccionado",JOptionPane.WARNING_MESSAGE);
@@ -452,7 +449,6 @@ public class Administrador extends JDialog {
 					existencia= Integer.parseInt((String) tableAdministrador.getValueAt(i,5));
 					precio=Double.parseDouble((String)tableAdministrador.getValueAt(i,6));
 					imagen = tableAdministrador.getValueAt(i, 7)==null ? "" : tableAdministrador.getValueAt(i, 7).toString();
-					System.out.println(imagen);
 					hecho = productos.altaProducto(modelo.toUpperCase(), nombreP.toUpperCase(), descripcion.toUpperCase(), talla.toUpperCase(), color.toUpperCase(), existencia, precio,rutaCorregida(imagen, "\\", "\\\\") );
 					if(!hecho) return;
 				}
@@ -516,6 +512,7 @@ public class Administrador extends JDialog {
 
 			 tableAdministrador = new JTable(model);
 			 tableAdministrador.setBackground(new Color(176, 224, 226));
+			 tableAdministrador.setSelectionBackground(Color.cyan);
 			 tableAdministrador.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 			 tableAdministrador.isCellEditable(0, 4);
 			 ScrollAdministrador=new JScrollPane (tableAdministrador);

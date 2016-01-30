@@ -53,12 +53,12 @@ public class ReporteDia extends JDialog {
 		
 		reporte = new Reportes();
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ReporteDia.class.getResource("/imagenes/Shopping48.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1178, 497);
-		setTitle("Ventana de reportes");
+		setTitle("REPORTES");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ReporteDia.class.getResource("/imagenes/SIMAP.png")));
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setForeground(new Color(245, 245, 245));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new MigLayout("", "[812px,grow]", "[23.00][50.00][16.00][grow][]"));
@@ -98,7 +98,7 @@ public class ReporteDia extends JDialog {
 		tableAdministrador.isCellEditable(0, 4);
 		
 		panel = new JPanel();
-		panel.setBackground(Color.BLUE);
+		panel.setBackground(new Color(0,51,153));
 		contentPane.add(panel, "cell 0 1,alignx center,aligny center");
 		
 		lblTitulo = new JLabel(titulo);

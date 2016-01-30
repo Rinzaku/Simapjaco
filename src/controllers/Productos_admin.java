@@ -202,7 +202,6 @@ public class Productos_admin {
 		Talla_model tallaM=new Talla_model();
 		
 		modelos=modelM.find_modelo(modelo, ""+tallaM.find_talla(talla).getId_talla());
-		System.out.println(modelos.size());
 		String[][] productos = new String[modelos.size()][];
 		int i=0;
 		for (Modelo m : modelos) {
@@ -228,8 +227,7 @@ public class Productos_admin {
 		Color_model cmodel = new Color_model();
 		Talla_model tallaM=new Talla_model();
 		
-		modelos=modelM.find_modelo(modelo, ""+cmodel.find_colorN(color).getId_color());
-		System.out.println(modelos.size());
+		modelos=modelM.find_modelo(modelo,cmodel.find_colorN(color).getId_color());
 		String[][] productos = new String[modelos.size()][];
 		int i=0;
 		for (Modelo m : modelos) {

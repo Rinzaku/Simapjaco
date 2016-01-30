@@ -34,7 +34,6 @@ public class Empleados_model {
 			id_empleado=ultima_fila();
 
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -68,7 +67,6 @@ public class Empleados_model {
 			}
 
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -100,7 +98,6 @@ public class Empleados_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -133,8 +130,7 @@ public class Empleados_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println(sqle.getMessage());
+		
 		} finally {
 			if (connection != null) {
 				try {
@@ -155,7 +151,6 @@ public class Empleados_model {
 			statement.executeUpdate(query);
 			return true;
 		} catch (SQLException sqle)  {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -176,7 +171,6 @@ public class Empleados_model {
 			statement.executeUpdate(query);
 			return true;
 		} catch (SQLException sqle)  {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -199,7 +193,6 @@ public class Empleados_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -228,9 +221,7 @@ public class Empleados_model {
 			}
 			
 		}catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println(sqle.getMessage());
-			System.out.println(sqle.toString());
+		
 		} finally {
 			if (connection != null) {
 				try {

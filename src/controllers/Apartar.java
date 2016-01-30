@@ -63,8 +63,6 @@ public class Apartar {
 
 	public boolean apartarProducto(String modelo, String Descripcion, String Talla, String Color,String cant,String Precio,String Fecha,Double Abono,int idModelo,int ropa, int empleado){
 		int id_venta=0;
-		System.out.println("idModelo :"+idModelo);
-		System.out.println("id ropa :"+ropa);
 		Modelo_model mmodel = new Modelo_model();
 		Ropa_model rmodel = new Ropa_model();
 		
@@ -145,7 +143,6 @@ public class Apartar {
 	}
 	
 	private static int get_last_day_of_month(int month, int year){
-	    System.out.println("Mes -> " + month);
 	    int last_day = 0;
 	    switch(month){
 	    case 1:
@@ -234,6 +231,10 @@ public class Apartar {
 		return nombre;
 	}
 	
+	
+	public boolean existeVenta(int folio){
+		return new Ventas_model().find_venta(folio)==null ? false:true;
+	}
 
 }//fin clase
 

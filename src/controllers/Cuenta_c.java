@@ -52,7 +52,6 @@ public class Cuenta_c {
 		cuentaModels=new Cuenta_models();
 		boolean bnd =false;
 		bnd=cuentaModels.update_cuenta(fecha, cuenta);
-		System.out.println(cuentaModels.update_cuenta(fecha, cuenta));
 		if (!bnd) {
 			return false;
 		}

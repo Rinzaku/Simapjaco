@@ -22,7 +22,6 @@ public class PDF {
 	public PDF(String file_name) throws FileNotFoundException, DocumentException{
 		String pdf = file_name.substring(file_name.length()-4, file_name.length());
 		FILE = pdf.compareTo(".pdf")==0 ? file_name : file_name+".pdf";
-		//		  System.out.println(FILE);
 		document = new Document(PageSize.LETTER);
 		PdfWriter.getInstance(document, new FileOutputStream(FILE));
 		document.open();

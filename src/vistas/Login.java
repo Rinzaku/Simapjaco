@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 import javax.swing.JPasswordField;
 
@@ -26,7 +27,7 @@ public class Login extends JDialog {
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
 	private JPasswordField passwordFieldContrasena;
-	private String[][] users= {{"KingSimapjaco","1s1m4pj4c0"},{"Cecilia","fer2402"},{"Gilberto","illrmmbrLaura"}};
+	private String[][] users= {{"KingSimapjaco","1s1m4pj4c0"},{"ADMIN1","mediasoft"},{"ADMIN2","illrmmbrLaura"}};
 	private int intentos=0;
 	
 	/**
@@ -35,15 +36,16 @@ public class Login extends JDialog {
 	public Login() {
 		setResizable(false);
 		setBounds(100, 100, 578, 180);
-		setTitle("Login");
+		setTitle("LOGIN");
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 0, 0));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/SIMAP.png")));
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[79px][10px][255px,grow][136px]", "[50px][4px][20px][11px][37px]"));
 		
 		JLabel lblNombre = new JLabel("Nombre :");
-		lblNombre.setForeground(Color.WHITE);
+		lblNombre.setForeground(new Color (0,51,153));
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblNombre, "cell 0 0,growx,aligny bottom");
 		
@@ -52,7 +54,7 @@ public class Login extends JDialog {
 		textFieldNombre.setColumns(10);
 		
 		JLabel lblContasea = new JLabel("Contase\u00F1a:");
-		lblContasea.setForeground(Color.WHITE);
+		lblContasea.setForeground(new Color(0,51,153));
 		lblContasea.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblContasea, "cell 0 2,growx,aligny center");
 		
@@ -62,6 +64,8 @@ public class Login extends JDialog {
 		contentPane.add(label, "cell 3 0 1 5,grow");
 		
 		JButton btnNewButton = new JButton("Ingresar");
+		btnNewButton.setBackground(new Color(0,51,153));
+		btnNewButton.setForeground(Color.white);
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/imagenes/ok32.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

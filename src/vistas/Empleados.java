@@ -3,21 +3,29 @@ package vistas;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Color;
+import java.awt.Toolkit;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+
 import com.toedter.calendar.JDateChooser;
+
 import controllers.Empleados_c;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -42,10 +50,12 @@ public class Empleados extends JDialog {
 		windowEmpleado=this;
 		controlEmpleado=new Empleados_c();
 		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Empleados.class.getResource("/imagenes/SIMAP.png")));
+		setTitle("EMPLEADOS");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 657, 418);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(new Color (176, 224, 226));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -53,7 +63,7 @@ public class Empleados extends JDialog {
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(28, 33, 64, 19);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNombre.setForeground(Color.WHITE);
+		lblNombre.setForeground(new Color (0,51,153));
 		contentPane.add(lblNombre);
 		
 		textFieldNombre = new JTextField();
@@ -63,7 +73,7 @@ public class Empleados extends JDialog {
 		
 		JLabel lblApellidos = new JLabel("Apellidos:");
 		lblApellidos.setBounds(18, 85, 74, 19);
-		lblApellidos.setForeground(Color.WHITE);
+		lblApellidos.setForeground(new Color (0,51,153));
 		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblApellidos);
 		
@@ -75,7 +85,7 @@ public class Empleados extends JDialog {
 		JLabel lblDireccion = new JLabel("Direccion :");
 		lblDireccion.setBounds(12, 240, 80, 19);
 		lblDireccion.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblDireccion.setForeground(Color.WHITE);
+		lblDireccion.setForeground(new Color (0,51,153));
 		contentPane.add(lblDireccion);
 		
 		txtDireccion = new JTextArea();
@@ -85,7 +95,7 @@ public class Empleados extends JDialog {
 		JLabel lblTelefono = new JLabel("Telefono:");
 		lblTelefono.setBounds(22, 137, 70, 19);
 		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTelefono.setForeground(Color.WHITE);
+		lblTelefono.setForeground(new Color (0,51,153));
 		contentPane.add(lblTelefono);
 		
 		textFieldTelefono = new JTextField();
@@ -102,7 +112,7 @@ public class Empleados extends JDialog {
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setBounds(43, 188, 49, 19);
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setForeground(new Color (0,51,153));
 		contentPane.add(lblFecha);
 		
 		buttonBuscar = new JButton("");
@@ -160,7 +170,6 @@ public class Empleados extends JDialog {
 		    			month=""+mes;
 		    		int anio=dateChooser.getCalendar().get(Calendar.YEAR);
 		    		if (formatoTel(textFieldTelefono.getText())) {
-		    			System.out.println(formatoTel(textFieldTelefono.getText()));
 		    			int clave=controlEmpleado.insertEmpleado(textFieldNombre.getText(),textFieldApellido.getText(),txtDireccion.getText(),textFieldTelefono.getText(),""+day+"/"+month+"/"+anio);  
 		    			if (clave>-1) {
 		    				JOptionPane.showMessageDialog(null, "empleado registrado con el identificador :"+clave);
@@ -201,13 +210,10 @@ public class Empleados extends JDialog {
 	
 	public boolean formatoTel(String telefono){
 		char []numero= telefono.toCharArray();
-		boolean bandera=false;
-		System.out.println(Arrays.toString(numero)+"tamaño  :"+numero.length);
-		
+		boolean bandera=false;		
 		if (numero.length ==8 || numero.length==10) {
 			for (int i = 0; i < numero.length; i++) {
 				if (numero[i]<58) {
-					System.out.println("true"+i);
 					bandera=true;
 				}
 				else
@@ -220,11 +226,9 @@ public class Empleados extends JDialog {
 	
 	public void ejecutaBusqueda(){
 		if (txtDireccion.getText().isEmpty() && textFieldApellido.getText().isEmpty() && textFieldNombre.getText().isEmpty() && textFieldTelefono.getText().isEmpty()) {
-			String [][] empl=controlEmpleado.Empleados();
 			TableEmpleados tabla=new TableEmpleados(controlEmpleado.Empleados());
 			tabla.setVisible(true);
 			tabla.setLocationRelativeTo(null);
-			System.out.println(Arrays.deepToString(empl));
 		}
 		
 		if (!textFieldNombre.getText().isEmpty() && !textFieldApellido.getText().isEmpty()){
@@ -232,7 +236,6 @@ public class Empleados extends JDialog {
 			TableEmpleados tabla=new TableEmpleados(empleado);
 			tabla.setVisible(true);
 			tabla.setLocationRelativeTo(null);
-			System.out.println(Arrays.deepToString(empleado));
 		}
 	}
 }//fin clase

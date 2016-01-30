@@ -47,7 +47,6 @@ public class Modelo_model {
 			id_modelo=ultima_fila();
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -88,7 +87,6 @@ public class Modelo_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -127,7 +125,6 @@ public class Modelo_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -165,7 +162,6 @@ public class Modelo_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -184,7 +180,7 @@ public class Modelo_model {
 	public ArrayList<Modelo>  find_modelo(String modelo,String talla){
 		Modelo modeloR=null;
 		lista_modelo=new ArrayList<Modelo>();
-		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla="+talla;
+		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_talla="+Integer.parseInt(talla);
 		try {
 			
 			connection = MySQLConnection.getConnection();
@@ -205,7 +201,44 @@ public class Modelo_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lista_modelo;
+	}
+	
+	
+	
+	public ArrayList<Modelo>  find_modelo(String modelo,int id_color){
+		Modelo modeloR=null;
+		lista_modelo=new ArrayList<Modelo>();
+		String query = "SELECT * FROM modelo WHERE modelo='"+modelo+"' and id_color="+id_color;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while(rs.next()){
+				 modeloR = new Modelo();
+				 modeloR.setId_modelo(rs.getInt("id_modelo"));
+				 modeloR.setId_ropa(rs.getInt("id_ropa"));
+				 modeloR.setId_color(rs.getInt("id_color"));
+				 modeloR.setId_talla(rs.getInt("id_talla"));
+				 modeloR.setModelo(rs.getString("modelo"));
+				 modeloR.setExistencias(rs.getInt("existencias"));
+				 modeloR.setEstado(rs.getString("estado"));
+				 modeloR.setImagen(rs.getString("foto"));
+				 lista_modelo.add(modeloR);
+				
+			}
+			
+		} catch (SQLException sqle) {
 		} finally {
 			if (connection != null) {
 				try {
@@ -246,8 +279,7 @@ public class Modelo_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println(sqle.getMessage());
-			System.out.println(sqle.toString());
+			
 		}
 		return lista_modelo;
 	}
@@ -268,7 +300,6 @@ public class Modelo_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -297,7 +328,6 @@ public class Modelo_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -326,7 +356,6 @@ public class Modelo_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -349,7 +378,6 @@ public class Modelo_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -377,7 +405,6 @@ public class Modelo_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -406,9 +433,7 @@ public class Modelo_model {
 			}
 			
 		}catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println(sqle.getMessage());
-			System.out.println(sqle.toString());
+			
 		} finally {
 			if (connection != null) {
 				try {

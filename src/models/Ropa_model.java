@@ -41,8 +41,6 @@ public class Ropa_model {
 			id_ropa = ultima_fila();
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println(sqle.toString());
 		} finally {
 			if (connection != null) {
 				try {
@@ -80,7 +78,6 @@ public class Ropa_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -117,7 +114,6 @@ public class Ropa_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -146,7 +142,6 @@ public class Ropa_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			
 			return false;
 		} finally {
@@ -176,7 +171,6 @@ public class Ropa_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			
 			return false;
 		} finally {
@@ -205,7 +199,6 @@ public class Ropa_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -234,9 +227,7 @@ public class Ropa_model {
 			}
 			
 		}catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println(sqle.getMessage());
-			System.out.println(sqle.toString());
+			
 		} finally {
 			if (connection != null) {
 				try {

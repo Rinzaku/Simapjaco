@@ -1,6 +1,7 @@
 package vistas;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -50,14 +51,16 @@ public class TableEmpleados extends JDialog {
 	 */
 	public TableEmpleados(String [][] datos) {
 		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TableEmpleados.class.getResource("/imagenes/SIMAP.png")));
 		setAutoRequestFocus(false);
 		setForeground(Color.WHITE);
+		setTitle("EMPLEADOS");
 		controlEmp =new Empleados_c();
 		datosEmpleados=datos;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 793, 294);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
@@ -87,8 +90,8 @@ public class TableEmpleados extends JDialog {
 		tablEmpleados.setSelectionBackground(Color.cyan);
 
 		lblFecha = new JLabel("Fecha:");
-		lblFecha.setForeground(Color.LIGHT_GRAY);
-		lblFecha.setBackground(Color.WHITE);
+		lblFecha.setForeground(new Color(0,51,153));
+		lblFecha.setBackground(new Color(0,51,153));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblFecha.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblFecha, "flowx,cell 8 1,alignx right");
@@ -98,7 +101,7 @@ public class TableEmpleados extends JDialog {
 		contentPane.add(label, "cell 8 2,alignx center,aligny center");
 
 		lblNewLabel = new JLabel("Empleados");
-		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setForeground(Color.white);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		contentPane.add(lblNewLabel, "cell 8 3,alignx center,aligny center");
 
@@ -110,7 +113,7 @@ public class TableEmpleados extends JDialog {
 
 		etiquetaFecha = new JLabel(controlEmp.fecha());
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 13));
-		etiquetaFecha.setForeground(Color.GRAY);
+		etiquetaFecha.setForeground(new Color(0,51,153));
 		contentPane.add(etiquetaFecha, "cell 8 1");
 		scrollEmpleados.setVisible(true);
 		

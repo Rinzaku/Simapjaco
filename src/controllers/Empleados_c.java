@@ -23,11 +23,9 @@ public class Empleados_c {
 		
 		clave=modelEmpleado.insert_empleado(empleadoN);
 		if (clave>-1) {
-			System.out.println("la clave del if es :"+clave);
 			return clave;
 		}
 		else{
-			System.out.println("else no se efectuo la insercion");
 			return -1;
 		}
 		
@@ -43,7 +41,6 @@ public class Empleados_c {
 		listaEmpleado=modelEmpleado.get_empleados();
 		String [][] Empleados=new String [listaEmpleado.size()][];
 
-		//System.out.println(listaEmpleado.size());
 		int i=0;
 		for (Empleado empleado : listaEmpleado) {
 			String [] emp=new String [6];

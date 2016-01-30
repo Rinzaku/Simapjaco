@@ -28,7 +28,7 @@ public class Cambio {
 		ventas = vmodel.find_venta(id_venta);
 		detalles = dvmodel.find_detalle_venta(id_venta);
 		
-		String fechaVenta = ventas.getFecha();
+		String fechaVenta = ventas==null? "":ventas.getFecha();
 		if (!validaFecha(fechaVenta)) {
 			return null;
 		}
@@ -98,7 +98,6 @@ public class Cambio {
 		Ropa r = rmodel.find_ropa(m.getId_ropa());
 		double total = ventas.getTotal_venta()+diferencia;
 		int total_arts = ventas.getNo_articulos() + (no_articulos-1);
-//		System.out.println("Modelo: "+m);
 		return dvmodel.update_detalle_venta(dv.getId_detalle_venta(), no_articulos, m.getId_modelo(), m.getId_ropa(),r.getPrecio(), "CAMBIADO") && actualizaExistenciasModeloDevuelto(dv.getId_modelo(),1,m.getId_ropa())
 				&& actualizaExistenciasModeloCambiado(m.getId_modelo(),no_articulos,m.getId_ropa()) && vmodel.update_venta_total(ventas.getId_venta(), total)
 				&& vmodel.update_venta(ventas.getId_venta(), total_arts);
@@ -113,7 +112,6 @@ public class Cambio {
 		Ventas v = vmodel.find_venta(dv.getId_venta());
 		double total = v.getTotal_venta()+diferencia;
 		int total_arts = v.getNo_articulos()-1;
-//		System.out.println("Modelo: "+m);
 		return dvmodel.update_detalle_venta(dv.getId_detalle_venta(), dv.getId_modelo(), no_articulos, "VENDIDO") && actualizaExistenciasModeloDevuelto(dv.getId_modelo(),1,dv.getId_ropa())
 				&& vmodel.update_venta_total(v.getId_venta(), total) && vmodel.update_venta(v.getId_venta(), total_arts);
 		
@@ -212,7 +210,6 @@ public class Cambio {
 	}
 
 	private static int get_last_day_of_month(int month, int year){
-		System.out.println("Mes -> " + month);
 		int last_day = 0;
 		switch(month){
 		case 1:

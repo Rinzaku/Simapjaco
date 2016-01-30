@@ -61,34 +61,34 @@ public class ApartarProducto extends JDialog {
 		ventanApartar=this;
 		ticket=new Ticket();
 		apartar = new Apartar();
-		setTitle("Apartar producto");
+		setTitle("APARTAR PRODUCTO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 549, 354);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(new Color(176, 224, 226));
 		contentPane.setForeground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[97px][4px][114.00px,grow][190px][12px][][][86px]", "[20px][20px][20px,grow][20px][20px][][20px][8px][20px][20px][8px][8px][11.00px][41px]"));
 		
 		JLabel lblFolio = new JLabel("Folio :");
-		lblFolio.setForeground(Color.WHITE);
+		lblFolio.setForeground(new Color(0,51,153));
 		lblFolio.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblFolio, "flowx,cell 3 0,alignx right,aligny top");
 		
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFecha.setForeground(Color.WHITE);
+		lblFecha.setForeground(new Color(0,51,153));
 		contentPane.add(lblFecha, "cell 5 0");
 		
 		final JLabel etiquetaFecha = new JLabel();
 		etiquetaFecha.setText(apartar.fecha());
-		etiquetaFecha.setForeground(Color.WHITE);
+		etiquetaFecha.setForeground(new Color(0,51,153));
 		etiquetaFecha.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(etiquetaFecha, "cell 7 0");
 		
 		JLabel lblModelo = new JLabel("Modelo :");
-		lblModelo.setForeground(Color.WHITE);
+		lblModelo.setForeground(new Color(0,51,153));
 		lblModelo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblModelo, "cell 0 1,alignx right,aligny top");
 		
@@ -98,7 +98,7 @@ public class ApartarProducto extends JDialog {
 		textModelo.setColumns(10);
 		
 		JLabel lblDescripcion = new JLabel("Descripcion :");
-		lblDescripcion.setForeground(Color.WHITE);
+		lblDescripcion.setForeground(new Color(0,51,153));
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblDescripcion, "cell 0 2,alignx left,aligny top");
 		
@@ -108,7 +108,7 @@ public class ApartarProducto extends JDialog {
 		
 		JLabel lblTalla = new JLabel("Talla :");
 		lblTalla.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTalla.setForeground(Color.WHITE);
+		lblTalla.setForeground(new Color(0,51,153));
 		contentPane.add(lblTalla, "cell 0 3,alignx right,aligny top");
 		
 		textTalla = new JTextField(talla);
@@ -118,7 +118,7 @@ public class ApartarProducto extends JDialog {
 		
 		JLabel lblColor = new JLabel("Color :");
 		lblColor.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblColor.setForeground(Color.WHITE);
+		lblColor.setForeground(new Color(0,51,153));
 		contentPane.add(lblColor, "cell 0 4,alignx right,aligny top");
 		
 		textColor = new JTextField(color);
@@ -128,7 +128,7 @@ public class ApartarProducto extends JDialog {
 		
 		JLabel lblCantidad = new JLabel("Cantidad :");
 		lblCantidad.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCantidad.setForeground(Color.WHITE);
+		lblCantidad.setForeground(new Color(0,51,153));
 		contentPane.add(lblCantidad, "cell 0 5,alignx right");
 		
 		textCantidad = new JTextField(cantidad);
@@ -138,7 +138,7 @@ public class ApartarProducto extends JDialog {
 		
 		JLabel lblPrecio = new JLabel("Precio : ");
 		lblPrecio.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblPrecio.setForeground(Color.WHITE);
+		lblPrecio.setForeground(new Color(0,51,153));
 		contentPane.add(lblPrecio, "cell 0 6,alignx right,aligny top");
 		
 		textPrecio = new JTextField(precio);
@@ -148,7 +148,7 @@ public class ApartarProducto extends JDialog {
 		
 		JLabel lblACuenta = new JLabel("A cuenta :\r\n");
 		lblACuenta.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblACuenta.setForeground(Color.WHITE);
+		lblACuenta.setForeground(new Color(0,51,153));
 		contentPane.add(lblACuenta, "cell 0 8,alignx right,aligny top");
 		
 		textCuenta = new JTextField();
@@ -168,7 +168,7 @@ public class ApartarProducto extends JDialog {
 		
 		JLabel lblResta = new JLabel("Resta :\r\n");
 		lblResta.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblResta.setForeground(Color.WHITE);
+		lblResta.setForeground(new Color(0,51,153));
 		contentPane.add(lblResta, "cell 0 9,alignx right,aligny top");
 		
 		textResta = new JTextField();
@@ -183,13 +183,13 @@ public class ApartarProducto extends JDialog {
 		
 		buttonListo = new JButton("");
 		
-		buttonListo.setBackground(new Color(51, 0, 204));
+		buttonListo.setBackground(new Color(0,51,153));
 		
 		buttonListo.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/ok32.png")));
 		contentPane.add(buttonListo, "cell 0 13 3 1,grow");
 		
 		JButton buttonCancelar = new JButton("");
-		buttonCancelar.setBackground(new Color(51, 0, 204));
+		buttonCancelar.setBackground(new Color(0, 51, 153));
 		buttonCancelar.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/error32.png")));
 		contentPane.add(buttonCancelar, "cell 3 13 4 1,grow");
 		

@@ -160,7 +160,6 @@ public class Ventas_C {
 			precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 			identificadores[i][0]=m.getId_modelo();
 			identificadores[i][1]=m.getId_ropa();
-//			System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 			i++;
 		}
 		return productos;
@@ -197,7 +196,6 @@ public class Ventas_C {
 				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 				identificadores[i][0]=m.getId_modelo();
 				identificadores[i][1]=m.getId_ropa();
-//				System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 				i++;
 			}
 		}
@@ -237,7 +235,6 @@ public class Ventas_C {
 				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 				identificadores[i][0]=m.getId_modelo();
 				identificadores[i][1]=m.getId_ropa();
-//				System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 				i++;
 			}
 		}
@@ -281,7 +278,6 @@ public class Ventas_C {
 				precios[i]= ""+ rmodel.find_ropa(m.getId_ropa()).getPrecio();
 				identificadores[i][0]=m.getId_modelo();
 				identificadores[i][1]=m.getId_ropa();
-//				System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 				i++;
 			}
 			

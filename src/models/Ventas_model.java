@@ -44,9 +44,7 @@ public class Ventas_model {
 			id_venta=ultima_fila();
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println("Msj - Error: "+sqle.getMessage());
-			System.out.println(("SQL - Error: "+sqle.getSQLState()));
+			
 			
 		} finally {
 			if (connection != null) {
@@ -88,7 +86,6 @@ public class Ventas_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar la consulta a la base de datos");
 		}finally{
 			if (connection != null) {
 				try {
@@ -129,7 +126,6 @@ public class Ventas_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 		} finally {
 			if (connection != null) {
 				try {
@@ -165,7 +161,6 @@ public class Ventas_model {
 			}
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar la consulta a la base de datos");
 		}finally{
 			if (connection != null) {
 				try {
@@ -194,7 +189,6 @@ public class Ventas_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -224,7 +218,6 @@ public class Ventas_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -254,7 +247,6 @@ public class Ventas_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -284,7 +276,6 @@ public class Ventas_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -312,7 +303,6 @@ public class Ventas_model {
 			return true;
 			
 		} catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
 			return false;
 		} finally {
 			if (connection != null) {
@@ -342,9 +332,7 @@ public class Ventas_model {
 			}
 			
 		}catch (SQLException sqle) {
-			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
-			System.out.println(sqle.getMessage());
-			System.out.println(sqle.toString());
+			
 		} finally {
 			if (connection != null) {
 				try {
