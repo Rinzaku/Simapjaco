@@ -189,11 +189,22 @@ public class ApartarProducto extends JDialog {
 		contentPane.add(buttonListo, "cell 0 13 3 1,grow");
 		
 		JButton buttonCancelar = new JButton("");
+		buttonCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (textCuenta.getText().isEmpty()) {
+					ventanApartar.dispose();
+				}
+				else
+					textCuenta.setText("");
+					textResta.setText("");
+			}
+		});
 		buttonCancelar.setBackground(new Color(0, 51, 153));
 		buttonCancelar.setIcon(new ImageIcon(ApartarProducto.class.getResource("/imagenes/error32.png")));
 		contentPane.add(buttonCancelar, "cell 3 13 4 1,grow");
 		
 		textFolio = new JTextField(folio);
+		textFolio.setEditable(false);;
 		contentPane.add(textFolio, "cell 3 0,alignx left,aligny bottom");
 		textFolio.setColumns(10);
 		

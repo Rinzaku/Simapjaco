@@ -202,33 +202,33 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- /* INSERTS CATALOGO COLOR                                       */
 -- /*==============================================================*/
 
--- INSERT INTO catalogo_color(color) VALUES ('BLANCO');
--- INSERT INTO catalogo_color(color) VALUES ('AZUL');
--- INSERT INTO catalogo_color(color) VALUES ('NEGRO');
--- INSERT INTO catalogo_color(color) VALUES ('CAFE');
--- INSERT INTO catalogo_color(color) VALUES ('FIUSHA');
--- INSERT INTO catalogo_color(color) VALUES ('ROSA');
--- INSERT INTO catalogo_color(color) VALUES ('MORADO');
--- INSERT INTO catalogo_color(color) VALUES ('AZUL CIELO');
--- INSERT INTO catalogo_color(color) VALUES ('VERDE');
--- INSERT INTO catalogo_color(color) VALUES ('PLATEADO');
--- INSERT INTO catalogo_color(color) VALUES ('DURAZNO');
+ INSERT INTO catalogo_color(color) VALUES ('BLANCO');
+ INSERT INTO catalogo_color(color) VALUES ('AZUL');
+ INSERT INTO catalogo_color(color) VALUES ('NEGRO');
+ INSERT INTO catalogo_color(color) VALUES ('CAFE');
+ INSERT INTO catalogo_color(color) VALUES ('FIUSHA');
+ INSERT INTO catalogo_color(color) VALUES ('ROSA');
+ INSERT INTO catalogo_color(color) VALUES ('MORADO');
+ INSERT INTO catalogo_color(color) VALUES ('AZUL CIELO');
+ INSERT INTO catalogo_color(color) VALUES ('VERDE');
+ INSERT INTO catalogo_color(color) VALUES ('PLATEADO');
+ INSERT INTO catalogo_color(color) VALUES ('DURAZNO');
 
 -- /*==============================================================*/
 -- /* INSERTS CATALOGO TALLA                                       */
 -- /*==============================================================*/
 
--- INSERT INTO catalogo_talla(talla) VALUES ('UNITALLA');
--- INSERT INTO catalogo_talla(talla) VALUES ('CH');
--- INSERT INTO catalogo_talla(talla) VALUES ('M');
--- INSERT INTO catalogo_talla(talla) VALUES ('G');
--- INSERT INTO catalogo_talla(talla) VALUES ('XG');
--- INSERT INTO catalogo_talla(talla) VALUES ('7-28');
--- INSERT INTO catalogo_talla(talla) VALUES ('9-30');
--- INSERT INTO catalogo_talla(talla) VALUES ('11-32');
--- INSERT INTO catalogo_talla(talla) VALUES ('13-34');
--- INSERT INTO catalogo_talla(talla) VALUES ('15-36');
--- INSERT INTO catalogo_talla(talla) VALUES ('17-38');
+   INSERT INTO catalogo_talla(talla) VALUES ('UNITALLA');
+   INSERT INTO catalogo_talla(talla) VALUES ('CH');
+   INSERT INTO catalogo_talla(talla) VALUES ('M');
+   INSERT INTO catalogo_talla(talla) VALUES ('G');
+   INSERT INTO catalogo_talla(talla) VALUES ('XG');
+   INSERT INTO catalogo_talla(talla) VALUES ('7-28');
+   INSERT INTO catalogo_talla(talla) VALUES ('9-30');
+   INSERT INTO catalogo_talla(talla) VALUES ('11-32');
+   INSERT INTO catalogo_talla(talla) VALUES ('13-34');
+   INSERT INTO catalogo_talla(talla) VALUES ('15-36');
+   INSERT INTO catalogo_talla(talla) VALUES ('17-38');
 
 -- /*==============================================================*/
 -- /* INSERTS EMPLEADO                                             */
