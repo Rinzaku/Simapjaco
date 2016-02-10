@@ -11,11 +11,13 @@ import com.itextpdf.text.log.SysoCounter;
 import models.Detalle_Venta_model;
 import models.Empleados_model;
 import models.Modelo_model;
+import models.Ropa_model;
 import models.Talla_model;
 import models.Ventas_model;
 import instancias.Detalle_Venta;
 import instancias.Empleado;
 import instancias.Modelo;
+import instancias.Ropa;
 import instancias.Talla;
 import instancias.Ventas;
 
@@ -47,15 +49,19 @@ public class Apartar {
 	
 	public boolean regresarProducto(int Folio){
 		Modelo modeloI=new Modelo();
+		Ropa_model ropaModel=new Ropa_model();
+		
 		ventsDetallemodel=new Detalle_Venta_model();
 		ventaModel =new Ventas_model();
 		modelo =new Modelo_model();
 		detalleVtn=ventsDetallemodel.findDetalleVenta(Folio);
+		Ropa ropaIns=ropaModel.find_ropa(detalleVtn.getId_ropa());
+		
 		if (detalleVtn!=null) {
-			ventaIns=ventaModel.find_venta(detalleVtn.getId_venta());
 			modelIns=modelo.find_modelo(detalleVtn.getId_modelo());
 			modelo.update_modelo(detalleVtn.getId_modelo(),modelIns.getExistencias()+1);
 			ventaModel.update_venta_estado(detalleVtn.getId_venta(), "APARTADO CANCELADO");
+			ropaModel.update_ropa(detalleVtn.getId_ropa(),ropaIns.getExistencias()+1);
 			return true;
 		}
 		return false;
@@ -65,6 +71,15 @@ public class Apartar {
 		int id_venta=0;
 		System.out.println("idModelo :"+idModelo);
 		System.out.println("id ropa :"+ropa);
+		Modelo_model mmodel = new Modelo_model();
+		Ropa_model rmodel = new Ropa_model();
+		
+		Modelo modeloM = mmodel.find_modelo(idModelo);
+		Ropa ropaM = rmodel.find_ropa(ropa);
+		
+		int existencias_ropa = ropaM.getExistencias();
+		int existencias_modelo = modeloM.getExistencias();
+		
 		Detalle_Venta_model detalleModel=new Detalle_Venta_model();
 		id_venta =creaVenta(Fecha,Abono,Double.parseDouble(Precio),empleado);
 		if (id_venta<0) {
@@ -79,6 +94,8 @@ public class Apartar {
 			detalleVtn.setEstado("APARTADO");
 			detalleVtn.setPrecio_unitario(Double.parseDouble(Precio));
 			int idDetalle= detalleModel.insert_detalle_venta(detalleVtn);
+			mmodel.update_modelo(idModelo, existencias_modelo-1);
+			rmodel.update_ropa(ropa, existencias_ropa-1);
 			if (idDetalle<0){
 				return false;
 			}else{
