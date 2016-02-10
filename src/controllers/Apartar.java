@@ -48,7 +48,6 @@ public class Apartar {
 	}
 	
 	public boolean regresarProducto(int Folio){
-		Modelo modeloI=new Modelo();
 		Ropa_model ropaModel=new Ropa_model();
 		
 		ventsDetallemodel=new Detalle_Venta_model();
