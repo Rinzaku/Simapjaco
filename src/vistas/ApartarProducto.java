@@ -216,7 +216,7 @@ public class ApartarProducto extends JFrame {
 				bdn=apartar.apartarProducto(modelo, descripcion, talla, color, precio,etiquetaFecha.getText(),Double.parseDouble(textResta.getText()),idModelo,ropa,empleado);
 				if (bdn) {
 					ticket.cabecera(folio,apartar.nombreEmpleado(empleado));
-					ticket.itemApartar(textModelo.getText(), "1", textPrecio.getText());
+					ticket.itemApartar(textModelo.getText(), "1", textPrecio.getText(), textDesc.getText());
 					ticket.Apartado(precio, textCuenta.getText(), textResta.getText());
 					ticket.piePaginaApartado();
 					ticket.ImprimirDocumento();

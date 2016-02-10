@@ -15,5 +15,5 @@ public class OrderItem{
 		String[] delimitado=orderItem.split(""+temp); 
 		return delimitado[2]; 
 	} 
-	public String GeneraItem(String cantidad, String nombre, String precio){return cantidad+temp[0]+nombre+temp[0]+precio;} 
+	public String GeneraItem(String cantidad,String descripcion, String nombre, String precio){return temp[0]+cantidad+temp[0]+descripcion+temp[0]+nombre+temp[0]+precio+temp[0];} 
 } 

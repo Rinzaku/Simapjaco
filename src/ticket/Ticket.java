@@ -42,9 +42,9 @@ public class Ticket{
 	
 	public static void AddSubCabecera(String line){subCabezaLineas.add(line);} 
 	
-	public static void AddItem(String cantidad,String item,String price){ 
+	public static void AddItem(String modelo,String cantidad,String precio,String descripcion){ 
 		OrderItem newItem = new OrderItem(' '); 
-		items.add(newItem.GeneraItem(cantidad,item, price)); 
+		items.add(newItem.GeneraItem( modelo, cantidad, precio,descripcion)); 
 	} 
 	public static void AddTotal(String name,String price){ 
 		OrderTotal newTotal = new OrderTotal(' '); 
@@ -69,9 +69,9 @@ public class Ticket{
 		AddSubCabecera(DarEspacio()); 
 		AddSubCabecera(DibujarLinea(48)); 
 		AddSubCabecera(DarEspacio()); 
-		AddItem("\tMODELO\t", "CANTIDAD\t", "PRECIO\t");
-		AddItem("", "", DarEspacio());
-		AddItem("", "", DarEspacio());
+		AddItem("MODELO\t","DESCRIPCION", "CANTIDAD\t", "PRECIO\t");
+		AddItem("","", "", DarEspacio());
+		AddItem("", "","", DarEspacio());
 
 
 	}
@@ -108,17 +108,17 @@ public class Ticket{
 		
 	}
 	
-	public void itemApartar(String modelo,String cantidad,String precio){
-		AddItem("\t"+modelo+"\t",cantidad+"\t",precio+"\t");
-		AddItem("", "", DarEspacio());
+	public void itemApartar(String modelo,String cantidad,String precio,String descripcion){
+		AddItem(modelo,descripcion,cantidad+"\t",precio+"\t");
+		AddItem("","", "", DarEspacio());
 	}
 	
 	
 	public  void Items(String venta [][]){
 	
 			for (String[] strings : venta) {
-				AddItem("\t"+strings[0]+"\t", strings[4]+"\t",strings[5]+"\t");
-				AddItem("","", DarEspacio());
+				AddItem(strings[0],strings[1],strings[4]+"\t",strings[5]+"\t");
+				AddItem("","","", DarEspacio());
 			}
 	}
 	
