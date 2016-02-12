@@ -31,6 +31,7 @@ import javax.swing.ImageIcon;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
 
@@ -61,6 +62,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+
 
 import ticket.Ticket;
 
@@ -96,12 +99,16 @@ public class Ventana_ventas extends JFrame {
 		
 		public void pintaVentana(String imagen){
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(0, 0, 300, 250);
+			setBounds(0, 0, 300, 300);
 			getContentPane().setLayout(null);
 			labelImage = new JLabel("");
 			labelImage.setHorizontalAlignment(SwingConstants.CENTER);
-			labelImage.setIcon(new ImageIcon(imagen));
-			labelImage.setBounds(0, 0, 300, 250);
+			ImageIcon imagen1=new ImageIcon(imagen);
+			Image conversion =imagen1.getImage();
+			Image tamanio=conversion.getScaledInstance(300,300,Image.SCALE_SMOOTH);
+			ImageIcon imagen2=new ImageIcon(tamanio);
+			labelImage.setIcon(imagen2);
+			labelImage.setBounds(0, 0, 300, 300);
 			getContentPane().add(labelImage);
 			bndImage=true;
 						
@@ -136,11 +143,7 @@ public class Ventana_ventas extends JFrame {
 	int renglon = 0;
 	ArrayList<Integer> ids_modelos;
 	ArrayList<Integer> ids_ropas;
-	
-//	private String [][] datosVentas={{"holq","ceci","jhdgdhdj","ieyrhb","xcjvbj","hxcbv"},
-//			{"","","","","",""},
-//			{"","","","","",""},
-//			{"","","","","",""},};
+
 	private String [][] datosVentas={};
 	private String [] cabeceraVentas={"Modelo","Descripcion","Talla","Color","Cantidad","Precio"};
 	
