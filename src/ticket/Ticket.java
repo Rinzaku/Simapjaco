@@ -22,7 +22,7 @@ public class Ticket{
 	SimpleDateFormat fecha=new SimpleDateFormat("dd/MM/yyyy"); 
 	SimpleDateFormat hora=new SimpleDateFormat("hh:mm:ss aa"); 
 	private PrintWriter pw;
-
+	private String cadena;
 	
 	static ArrayList<String> CabezaLineas=new ArrayList<String>(); 
 	static ArrayList<String> subCabezaLineas=new ArrayList<String>(); 
@@ -159,15 +159,16 @@ public class Ticket{
 		String raya="";for(int x=0;x<valor;x++){raya+="=";}return raya; 
 	} 
 	public static String DarEspacio(){return "\n";} 
-	public static void ImprimirDocumento(){ 
-		String cadena=""; 
+	
+	public void ImprimirDocumento(){ 
+		cadena=""; 
 		for(int cabecera=0;cabecera<CabezaLineas.size();cabecera++ ){cadena+=CabezaLineas.get(cabecera);} 
 		for(int subcabecera=0;subcabecera<subCabezaLineas.size();subcabecera++){cadena+=subCabezaLineas.get(subcabecera);} 
 		for(int ITEM=0;ITEM<items.size();ITEM++){cadena+=items.get (ITEM);} 
 		for(int total=0;total<totales.size();total++){cadena+=totales.get(total);} 
 		for(int pie=0;pie<LineasPie.size();pie++){cadena+=LineasPie.get(pie);} 
 
-		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE; 
+		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		PrintService service = PrintServiceLookup.lookupDefaultPrintService(); 
 		DocPrintJob pj = service.createPrintJob(); 
 		byte[]bytes =cadena.getBytes(); 
@@ -177,7 +178,8 @@ public class Ticket{
 		}catch(Exception e){
 			e.printStackTrace();
 		} 
-	} 
+	}
+	
 //	public void corta(){
 //	char[] CORTAR_PAPEL=new char[]  {(char)27+(char)105}; // codigo q corta el papel
 //	pw.write(CORTAR_PAPEL); // mando a la impresora
