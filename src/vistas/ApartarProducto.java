@@ -27,7 +27,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JTextArea;
+
+import ticket.Ticket;
+
 import java.awt.Toolkit;
 
 public class ApartarProducto extends JFrame {
@@ -44,7 +48,7 @@ public class ApartarProducto extends JFrame {
 	private Apartar apartar;
 	private JFrame ventanApartar;
 	private JTextField textDesc;
-
+	private Ticket ticket;
 	/**
 	 * Launch the application.
 	 */
@@ -73,6 +77,7 @@ public class ApartarProducto extends JFrame {
 	public ApartarProducto(String modelo, String descripcion, String talla, String color, String precio,String folio,int idModelo, int ropa,Ventana_ventas ventas,int empleado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ApartarProducto.class.getResource("/imagenes/Shopping48.png")));
 		ventanApartar=this;
+		ticket=new Ticket();
 		apartar = new Apartar();
 		setTitle("Apartar producto");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -210,6 +215,11 @@ public class ApartarProducto extends JFrame {
 				}
 				bdn=apartar.apartarProducto(modelo, descripcion, talla, color, precio,etiquetaFecha.getText(),Double.parseDouble(textResta.getText()),idModelo,ropa,empleado);
 				if (bdn) {
+					ticket.cabecera(folio,apartar.nombreEmpleado(empleado));
+					ticket.itemApartar(textModelo.getText(), "1", textPrecio.getText());
+					ticket.Apartado(precio, textCuenta.getText(), textResta.getText());
+					ticket.piePaginaApartado();
+					ticket.ImprimirDocumento();
 					JOptionPane.showMessageDialog(null, "Apartado exitoso");
 					ventanApartar.dispose();
 					ventas.limpiaVentana(); 

@@ -714,7 +714,7 @@ public class Ventana_ventas extends JFrame {
 								if(!exito) break;
 							}
 							if(exito){
-							ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())).toUpperCase());
+							ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())));
 							ticket.Items(venta());
 							ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
 							ticket.piePagina();

@@ -9,10 +9,12 @@ import java.util.GregorianCalendar;
 import com.itextpdf.text.log.SysoCounter;
 
 import models.Detalle_Venta_model;
+import models.Empleados_model;
 import models.Modelo_model;
 import models.Talla_model;
 import models.Ventas_model;
 import instancias.Detalle_Venta;
+import instancias.Empleado;
 import instancias.Modelo;
 import instancias.Talla;
 import instancias.Ventas;
@@ -193,7 +195,16 @@ public class Apartar {
 
 	}
 	
-	
+	public String nombreEmpleado(int idEmpleado){
+		String nombre=null;
+		Empleados_model empModel = new Empleados_model();
+		Empleado empInstancia = empModel.find_empleado(idEmpleado);
+		if (empInstancia!=null) {
+			nombre=empInstancia.getNombre();
+		}
+		
+		return nombre;
+	}
 	
 
 }//fin clase
