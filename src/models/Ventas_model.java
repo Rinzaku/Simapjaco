@@ -268,6 +268,36 @@ public class Ventas_model {
 	}
 	
 	/**
+	 * Actualiza el numero de articulos y el precio de una venta
+	 * @param id_venta El identificador de la venta a modificar
+	 * @param articulos El nuevo numero de articulos
+	 * @param abono El nuevo total de la venta
+	 * @return <b>true</b> si la venta se actualizo exitosamente.<br><b>false</b> en cualquier otro caso
+	 */
+	public boolean update_venta_estado(int id_venta,String estado){
+		String query = "UPDATE ventas SET estado='"+estado+"' WHERE id_ventas="+id_venta;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			return true;
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Elimina un registro de la base de datos
 	 * @param id_venta El identificador del registro a eliminar
 	 * @return <b>true</b> si el registro se elimino exitosamente.<br><b>false</b> en cualquier otro caso

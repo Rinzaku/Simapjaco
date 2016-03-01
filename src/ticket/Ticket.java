@@ -83,6 +83,24 @@ public class Ticket{
 		
 	}
 	
+	public void Apartado(String precio,String acuenta,String resta){
+		AddTotal("",DibujarLinea(47)); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\tTOTAL\t:","\t\t$"+precio); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\t DESCUENTO","\t"+acuenta+"%");
+		AddTotal("",DarEspacio()); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("\t\t\t SUBTOTAL:","\t$"+resta); 
+//		AddTotal("",DarEspacio()); 
+//		AddTotal("\t\t\t EFECTIVO","\t$"+recibido); 
+//		AddTotal("",DarEspacio()); 
+//		AddTotal("\t\t\t  CAMBIO:","\t$"+cambio); 
+		AddTotal("",DarEspacio()); 
+		AddTotal("",DarEspacio());
+		
+	}
+	
 	public  void Items(String venta [][]){
 		for (String[] strings : venta) {
 			AddItem("\t"+strings[0]+"\t", strings[4]+"\t",strings[5]+"\t");
@@ -103,6 +121,27 @@ public class Ticket{
 		AddPieLinea(DarEspacio()); 
 		AddPieLinea(DarEspacio()); 
 		AddPieLinea("***PARA CAMBIOS ES NECESARIO PRESENTAR EL TICKET DENTRO DE LOS 7 DIAS POSTERIORES A SU COMPRA***"); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea("EN BOUTIQUE SIMAPJACO ES UN PLACER ATENDERLE\t"); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea("\t GRACIAS POR SU PREFERENCIA .....\t"); 
+		AddPieLinea(DarEspacio()); 
+	} 
+	
+	public void piePaginaApartado(){
+		AddPieLinea(DibujarLinea(48)); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea("SALIDA LA MERCANCIA LA EMPRESA NO SE HACE RESPONSABLE POR ROBO O EXTRAVIO"); 
+		AddPieLinea(DarEspacio());
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea("***EN PRODUCTOS DE OFERTAS NO HAY CAMBIOS***"); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea(DarEspacio());
+		AddPieLinea("******NO SE HACEN DEVOLUCIONES DE DINERO******"); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea(DarEspacio()); 
+		AddPieLinea("***EN APARTADO SOLO TIENE 20 DIAS PARA LIQUIDAR***"); 
 		AddPieLinea(DarEspacio()); 
 		AddPieLinea(DarEspacio()); 
 		AddPieLinea("EN BOUTIQUE SIMAPJACO ES UN PLACER ATENDERLE\t"); 

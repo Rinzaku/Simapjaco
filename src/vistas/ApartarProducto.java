@@ -215,7 +215,7 @@ public class ApartarProducto extends JFrame {
 					ventas.limpiaVentana(); 
 					
 				}else{
-					JOptionPane.showMessageDialog(null, "A ocurrido un error");
+					JOptionPane.showMessageDialog(null, "No se pudo apartar el producto");
 					ventanApartar.dispose();
 					ventas.limpiaVentana(); 
 				}

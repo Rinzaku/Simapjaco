@@ -9,17 +9,23 @@ import java.util.GregorianCalendar;
 import com.itextpdf.text.log.SysoCounter;
 
 import models.Detalle_Venta_model;
+import models.Modelo_model;
 import models.Talla_model;
 import models.Ventas_model;
 import instancias.Detalle_Venta;
+import instancias.Modelo;
 import instancias.Talla;
 import instancias.Ventas;
 
 public class Apartar {
 	
 	Detalle_Venta detalleVtn;
+	private Modelo_model modelo;
 	private Calendar calendario;
-
+	private Ventas_model ventaModel;
+	private Ventas ventaIns;
+	private Detalle_Venta_model ventsDetallemodel;
+	private Modelo modelIns;
 	
 	private int creaVenta(String fecha,double Abono,double precio,int empleado) {
 		int id=0;
@@ -35,6 +41,22 @@ public class Apartar {
 		id=VentasModel.insert_venta(venta);
 		
 		return id;
+	}
+	
+	public boolean regresarProducto(int Folio){
+		Modelo modeloI=new Modelo();
+		ventsDetallemodel=new Detalle_Venta_model();
+		ventaModel =new Ventas_model();
+		modelo =new Modelo_model();
+		detalleVtn=ventsDetallemodel.findDetalleVenta(Folio);
+		if (detalleVtn!=null) {
+			ventaIns=ventaModel.find_venta(detalleVtn.getId_venta());
+			modelIns=modelo.find_modelo(detalleVtn.getId_modelo());
+			modelo.update_modelo(detalleVtn.getId_modelo(),modelIns.getExistencias()+1);
+			ventaModel.update_venta_estado(detalleVtn.getId_venta(), "APARTADO CANCELADO");
+			return true;
+		}
+		return false;
 	}
 
 	public boolean apartarProducto(String modelo, String Descripcion, String Talla, String Color,String Precio,String Fecha,Double Abono,int idModelo,int ropa, int empleado){
@@ -124,14 +146,14 @@ public class Apartar {
 	    calendarioVenta.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaventa, new ParsePosition(0)));
 	    if (calendario.get(Calendar.MONTH)==calendarioVenta.get(Calendar.MONTH)) {
 	      int dias = calendario.get(Calendar.DATE) - calendarioVenta.get(Calendar.DATE);
-	      if(dias<=7){
+	      if(dias<=20){
 	        return true;
 	      }
 	    }else if (calendario.get(Calendar.YEAR)==calendarioVenta.get(Calendar.YEAR)){
 	      if((calendario.get(Calendar.MONTH)-calendarioVenta.get(Calendar.MONTH)) == 1){
 	        int sell_last_day = get_last_day_of_month(calendarioVenta.get(Calendar.MONTH)+1, calendarioVenta.get(Calendar.YEAR));
 	        int day_diff = sell_last_day - calendarioVenta.get(Calendar.DATE);
-	        if((day_diff + calendario.get(Calendar.DATE)) <=7){
+	        if((day_diff + calendario.get(Calendar.DATE)) <=20){
 	          return true;
 	        }
 	      }
@@ -140,7 +162,7 @@ public class Apartar {
 	        if((calendario.get(Calendar.MONTH)+1)== 1 && (calendarioVenta.get(Calendar.MONTH)+1)==12){
 	          int sell_last_day = get_last_day_of_month(calendarioVenta.get(Calendar.MONTH)+1, calendarioVenta.get(Calendar.YEAR));
 	          int day_diff = sell_last_day - calendarioVenta.get(Calendar.DATE);
-	          if((day_diff + calendario.get(Calendar.DATE)) <=7){
+	          if((day_diff + calendario.get(Calendar.DATE)) <=20){
 	            return true;
 	          }
 	        }

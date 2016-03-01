@@ -43,7 +43,7 @@ public class VentanaApartados extends JFrame {
 	private JLabel labelImage;
 	private Apartar apat;
 	private JFrame ventanAparatdos;
-
+	private boolean bnd =false;
 	/**
 	 * Create the frame.
 	 */
@@ -138,7 +138,7 @@ public class VentanaApartados extends JFrame {
 		textFolio.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+
 				if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 					if(!textFolio.getText().isEmpty()){
 						String resta =apat.buscaModelo(Integer.parseInt(textFolio.getText()));
@@ -146,9 +146,14 @@ public class VentanaApartados extends JFrame {
 							textResta.setText(resta);
 						}else{
 							JOptionPane.showMessageDialog(null, "Lo sentimos la fecha a expirado");
-							textAbono.setEditable(false);
+							if (!bnd) {
+								apat.regresarProducto(Integer.parseInt(textFolio.getText()));
+								textAbono.setEditable(false);
+								bnd=true;							
+							}
+
 						}
-						
+
 					}
 				}
 				

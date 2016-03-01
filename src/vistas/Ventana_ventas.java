@@ -56,6 +56,7 @@ import java.awt.Dimension;
 
 
 
+
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -78,6 +79,7 @@ import java.awt.Window;
 
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+
 
 
 
@@ -554,9 +556,15 @@ public class Ventana_ventas extends JFrame {
 					String talla =(String) tableVentas.getValueAt(pos,2);
 					String Color =(String) tableVentas.getValueAt(pos, 3);
 					String precio=(String) tableVentas.getValueAt(pos,5);
-
-					ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV,Integer.parseInt(textFieldEmpleado.getText()));
-					apartarProd.setVisible(true);
+					if(textFieldEmpleado.getText().isEmpty()){
+						JOptionPane.showMessageDialog(null, "Ingresa tú identificador de empleado");
+						
+					}
+					else{
+						ApartarProducto apartarProd =new ApartarProducto(modelo.toUpperCase(),descripcion.toUpperCase(),talla.toUpperCase(),Color.toUpperCase(),precio,folio,ids_modelos.get(0),ids_ropas.get(0),ventasV,Integer.parseInt(textFieldEmpleado.getText()));
+						apartarProd.setVisible(true);
+					}
+					
 
 				}
 			}
@@ -706,11 +714,12 @@ public class Ventana_ventas extends JFrame {
 								if(!exito) break;
 							}
 							if(exito){
-							ticket.cabecera(txtFolio.getText(),textFieldEmpleado.getText());
-							ticket.Items(datosVentas);
+							ticket.cabecera(txtFolio.getText(),controlador_ventas.nombreEmpleado(Integer.parseInt(textFieldEmpleado.getText())).toUpperCase());
+							ticket.Items(venta());
 							ticket.total(txtSubTotal.getText(), textTotal.getText(), comboDescuento.getSelectedItem().toString(), textFieldRecibido.getText(), textFieldCambio.getText());
 							ticket.piePagina();
 							ticket.ImprimirDocumento();
+							//System.out.println("VEntas :"+Arrays.deepToString(venta()));
 								JOptionPane.showMessageDialog(contentPane, "Venta realizada exitosamente\nGracias por su compra","Venta existosa!",JOptionPane.INFORMATION_MESSAGE);
 								}
 							else
@@ -894,9 +903,15 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo);
-			ventanaImage.refreshV();
-			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.setVisible(true);
+			if (datosBusqueda.length==0) {
+				JOptionPane.showMessageDialog(null, "Ingrese bien los datos");
+			}
+			else{
+				ventanaImage.refreshV();
+				ventanaImage.pintaVentana(datosBusqueda[0][6]);
+				ventanaImage.setVisible(true);
+			}
+			
 			
 			
 		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && textFieldColor.getText().isEmpty()) {
@@ -909,9 +924,13 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo, talla.toUpperCase(), "");
-			ventanaImage.refreshV();
-			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.setVisible(true);
+			if (datosBusqueda.length==0) {
+				JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
+			}else{
+				ventanaImage.refreshV();
+				ventanaImage.pintaVentana(datosBusqueda[0][6]);
+				ventanaImage.setVisible(true);
+			}
 			
 		}else if (!textFieldModelo.getText().isEmpty() && textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
 			if(bandera){
@@ -923,9 +942,14 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo, "", color.toUpperCase());
-			ventanaImage.refreshV();
-			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.setVisible(true);
+			if (datosBusqueda.length==0) {
+				JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
+			}else{
+				ventanaImage.refreshV();
+				ventanaImage.pintaVentana(datosBusqueda[0][6]);
+				ventanaImage.setVisible(true);
+			}
+			
 			
 			
 		}else if (!textFieldModelo.getText().isEmpty() && !textFieldTalla.getText().isEmpty() && !textFieldColor.getText().isEmpty()) {
@@ -939,11 +963,13 @@ public class Ventana_ventas extends JFrame {
 			textFieldColor.setText("");
 			textFieldTalla.setText("");
 			datosBusqueda = controlador_ventas.busca_modelo(modelo,talla.toUpperCase(), color.toUpperCase());
-			ventanaImage.refreshV();
-			ventanaImage.pintaVentana(datosBusqueda[0][6]);
-			ventanaImage.setVisible(true);
-			
-			
+			if (datosBusqueda.length==0) {
+				JOptionPane.showMessageDialog(null, "No se encontró el producto  \n Ingrese bien los datos");
+			}else{
+				ventanaImage.refreshV();
+				ventanaImage.pintaVentana(datosBusqueda[0][6]);
+			}
+
 		}else{
 			JOptionPane.showMessageDialog(null, "Ingresa un modelo");
 			if(bandera){
@@ -954,9 +980,11 @@ public class Ventana_ventas extends JFrame {
 			return;
 		}
 		System.out.println(Arrays.deepToString(datosBusqueda));
+		if (datosBusqueda.length>0) {
+			pinta_productos();
+			addMouseClick();
+		}
 		
-		pinta_productos();
-		addMouseClick();
 	}
 	
 	private void pinta_productos() {
@@ -982,4 +1010,33 @@ public class Ventana_ventas extends JFrame {
 		
 	}
 	
+	public String[][] venta(){
+		String [] [] datos=new String[tableVentas.getRowCount()][tableVentas.getColumnCount()]; 
+		for (int i = 0; i < tableVentas.getRowCount(); i++) {
+			for (int j = 0; j < tableVentas.getColumnCount(); j++) {
+				datos[i][0]=modelVentas.getValueAt(i, 0).toString();
+				datos[i][1]=modelVentas.getValueAt(i, 1).toString();
+				datos[i][2]=modelVentas.getValueAt(i, 2).toString();
+				datos[i][3]=modelVentas.getValueAt(i, 3).toString();
+				datos[i][4]=modelVentas.getValueAt(i, 4).toString();
+				datos[i][5]=modelVentas.getValueAt(i, 5).toString();
+			}
+			
+		}
+		
+		return datos;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+

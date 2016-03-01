@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 
 public class Ventas_C {
 	
+	Empleados_model empModel;
+	Empleado empInstancia;
 	Modelo_model mmodel;
 	Talla_model tmodel;
 	Color_model cmodel;
@@ -50,7 +52,6 @@ public class Ventas_C {
 //			System.out.println(rmodel.find_ropa(m.getId_ropa()).getPrecio());
 			i++;
 		}
-		
 		return productos;
 	}
 	
@@ -292,5 +293,25 @@ public class Ventas_C {
 		
 		return productos;
 	}
+	
+	public String nombreEmpleado(int idEmpleado){
+		String nombre=null;
+		empModel =new Empleados_model();
+		empInstancia=empModel.find_empleado(idEmpleado);
+		if (empInstancia!=null) {
+			nombre=empInstancia.getNombre();
+		}
+		
+		return nombre;
+	}
 }
+
+
+
+
+
+
+
+
+
 

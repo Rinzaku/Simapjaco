@@ -100,6 +100,49 @@ public class Detalle_Venta_model {
 		return detalles_ventas;
 	}
 	
+	
+	/**
+	 * Obtiene un detalle de venta en la base de datos
+	 * @param id_venta El identificador de la venta
+	 * @return La venta correspondiente
+	 */
+	public Detalle_Venta findDetalleVenta(int id_venta){
+		Detalle_Venta dv = null;
+		String query = "SELECT * FROM detalle_venta WHERE id_venta="+id_venta;
+		try {
+			
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while(rs.next()){
+				
+				dv = new Detalle_Venta();
+				dv.setId_detalle_venta(rs.getInt("id_detalle_venta"));
+				dv.setId_venta(rs.getInt("id_venta"));
+				dv.setId_modelo(rs.getInt("id_modelo"));
+				dv.setId_ropa(rs.getInt("id_ropa"));
+				dv.setCantidad_articulos(rs.getInt("cantidad_articulo"));
+				dv.setPrecio_unitario(rs.getInt("precio_unitario"));
+				dv.setEstado(rs.getString("estado"));
+				
+				
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("A ocurrido un error al ejecutar el query a la base de datos");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return dv;
+	}
+	
+	
 	/**
 	 * Actualiza la cantidad de articulos en una venta
 	 * @param id_detalle_venta El identificador del registro a modificar
